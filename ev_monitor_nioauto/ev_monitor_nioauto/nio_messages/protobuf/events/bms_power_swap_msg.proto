@@ -1,0 +1,15 @@
+option java_package = "com.nextev.cvs_proto.protobuf.events";
+option java_outer_classname = "BMSPowerSwapMessage";
+
+message BMSPowerSwapEvent {
+    optional string id = 1; // unique id, VIN for vehicle data
+    optional int32 version = 2; // message protocol version
+    optional uint64 sample_ts = 3; // sample time
+    repeated BMSDIDInfo did_data_before = 4; // BMS DID info
+    repeated BMSDIDInfo did_data_after = 5; // BMS DID info
+}
+
+message BMSDIDInfo {
+    optional string id = 1;       //BMS did_number
+    optional string value = 2;    //value of related DID
+}

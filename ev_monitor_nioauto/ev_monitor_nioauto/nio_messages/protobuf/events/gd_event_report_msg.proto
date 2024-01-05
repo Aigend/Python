@@ -1,0 +1,22 @@
+option java_package = "com.nextev.cvs_proto.protobuf.events";
+option java_outer_classname = "GDEventReportMessage";
+
+message GDEventReportEvent {
+    optional uint64 sample_ts = 1; // event timestamp, when this event is reported
+    optional int32 mon_window_sec = 2; // monitoring window in seconds
+    repeated GDEventItem event_items = 3; // can check size, if none means current system is no alert event report
+
+    message GDEventItem {
+        optional GDEventType event_type = 1;
+        optional int32 can_id = 2;
+        optional int32 can_bus_id = 3;
+        optional int32 counter = 4;
+    }
+
+    enum GDEventType {
+        INJECTION_ATTACK = 0; // CAN Injection, contains CAN ID & CAN bus ID & counter
+        QUEUE_FULL = 1;  // Queue is full, contains counter
+        HEARTBEAT_LOST = 2;  // Heartbeat is lost, contains counter
+        UNEXPECTED_CAN_MSG = 3; // Unexpected CAN Message, contains CAN bus ID & CAN ID & counter
+    }
+}

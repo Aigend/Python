@@ -1,0 +1,24 @@
+option java_package = "com.nextev.cvs_proto.protobuf.gb_db";
+option java_outer_classname = "EvmParamUnit";
+
+message EvmParam {
+
+    optional int32 vehl_storage_period_ms = 1; // vehicle terminal local data storage period
+    optional int32 normal_report_period_sec = 2; // data report period in Normal mode
+    optional int32 alarm_report_period_ms = 3; // data report period in Alarm mode
+    optional string hardware_version = 4; // version of hardware
+    optional string firmware_version = 5; // version of firmware
+    optional int32 vehl_heartbeat_period_sec = 6; // vehicle heartbeat period
+    optional int32 login_delay_aft3_fails = 7; // login delay after three failures
+    optional int32 vehl_resp_timeout = 8; // vehicle response timeout
+    optional int32 platform_resp_timeout = 9; // platform response timeout
+    optional string gb_platform_host = 10; // public platform host name
+    optional int32 gb_platform_port = 11; // public platform host port
+    optional bool in_sampling_inspection = 12; // whether vehicle is in sampling inspection
+    optional int32 sample_period_ms = 13; // sample period in milli seconds
+
+    enum PosngValidType {
+        VALID = 0;
+        INVALID = 1;
+    }
+}

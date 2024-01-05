@@ -1,0 +1,96 @@
+option java_package = "com.nextev.cvs_proto.protobuf.custom";
+option java_outer_classname = "SOCStatusUnit";
+
+message SOCStatus {
+    // 电池数据
+
+    optional float soc = 1; // remaining battery level in percentage
+    optional ChargeState chrg_state = 2; // charging Status
+    optional float btry_cap = 3; // battery capacity
+    optional float remaining_range = 4; // remaining travel range
+    optional float hivolt_btry_curnt = 5; // current of high-voltage battery
+    optional int32 chrg_final_soc = 6; // charge final soc
+    repeated BatteryPackage btry_paks = 7;
+    optional float dump_enrgy = 8; // dump energy
+    optional sint32 sin_btry_hist_temp = 9; // highest temperature of single battery
+    optional sint32 sin_btry_lwst_temp = 10; // lowest temperature of single battery
+    optional bool btry_qual_actvtn = 11; // battery equalization activation
+    optional int32 realtime_power_consumption = 12; // real-time power consumption
+    optional int32 max_soc = 13; // maximum soc set by the user
+    optional int32 lock_soc = 14; // Limits soc set by the shield
+    optional SocLockStatus soc_lock_status = 15; // The status of the lock set in the shield
+    optional SocV2LStatus soc_v2l_status =16; // V2L status set by VCU
+
+    message BatteryPackage {
+        optional int32 btry_pak_sn = 1; // serial number of battery pack
+        optional float btry_pak_hist_temp = 2; // highest temperature of all batteries in this package
+        optional float btry_pak_lwst_temp = 3; // lowest temperature of batteries in this package
+        optional float btry_pak_voltage = 4; // voltage of batteries packs
+        optional float btry_pak_curnt = 5; // current of batteries packs
+        optional int32 sin_btry_qunty_of_pak = 6; // quantity of single battery
+        optional int32 frm_start_btry_sn = 7; // serial number of the frame of single battery
+        optional int32 sin_btry_qunty_of_frm = 8; // quantity of the frame of single battery
+        repeated float sin_btry_voltage = 9; // voltage of single battery
+        optional int32 temp_prb_qunty = 10; // quantity of the probe of temperature
+        repeated int32 prb_temp_lst = 11; // the temperature of the probe of batteries packs
+        repeated int32 sin_btry_voltage_inv = 12;  // invalid number in voltage of single battery list
+        repeated int32 prb_temp_lst_inv = 13;  // invalid number in the temperature of the probe of batteries packs
+    }
+
+    message ChargingInfo {
+        optional ChargerType charger_type = 1; // charger type
+        optional int32 estimate_chrg_time = 2; // estimated time until fully charged in minutes
+        optional double in_volt_ac = 3; // AC input voltage
+        optional double in_volt_dc = 4; // DC input voltage
+        optional float in_curnt_ac = 5; // AC input current
+    }
+
+    message BatteryPackageInfo {
+        repeated BatteryPackageEncoding btry_pak_encoding = 1; // list of battery encoding
+    	repeated BatteryPackageHealthStatus btry_pak_health_status = 2; //list of battery health status
+    }
+
+    message BatteryPackageEncoding {
+        optional int32 btry_pak_sn = 1; // sn of battery package
+        optional string nio_encoding = 2; // nio battery package encoding
+        optional string re_encoding = 3; // regulation battery package encoding
+        optional string bid = 4; // unique id for battery package
+    }
+
+    message BatteryPackageHealthStatus{
+	optional int32 btry_pak_sn = 1; // sn of battery package
+	optional float battery_health_status = 2; // battery health status
+    }
+
+    enum ChargeState {
+        NO_CHARGING = 0;
+        CHARGE_PROCESSING = 1;
+        CHARGE_COMPLETE = 2;
+        CHARGE_FAULT = 3;
+    }
+
+    enum ChargerType {
+        NO_REQUEST = 0;
+        NORMAL = 1;
+        AC = 2;
+        DC = 3;
+        POWER_EXPRESS = 4;
+        INVALID = 5;
+    }
+
+    enum SocLockStatus {
+        NO_LOCK = 0;
+        LOCK = 1;
+    }
+
+    enum SocV2LStatus {
+        NO_DISCHARGING = 0;
+        DISCHARGING_PROCESS = 1;
+        DISCHARGING_COMPLETE = 2;
+        VEHICLE_DISCHARGING_ERROR = 3;
+        V2L_RESERVED = 4;
+        STATION_DISCHARGING_ERROR = 5;
+        INSULATION_ERROR_TEST_AFTER_DISCHARGING = 6;
+        V2L_INVALID = 7;
+    }
+}

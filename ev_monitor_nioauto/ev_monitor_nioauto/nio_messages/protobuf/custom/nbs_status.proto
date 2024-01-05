@@ -1,0 +1,30 @@
+option java_package = "com.nextev.cvs_proto.protobuf.custom";
+option java_outer_classname = "NBSStatusUnit";
+
+message NBSStatus {
+    // NearbySummoning相关数据
+
+    optional NBSSts nbs_sts = 1;                // NearbySummoning Status
+    optional int32 nbs_blkage = 2;              // NearbySummoning Blockage Front/Rear/Both
+    optional int32 nbs_instruction = 3;         // NearbySummoning Instruction
+    optional int32 nbs_abort_reason = 4;        // NearbySummoning Abort Reason
+    optional NBSBlkage nbs_blkage_frnt_le = 5;  // NearbySummoning Blockage Front Left
+    optional NBSBlkage nbs_blkage_frnt_ri = 6;  // NearbySummoning Blockage Front Right
+    optional NBSBlkage nbs_blkage_re_le = 7;    // NearbySummoning Blockage Rear Left
+    optional NBSBlkage nbs_blkage_re_ri = 8;    // NearbySummoning Blockage Rear Right
+
+    enum NBSSts {
+        NBS_STS_OFF = 0;
+        NBS_STS_INITIAL = 1;
+        NBS_STS_STANDBY = 2;
+        NBS_STS_MOVING = 3;
+        NBS_STS_ABORT = 4;
+        NBS_STS_FAIL = 5;
+        NBS_STS_RESERVED = 6;
+    }
+
+    enum NBSBlkage {
+        NBS_BLKAGE_NO_BLKAGE = 0;
+        NBS_BLKAGE_BLKAGE = 1;
+    }
+}

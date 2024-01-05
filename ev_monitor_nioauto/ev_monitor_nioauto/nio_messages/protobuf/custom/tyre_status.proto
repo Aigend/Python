@@ -1,0 +1,15 @@
+option java_package = "com.nextev.cvs_proto.protobuf.custom";
+option java_outer_classname = "TyreStatusUnit";
+
+message TyreStatus {
+    // 轮胎相关数据
+    optional float frnt_le_whl_press = 1; // Front left wheel tyre pressure value
+    optional sint32 frnt_le_whl_temp = 2; // Front left wheel tyre temperature
+    optional float frnt_ri_whl_press = 3; // Front right wheel tyre pressure value
+    optional sint32 frnt_ri_whl_temp = 4; // Front right wheel tyre temperature
+    optional float re_le_whl_press = 5; // Rear left wheel tyre pressure value
+    optional sint32 re_le_whl_temp = 6; // Rear left wheel tyre temperature
+    optional float re_ri_whl_press = 7; // Rear right wheel tyre pressure value
+    optional sint32 re_ri_whl_temp = 8; // Rear right wheel tyre temperature
+
+}

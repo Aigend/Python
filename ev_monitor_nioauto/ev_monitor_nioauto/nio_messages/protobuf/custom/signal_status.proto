@@ -1,0 +1,16 @@
+option java_package = "com.nextev.cvs_proto.protobuf.custom";
+option java_outer_classname = "SignalStatusUnit";
+
+message SignalStatus {
+
+    //signal status
+    optional SignalType signal_type = 1; // wifi
+    optional int32 gps_status = 2; // gps
+
+    enum SignalType {
+        WIFI = 0;
+        M_4G = 1;
+        M_3G = 2;
+        GSM = 3;
+    }
+}

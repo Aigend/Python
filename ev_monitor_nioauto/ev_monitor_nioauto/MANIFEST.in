@@ -1,0 +1,8 @@
+include nio_message_readme.md
+recursive-include nio_messages *.proto
+recursive-exclude nio_messages *.pyc
+graft nio_messages
+prune config
+global-exclude __pycache__
+global-exclude *.py[co]
+global-exclude *.log

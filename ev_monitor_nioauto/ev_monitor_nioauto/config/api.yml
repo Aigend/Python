@@ -1,0 +1,13 @@
+vechile_status: /api/1/in/vehicle/{vehicle_id}/status
+data_query:
+  data_track_newest: /api/1/in/data/vehicle/{vehicle_id}/journey/track/newest
+  vehicle_evm_msg: /api/1/in/data/vehicle/evm_msg
+vms:
+  update_platform_config: /evmConfig/updatePlatformConfig
+  evm_notify: /api/1/in/data/evm/notify
+rvs:
+  can_signal_to_wti: /api/1/in/vehicle/vms/signal_to_wti
+
+mock:
+   publish_periodical_charge_update: /evm/periodical_charge_update
+   publish_periodical_journey_update: /evm/periodical_journey_update

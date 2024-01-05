@@ -1,0 +1,72 @@
+option java_package = "com.nextev.cvs_proto.protobuf.custom";
+option java_outer_classname = "DoorStatusUnit";
+
+message DoorStatus {
+
+    optional DoorLocks door_locks = 1;
+    optional DoorAjars door_ajars = 2;
+    repeated ChargePort charge_port_status = 3;
+    optional Tailgate tailgate_status = 4;
+    optional EngineHood engine_hood_status = 5;
+    optional VehicleLockStatus vehicle_lock_status = 6; // Vehicle fully locked status
+
+    message DoorLocks {
+        optional LockStatus door_lock_frnt_le_sts = 1; // Front Left Door Lock Status
+        optional LockStatus door_lock_frnt_ri_sts = 2; // Front Right Door Lock Status
+        optional EntryMeth entry_meth = 3; // entry method
+        optional int32 user_id = 4; // user id, CAN signal {UsrId}
+        optional int32 access_mode = 5; // access mode, CAN signal {AcsMod}
+        optional uint64 account_id = 6; // {UsrId} in NT2 is 64bit, NT2 will use account_id instead of user_id
+    }
+
+    message DoorAjars {
+        optional AjarStatus door_ajar_frnt_le_sts = 1; // Front Left Door Ajar Status
+        optional AjarStatus door_ajar_frnt_ri_sts = 2; // Front Right Door Ajar Status
+        optional AjarStatus door_ajar_re_le_sts = 3; // Rear Left Door Ajar Status
+        optional AjarStatus door_ajar_re_ri_sts = 4; // Rear Right Door Ajar Status
+    }
+
+    message ChargePort {
+        optional int32 charge_port_sn = 1; // charge port serial number
+        optional AjarStatus ajar_status = 2; // Charge Port Ajar Status
+    }
+
+    message Tailgate {
+        optional AjarStatus ajar_status = 1; // Trunk Cover Status
+    }
+
+    message EngineHood {
+        optional AjarStatus ajar_status = 1; // Engine Hood Status
+    }
+
+    enum LockStatus {
+        LOCK_UNLOCKED = 0;
+        LOCK_LOCKED = 1;
+        LOCK_RESERVED = 2;
+        LOCK_INVALID = 3;
+    }
+
+    enum VehicleLockStatus {
+        NOT_FULLY_LOCKED = 0;
+        FULLY_LOCKED = 1;
+        VEHICLE_LOCK_RESERVED = 2;
+        VEHICLE_LOCK_INVALID = 3;
+    }
+
+    enum AjarStatus {
+        AJAR_OPENED = 0;
+        AJAR_CLOSED = 1;
+        AJAR_RESERVED = 2;
+        AJAR_INVALID = 3;
+    }
+    
+    enum EntryMeth {
+        REMOTE_APP = 0;
+        KEY_FOB_1 = 1;
+        KEY_FOB_2 = 2;
+        NFC = 3;
+        RESERVED = 4;
+        INVALID = 7;
+    }
+    
+}

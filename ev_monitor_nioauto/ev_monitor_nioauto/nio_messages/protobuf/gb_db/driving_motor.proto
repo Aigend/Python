@@ -1,0 +1,32 @@
+option java_package = "com.nextev.cvs_proto.protobuf.gb_db";
+option java_outer_classname = "DrivingMotorUnit";
+
+message DrivingMotor {
+    // 驱动电机数据
+
+    repeated MotorDataUnit motor_list = 1; // list of driving motors
+    optional bool pwr_sys_rdy = 2; // power system ready / not ready state
+
+    message MotorDataUnit {
+        optional int32 drvmotr_sn = 1; // serial number of driving motor
+        optional DriveMotorStatus drvmotr_sts = 2; // status of driving motor
+        optional sint32 drvmotr_cntrl_temp = 3; // temperature of driving motor controller
+        optional sint32 drvmotr_rotn_spd = 4; // rotation speed of driving motor
+        optional float drvmotr_rotn_torq = 5; // rotation torque of driving motor
+        optional sint32 drvmotr_temp = 6; // temperature of driving motor controller
+        optional float drvmotr_contl_involt = 7; // input voltage of driving motor controller
+        optional float drvmotr_contl_dc_bus_curnt = 8; // DC bus current of drive motor controller
+        optional float torq_command = 9; // driving motor torque command
+        optional float max_pos_torq_st = 10; // max positive torque value
+        optional float max_neg_torq_st = 11; // max negative torque value
+
+        enum DriveMotorStatus {
+            ENERGY_CONSUMPTION = 1; // energy consumption
+            ENERGY_GENERATION = 2; // energy generation
+            STATUSOF_SHUT_DOWN = 3; // status of shut down
+            STATUSOF_READY = 4; // status of ready
+            MALFUNCTION = 254; // malfunction
+            INVALID = 255; // invalid
+        }
+    }
+}

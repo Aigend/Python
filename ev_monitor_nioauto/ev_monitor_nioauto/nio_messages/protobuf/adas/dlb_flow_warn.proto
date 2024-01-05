@@ -1,0 +1,25 @@
+option java_package = "com.nextev.cvs_proto.protobuf.adas";
+option java_outer_classname = "DlbFlowWarnUnit";
+
+message DlbFlowWarn {
+    optional string uuid                = 1;    // 消息唯一标示
+    optional int64 statid               = 2;    // 单调递增的统计id，从1开始
+    optional string adc_version         = 3;    // global version of the vehicle//BL061
+    optional int64 utc_nano_timestamp   = 4;    // utc in ns
+    optional string vehicle_id          = 5;    // 车辆id
+    optional string vehicle_type        = 6;    // 车型
+    optional FlowInfo upload_info       = 7;    // 流量超限告警信息描述
+}
+
+message FlowInfo {
+    optional int64 stat_starttime       = 1;    // 上一统计周期内，第一个上传事件的时间in ns
+    optional int64 stat_endtime         = 2;    // 上一统计周期内，最后一个上传事件的时间in ns
+    optional int64 flow_used            = 3;    // 使用总流量值BYTE
+    repeated EventFlowInfo event_info   = 4;    // 事件流量详情
+}
+
+message EventFlowInfo {
+    optional string app_name            = 1;      //app名称， cdm_app, log_manager_app
+    optional string event_name          = 2;    // cdm触发录制事件名称
+    optional int64 event_flow           = 3;    //  事件在上一驾驶周期内使用流量值
+}

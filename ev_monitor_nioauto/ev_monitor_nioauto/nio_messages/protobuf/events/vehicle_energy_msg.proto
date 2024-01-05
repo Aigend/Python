@@ -1,0 +1,18 @@
+option java_package = "com.nextev.cvs_proto.protobuf.events";
+option java_outer_classname = "VehicleEnergyMessage";
+
+message VehicleEnergyEvent {
+
+    optional string id = 1; // unique id, VIN for vehicle data
+    optional int32 version = 2; // message protocol version
+    optional uint64 sample_ts = 3; // sample time
+    repeated VehElecCns veh_elec_cns = 4;
+    repeated VehElecCns veh_elecc_cns_resd =5;
+}
+
+message VehElecCns {
+    optional float VehElecCns = 1;
+    optional float VehRemainingEyg = 2;
+    optional float BMSCustomerUsage = 3;
+    optional uint64 sample_ts = 4;
+}

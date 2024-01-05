@@ -1,0 +1,15 @@
+option java_package = "com.nextev.cvs_proto.protobuf.custom";
+option java_outer_classname = "TripStatusUint";
+
+message TripStatus {
+    optional int32 trip_state = 1; //trip state 1 trip off;2 trip on ;3 invalil;
+    optional float trip_odometer = 2; //trip odometer in CDC, 0-9999.9
+    optional float trip_eng =3;   // the battery consumes power during the trip
+    optional float hv_ass_eng_pct = 4; // High voltage accessory power consumption ratio 0-100
+    optional float lv_ass_eng_pct = 5; // Low voltage accessory power consumption ratio 0-100
+    optional float dri_eng_pct = 6;  // Ratio of drving energy consumption to total power consumption 0-100
+    optional float reg_eng_pct = 7; // Ratio of energy recovery to total power consumption 0-100
+    optional float hvh_eng_pct = 8; // HVH consumption ratio
+    optional string trip_id = 9; // trip id
+    optional uint64 user_id = 10; // user id
+}

@@ -1,0 +1,12 @@
+syntax = "proto2";
+
+option java_package = "com.nextev.cvs_proto.protobuf.events";
+option java_outer_classname = "CPDWarningMessage";
+
+message CPDWarningEvent {
+    optional string id = 1; // unique id, VIN for vehicle data
+    optional int32 version = 2; // message protocol version
+    optional uint64 sample_ts = 3; // sample time
+    optional uint64 account_id = 4; // {UsrId} in NT2 is 64bit, NT2 will use account_id instead of user_id
+    optional int32 cpd_sts = 5; // 0:Child not left alone，1:Child left alone
+}

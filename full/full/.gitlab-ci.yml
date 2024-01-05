@@ -1,0 +1,23 @@
+stages:
+  - build
+  - test
+  - deploy
+
+job-build:
+  stage: build
+  script:
+    - echo "build ..."
+    - pwd
+
+job-test:
+  stage: test
+  script:
+    - echo "test ..."
+    - docker pull hrb.nioint.com/ps-cicd/regfulltest:latest
+    - echo "pylint check ..."
+    - docker run --rm --net="host" --name="regfulltest" -v $PWD:/app -w / hrb.nioint.com/ps-cicd/regfulltest:latest bash /app/build.sh
+
+job-deploy:
+  stage: deploy
+  script:
+    - echo "deploy ..."

@@ -1,0 +1,115 @@
+pipeline {
+     agent {
+         label 'SEQ-CVS-TEST-AUTO-1'
+      }
+
+     parameters {
+         choice(name: 'env', choices: 'stg_marcopolo\ntest_marcopolo', description: '测试环境，stg_marcopolo？test_marcopolo？')
+         string(name: 'directory', defaultValue: 'tests/app_message_keeper_bvt_eu', description: '测试用例目录')
+         string(name: 'deploy_id', defaultValue: '', description: '部署id，venus平台传入')
+         string(name: 'version', defaultValue: '', description: '当前部署的服务版本，venus平台传入')
+
+     }
+     environment {
+         //git相关
+         git_url = 'git@git.nevint.com:automation/ev_monitor_nioauto.git' //项目仓库地址
+         git_key = 'c8615bc3-c995-40ed-92ba-d5b66943f116' //固定值，不要修改
+         git_branch = 'master'
+         gitpullerr = 'noerr'
+
+         //job失败后发送的邮件名单
+         email_list = 'li.liu2@nio.com, colin.li@nio.com, qiangwei.zhang@nio.com'
+
+     }
+     options {
+         buildDiscarder(logRotator(numToKeepStr: '30'))  //保存的job构建记录总数
+         timeout(time: 45, unit: 'MINUTES')  //job超时时间
+         disableConcurrentBuilds() //不允许同时执行流水线
+     }
+
+     stages {
+         // 如果jenkins project的config里配了pipeline scripts from SCM，此步骤可参略
+         stage('拉取测试代码') {
+             steps {
+                 git branch: "${git_branch}", credentialsId: "${git_key}", url: "${git_url}"
+             }
+         }
+         stage('安装测试依赖') {
+             steps {
+                 sh "pipenv install --ignore-pipfile --skip-lock"
+                 sh "pipenv graph"
+             }
+         }
+         stage('执行测试用例') {
+             steps {
+                 script {
+                     sh "rm -rf $env.WORKSPACE/allure-*"//执行前先清空报告
+                     sh "pipenv run py.test --env '${params.env}' '${params.directory}' --json-report --bvt"
+                 }
+             }
+         }
+     }
+     post {
+         always{
+             script{
+                 // 将allure 报告展示到jenkins上
+                 allure includeProperties: false, jdk: '', report: 'jenkins-allure-report', results: [[path: 'allure-results']]
+                 //如果venus触发，解析.report.json获取到测试结果，上传到Venus
+                 if (params.deploy_id != "" && params.version != "") {
+                    def props = readJSON file: "${env.WORKSPACE}"+"/.report.json"
+                    if (props.summary.passed  == null) {
+                        props.summary.passed = 0
+                    }
+                    if (props.summary.skipped == null) {
+                        props.summary.skipped = 0
+                    }
+                    if (props.summary.failed == null) {
+                        props.summary.failed = 0
+                    }
+                    def caseCount = props.summary.total
+                    def caseSuccessCount = props.summary.passed
+                    def caseFailCount = props.summary.failed
+                    def caseSkipConut = props.summary.skipped
+
+                    sh """
+                        job_status=4
+                        if [ "${currentBuild.result}" = "FAILURE" ];then
+                            job_status=2
+                        elif [ "${currentBuild.result}" = "SUCCESS" ];then
+                            job_status=1
+                        fi
+
+                        echo \${job_status}
+
+                        echo ${currentBuild.result}
+
+                        curl --location --request PUT 'http://venus.nioint.com/ext_api/auotest_history' \
+                            --header 'Content-Type: application/x-www-form-urlencoded' \
+                            --data-urlencode 'method=callback' \
+                            --data-urlencode 'deploy_id=${params.deploy_id}' \
+                            --data-urlencode 'version=${params.version}' \
+                            --data-urlencode 'report_link=${BUILD_URL}/allure/' \
+                            --data-urlencode "status=\${job_status}" \
+                            --data-urlencode 'cases=${caseCount}' \
+                            --data-urlencode 'success_cases=${caseSuccessCount}' \
+                            --data-urlencode 'fail_cases=${caseFailCount}' \
+                            --data-urlencode 'jenkins_id=${env.BUILD_NUMBER}' \
+
+                    """
+                }
+            }
+         }
+
+         failure {
+             script {
+                 if (gitpullerr == 'noerr') {
+                     mail to: "${email_list}",
+                     subject: "[Jenkins Build Notification] ${JOB_NAME} - Build # ${BUILD_NUMBER} -构建失败!",
+                     body: "'${env.JOB_NAME}' (${env.BUILD_NUMBER}) 执行失败了 \n请及时前往 ${env.BUILD_URL} 进行查看"
+                 } else {
+                     echo 'scm pull error ignore send mail'
+                 }
+             }
+         }
+     }
+}

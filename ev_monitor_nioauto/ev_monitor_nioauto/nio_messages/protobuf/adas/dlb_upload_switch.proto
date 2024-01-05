@@ -1,0 +1,13 @@
+option java_package = "com.nextev.cvs_proto.protobuf.adas";
+option java_outer_classname = "DlbUploadSwitchUnit";
+
+
+message DlbUploadSwitch {
+    optional string uuid                = 1;    // 消息唯一标示
+    optional string adc_version         = 2;    // global version of the vehicle//BL061
+    optional int64 utc_nano_timestamp   = 3;    // utc in ns
+    optional string vehicle_id          = 4;    // 车辆id
+    optional string vehicle_type        = 5;    // 车型
+    optional string file_whitelist      = 6;    // 文件上传白名单
+    optional string message_whitelist   = 7;    // 消息上报白名单
+}

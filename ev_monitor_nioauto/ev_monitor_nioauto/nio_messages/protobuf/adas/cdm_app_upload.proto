@@ -1,0 +1,28 @@
+option java_package = "com.nextev.cvs_proto.protobuf.adas";
+option java_outer_classname = "CdmAppUploadUnit";
+
+message CdmAppUpload {
+    optional string uuid                = 1;    // cdm app fill this
+    optional string adc_version         = 2;    // global version of the vehicle//BL061
+    optional string cdm_version         = 3;    // cdm app version //cdm_v061.1.1
+    optional uint64 utc_nano_timestamp  = 4;    // utc nano timestamp
+    optional uint64 ptp_nano_timestamp  = 5;    // ptp nano timestamp
+    optional string vehicle_id          = 6;    // 车辆id
+    optional string vehicle_type        = 7;    // 车型
+    repeated string rules_info          = 8;    // 车辆装载哪些规则和版本号rules_name and rules_version ”rule1,version0.0.1“
+    repeated string models_info         = 9;    // 车辆装载哪些模型和版本号models_name and models_version ”model1,version0.0.
+    optional UploadInfo upload_info     = 10;    // 事件内容描述 ,如果上电传软件版本为空
+    optional string coapp_name          = 11;
+    optional string coapp_version       = 12;
+    optional string app_uuid            = 13;   //app的uuid
+    optional string build_date          = 14;   //build的时间
+}
+
+message UploadInfo {
+    optional string event_name      = 1;    // 事件名称，对应的事件名称，翻车，撞车，安全气囊弹出。用户接管
+    optional string rules_trig      = 2;    // which rules trig 哪一个规则触发了
+    optional double latitude        = 3;    // GNSS
+    optional double longitude       = 4;    // GNSS
+    optional int32 priority         = 5;    // 事件优先级
+}
+

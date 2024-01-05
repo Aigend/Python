@@ -1,0 +1,10 @@
+option java_package = "com.nextev.cvs_proto.protobuf.adas";
+option java_outer_classname = "MapUpdateTileUnit";
+
+message map_update_tile {
+    optional string uuid            = 1;     // map app fill this
+    optional int32 global_version   = 2;     // global version of the vehicle
+    optional int64  tileID          = 3;     // tileID of map
+    optional int32 version          = 4;     // map app version
+    optional int64 timestamp        = 5;     // in ms
+}

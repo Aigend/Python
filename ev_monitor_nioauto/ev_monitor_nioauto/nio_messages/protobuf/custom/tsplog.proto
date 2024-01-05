@@ -1,0 +1,20 @@
+option java_package = "com.nextev.cvs_proto.protobuf.custom";
+option java_outer_classname = "TspLogUint";
+
+message TspLog {
+    optional string   key       = 1; // specify a kind of log
+    optional LogLevel level     = 2; // for priority management
+
+    optional int64    timestamp = 3; // in ms
+    optional string   comment   = 4; // event describe text
+    optional int64    value     = 5; // value
+}
+
+enum LogLevel {
+    LOG_LEVEL_NONE     = 0;
+    LOG_LEVEL_DEBUG    = 1;
+    LOG_LEVEL_INFO     = 2;
+    LOG_LEVEL_WARNING  = 3;
+    LOG_LEVEL_ERROR    = 4;
+    LOG_LEVEL_CRITICAL = 5;
+}

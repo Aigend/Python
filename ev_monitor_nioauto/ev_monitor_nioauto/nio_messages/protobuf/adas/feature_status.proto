@@ -1,0 +1,256 @@
+option java_package = "com.nextev.cvs_proto.protobuf.adas";
+option java_outer_classname = "FeatureStatusUnit";
+
+//Adc Adas feature status
+message FeatureStatus {
+    optional bool             lks_tq_req_valid                          = 1;  // Lane Keeping System (LKS) torque request validity
+    optional DASDrowsinessSts das_drowsiness_sts                        = 2;  // DAS drowsiness status
+    optional HMASts           hma_sts                                   = 3;  // High Beam Assist (HMA) status
+    optional LaneAssistSts    lane_assist_sts                           = 4;  // Lane Assist status
+    optional TJASts           tja_sts                                   = 5;  // Traffic Jam Assist(TJA) status
+    optional TSROperatingSts  tsr_operating_sts                         = 6;  // Traffic Sign Recognition (TSR) operation status of traffic sign functions
+    optional AccMod           acc_mod                                   = 7;  // ACC mode of operation. The ACC mode should be contained in every message sent by ACC
+    optional LKSTrackingSts   lks_le_tracking_sts                       = 8;  // Lane Keeping System (LKS) left tracking status
+    optional LKSTrackingSts   lks_ri_tracking_sts                       = 9;  // Lane Keeping System (LKS) right tracking status
+    optional LKSSts           lks_sts                                   = 10; // Lane Keeping Assist (LKS) Status
+    optional AEBSts           aeb_sts                                   = 11; // Automatic Emergency Braking (AEB) Status Indicated whetheer the function has been switched ON/Off by the driver and  if the function is active (Triggered by RAD_FC)
+    optional FCWSetSts        fcw_set_sts                               = 12; // FCW setting status
+    optional bool             go_notifier_on_off_sts                    = 13; // Radar internal setting for go notifier on off
+    optional bool             obj_valid                                 = 14; // An ahead target object detected by ACC, to inform the driver
+    optional bool             pcw_latent_warn_on_off_sts                = 15; // PCW Latent warning On Off Status
+    optional bool             pcw_pre_warn_on_off_sts                   = 16; // PCW Pre warning On Off Status
+    optional Textinfo         text_info                                 = 17; // Text info for driver which is displayed in dashboard
+    optional bool             tsr_spd_lim_data_on_off_sts               = 18; // Radar internal setting TSR speed limit set speed on off status
+    optional FrntRSDSDisp     frnt_le_rsds_disp                         = 19; // Front left RDDS display
+    optional FrntRSDSDisp     frnt_ri_rsds_disp                         = 20; // Front right RDDS display
+    optional AccNPSts         acc_np_sts                                = 21; // Adaptive Cruise Control(ACC) status
+    optional int64            timestamp                                 = 22; // timestamp of feature status
+    optional SapaStatus       sapa_status                               = 23; // Current APA operating mode.
+    optional NOPSts           nop_sts                                   = 24; // NOP status
+    optional NOPMsg           nop_msg                                   = 25; // NOP related messages
+    optional bool             nop_enable                                = 26; // NOP function enable
+    optional NOPLaneChngConfirmMethod   nop_lane_chng_confirm_method    = 27; // NOP lane change confirm method
+
+    enum NOPSts {
+        NOP_OFF                                                = 0;
+        NOP_STANDBY                                            = 1;
+        NOP_READY                                              = 2;
+        NOP_ACTIVE                                             = 3;
+        NOP_PASSIVE                                            = 4;
+        NOP_STS_RESERVED0                                      = 5;
+        NOP_STS_RESERVED1                                      = 6;
+        NOP_STS_RESERVED2                                      = 7;
+    }
+
+    enum NOPMsg {
+        NO_MESSAGE                                             = 0;
+        ACCELERATING_NOW                                       = 1;
+        MERGE_TO_MAIN_ROAD                                     = 2;
+        MERGE_FAILED_PLEASE_MERGE_MANUALLY                     = 3;
+        READY_TO_LEFT_LANE_CHANGE                              = 4;
+        READY_TO_RIGHT_LANE_CHANGE                             = 5;
+        DECELERATING_NOW                                       = 6;
+        READY_TO_RAMP_OFF                                      = 7;
+        RAMP_OFF_FAILED_PLEASE_RAMP_OFF_MANUALLY               = 8;
+        READY_TO_TAKE_OVER                                     = 9;
+        PLEASE_CHANGE_TO_RIGHT_LANE_MANUALLY                   = 10;
+        OVERTAKING_NOW                                         = 11;
+        PLEASE_CHANGE_TO_THE_LEFT_LANE_MANUALLY                = 12;
+        LANE_CHANGE_CANCELED                                   = 13;
+        READY_TO_MAIN_ROAD                                     = 14;
+        RAMP_OFF_ONGOING                                       = 15;
+        LEFT_LANE_CHANGE_ONGOING                               = 16;
+        RIGHT_LANE_CHANGE_ONGOING                              = 17;
+        PLEASE_CONFIRM_LANE_CHANGE_TO_FOLLOW_NAVIGATION_ROUTE  = 18;
+        PLEASE_CONFIRM_LANE_CHANGE_TO_RECOMMENDED_LANE         = 19;
+        READY_FOR_LEFT_LANE_CHANGE_TO_FOLLOW_NAVIGATION_ROUTE  = 20;
+        READY_FOR_LEFT_LANE_CHANGE_TO_THE_RECOMMENDED_LANE     = 21;
+        READY_FOR_RIGHT_LANE_CHANGE_TO_FOLLOW_NAVIGATION_ROUTE = 22;
+        READY_FOR_RIGHT_LANE_CHANGE_TO_THE_RECOMMENDED_LANE    = 23;
+        NOP_TEMPORARILY_UNAVAILABLE                            = 24;
+        PLEASE_RESUME_TURN_INDICATOR_SWITCH                    = 25;
+        AUTO_LANE_CHANGE_TEMPORARILY_UNAVAILABLE               = 26;
+        NOP_MSG_RESERVED0                                      = 27;
+        NOP_MSG_RESERVED1                                      = 28;
+        NOP_MSG_RESERVED2                                      = 29;
+        NOP_MSG_RESERVED3                                      = 30;
+        NOP_MSG_RESERVED4                                      = 31;
+    }
+
+    enum NOPLaneChngConfirmMethod {
+        CONFIRMED_BY_TURN_INDICATOR_SWITCH                     = 0;
+        NOP_LANECHNGCONFIRMMETHOD_RESERVED0                    = 1;
+        NO_CONFIRM                                             = 2;
+        NOP_LANECHNGCONFIRMMETHOD_RESERVED1                    = 3;
+    }
+
+    enum SapaStatus {
+        STANDBY          = 0;
+        SEARCH           = 1;
+        PRE_GUIDANCE     = 2;
+        GUIDANCE_ACTIVE  = 3;
+        SUSPEND_PAUSE    = 4;
+        ABORT            = 5;
+        PARKING_FINISHED = 6;
+        FAULT            = 7;
+        STATUS_8         = 8;
+        STATUS_9         = 9;
+        STATUS_10        = 10;
+        STATUS_11        = 11;
+        STATUS_12        = 12;
+        STATUS_13        = 13;
+        STATUS_14        = 14;
+        STATUS_15        = 15;
+    }
+
+    enum DASDrowsinessSts {
+        DAS_ERROR               = 0;
+        SYSTEM_OFF              = 1;
+        SYSTEM_ON               = 2;
+        WARNING_STAGE_1_ACTIVE  = 3;
+        WARNING_STAGE_1_PASSIVE = 4;
+        WARNING_STAGE_2_ACTIVE  = 5;
+        WARNING_STAGE_2_PASSIVE = 6;
+        RESERVED                = 7;
+    }
+
+    enum HMASts {
+        HMA_OFF                             = 0;
+        HMA_PASSIVE                         = 1;
+        HMA_ACTIVE                          = 2;
+        HMA_NOT_AVAILABLE_TEMPORARY_FAILURE = 3;
+        HMA_NOT_AVAIALBLE_CAMERA_BLOCKED    = 4;
+        HMA_NOT_AVAILABLE_PERMANENT_FAILURE = 5;
+        HMA_RESERVED                        = 6;
+        HMA_INVALID                         = 7;
+    }
+
+    enum LaneAssistSts {
+        LANE_ASSIST_OFF     = 0;
+        LANE_ASSIST_STANDBY = 1;
+        LANE_ASSIST_ACTIVE  = 2;
+        LANE_ASSIST_FAILURE = 3;
+        LAS_CAMERA_BLOCKED  = 4;
+        LAS_RESERVED0       = 5;
+        LAS_RESERVED1       = 6;
+        LAS_RESERVED2       = 7;
+    }
+
+    enum TJASts {
+        TJA_OFF            = 0;
+        TJA_STANDBY        = 1;
+        TJA_ACTIVE         = 2;
+        TJA_FAILURE        = 3;
+        TJA_CAMERA_BLOCKED = 4;
+        TJA_RESERVED0      = 5;
+        TJA_RESERVED1      = 6;
+        TJA_INVALID        = 7;
+    }
+
+    enum TSROperatingSts {
+        OFF                            = 0;
+        OPERATING_FUSION_MODE          = 1;
+        OPERATING_VISION_ONLY_MODE     = 2;
+        OPERATING_NAVIGATION_ONLY_MODE = 3;
+        TSR_FAILURE                    = 4;
+        TSROS_RESERVED0                = 5;
+        TSROS_RESERVED1                = 6;
+        TSROS_RESERVED2                = 7;
+    }
+
+    enum AccMod {
+        OFF_MODE            = 0;
+        PASSIVE_MODE        = 1;
+        STANDBY_MODE        = 2;
+        ACTIVE_CONTROL_MODE = 3;
+        BRAKE_ONLY_MODE     = 4;
+        OVERRIDE_MODE       = 5;
+        STANDSTILL_MODE     = 6;
+        FAILURE_MODE        = 7;
+    }
+
+    enum LKSTrackingSts {
+        LKS_NO_DISPLAY = 0;
+        LINE_TRACKING  = 1;
+        INTERVENTION   = 2;
+        LKS_WARNING    = 3;
+    }
+
+    enum LKSSts {
+        LKS_OFF            = 0;
+        LKS_STANDBY        = 1;
+        LKS_ACTIVE         = 2;
+        LKS_FAILURE        = 3;
+        LKS_CAMERA_BLOCKED = 4;
+        LKS_RESERVED0      = 5;
+        LKS_RESERVED1      = 6;
+        LKS_RESERVED2      = 7;
+    }
+
+    enum AEBSts {
+        AEB_Function_Off_by_driver = 0;
+        AEB_Function_On_by_driver  = 1; //(or default)
+        AEB_Activate               = 2; //(triggered by RAD_FC)
+        AEB_Reserved               = 3;
+    }
+
+    enum FCWSetSts {
+        EARLY   = 0;
+        NORMAL  = 1;
+        LATE    = 2;
+        INVALID = 3;
+    }
+
+    enum Textinfo {
+        TEXT_INFO_NO_DISPLAY                   = 0;
+        UNABLE_TO_ACTIVATE_ACC                 = 1;
+        ACC_CANCELLED                          = 2;
+        ACTIVE                                 = 3;
+        ACC_AND_PEBS_ERROR                     = 4;    //both ACC and PEBS are irreversible error
+        ACC_AND_PEBS_TEMP_ERROR                = 5;    //both ACC and PEBS are reversible error
+        PEBS_TEMP_ERROR                        = 6;    //PEBS is reversible error and ACC no error
+        ACC_TEMP_ERROR                         = 7;    //ACC is reversible error and PEBS no error. PEBS inluces FCW, AEB, AEB-PEDP function.
+        AEB_PEDP_TEMP_ERROR                    = 8;    //only AEB-PEDP reversible  error
+        AEB_PEDP_ERROR                         = 9;    //only AEB-PEDP irrerversible error
+        ACC_SWITCHED_ON                        = 10;
+        ACC_SWITCHED_OFF                       = 11;
+        MRR_BLINDNESS                          = 12;
+        ACC_NOT_AVAILABLE_DOOR_OPEN            = 13;
+        ACC_NOT_AVAILABLE_BRAKE_LIGHT_ERROR    = 14;
+        ACC_NOT_AVAILABLE_BRAKE_ISSUE_PRESENT  = 15;
+        ACC_NOT_AVAILABLE_SEATBELT_NOT_BUCKLED = 16;
+        ACC_NOT_AVAILABLE_ESP_IS_OFF           = 17;
+        STEERING_SUPPORT_NOT_AVAILABLE         = 18;
+        CHIME_ONLY                             = 19;
+    }
+
+    enum FrntRSDSDisp {
+        F_RSDS_NO_DISPLAY                  = 0;
+        BSD_LCA_ON                         = 1;
+        BSD_LCA_OFF                        = 2;
+        CTA_ON                             = 3;
+        CTA_OFF                            = 4;
+        TRAILER_MODE_BSD_LCA_NOT_AVAILABLE = 5;
+        TRAILER_MODE_CTA_NOT_AVAILABLE     = 6;
+        BSD_LCA_CTA_ERROR                  = 7;
+        BSD_LCA_CTA_BLINDNESS              = 8;
+        F_RSDS_RESERVED0                   = 9;
+        F_RSDS_RESERVED1                   = 10;
+        F_RSDS_RESERVED2                   = 11;
+        F_RSDS_RESERVED3                   = 12;
+        F_RSDS_RESERVED4                   = 13;
+        F_RSDS_RESERVED5                   = 14;
+        F_RSDS_RESERVED6                   = 15;
+    }
+
+    enum AccNPSts {
+        ACC_SYSTEM_OFF      = 0;
+        SYSTEM_PASSIVE      = 1;
+        SYSTEM_READY        = 2;
+        ACC_ACTIVE          = 3;
+        ACC_STANDBY         = 4;
+        PILOT_ACTIVE        = 5;
+        LATERAL_UNAVAILABLE = 6;
+        PILOT_STANDBY       = 7;
+    }
+}

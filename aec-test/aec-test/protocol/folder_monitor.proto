@@ -1,0 +1,14 @@
+syntax = "proto2";
+package aec;
+
+message folder_monitor_item {
+  required string folder_path = 1;
+  required int32 folder_limit_size = 2;
+  required string folder_limit_unit = 3;
+  required int32 overdue_hours = 4;
+}
+
+message folder_monitor_config {
+  required int32 check_cycle = 1;
+  repeated folder_monitor_item folders = 2;
+}

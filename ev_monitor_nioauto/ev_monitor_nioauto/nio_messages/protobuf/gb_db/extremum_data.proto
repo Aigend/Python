@@ -1,0 +1,19 @@
+option java_package = "com.nextev.cvs_proto.protobuf.gb_db";
+option java_outer_classname = "ExtremumDataUnit";
+
+message ExtremumData {
+    // 极值数据
+
+    optional int32 hist_volt_btry_sbsys_sn = 1; // serial number of battery subsystem with higheset voltage，最高电压电池子系统号
+    optional int32 hist_volt_singl_btry_sn = 2; // serial number of single battery with higheset voltage， 最高电压电池单体代号
+    optional float sin_btry_hist_volt = 3; // highest voltage of single battery，单体电池最高电压
+    optional int32 lwst_volt_btry_sbsys_sn = 4; // serial number of battery subsystem with lowest voltage，最低电压电池子系统号
+    optional int32 lwst_volt_singl_btry_sn = 5; // serial number of single battery with lowest voltage, 最低电压电池单体代号
+    optional float sin_btry_lwst_volt = 6; // lowest voltage of single battery，单体电池最低电压
+    optional int32 hist_temp_btry_sbsys_sn = 7; // Serial number of battery with highest temperature, 最高温度子系统号
+    optional int32 hist_temp_prb_sn = 8; // serial number of the probe with highest temperature
+    optional float highest_temp = 9; // highest temperature
+    optional int32 lwst_temp_btry_sbsys_sn = 10; // Serial number of the battery  with lowest temperature, 最低温度子系统号
+    optional int32 lwst_temp_prb_sn = 11; // serial number of the probe with lowest temperature, 最低温度探针单体代号
+    optional float lowest_temp = 12; // lowest temperature
+}

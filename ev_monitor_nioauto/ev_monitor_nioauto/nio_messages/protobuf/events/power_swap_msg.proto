@@ -1,0 +1,37 @@
+syntax = "proto2";
+import "window_status.proto";
+import "power_swap.proto";
+
+option java_package = "com.nextev.cvs_proto.protobuf.events";
+option java_outer_classname = "PowerSwapServiceMessage";
+
+
+message PowerSwapChangeEvent {
+    optional string id = 1; // unique id, VIN for vehicle data
+    optional int32 version = 2; // message protocol version
+    optional uint64 sample_ts = 3; // status change time
+    optional PowerSwapChangeEventType event_type = 4;
+
+    optional WindowStatus.WindowPosition power_swap_service_window_position = 5; // windows data
+    optional PowerSwapEvent power_swap_event = 6; // Enter Vehicle Power Swap Mode Request
+}
+
+message PowerSwapChangePeriodic {
+    optional string id = 1; // unique id, VIN for vehicle data
+    optional int32 version = 2; // message protocol version
+    optional uint64 sample_ts = 3; // status change time
+
+    optional PowerSwapPeriodic power_swap_periodic =4;
+}
+
+enum PowerSwapChangeEventType{
+    POWER_SWAP_EVENT_INVALID = 0;
+    POWER_SWAP_EVENT_CDC_START_SWAP_MODE = 1;
+    POWER_SWAP_EVENT_CDC_STOP_SWAP_MODE = 2;
+    POWER_SWAP_EVENT_SWAP_MODE_QUIT = 3;
+    POWER_SWAP_EVENT_VEH_POSN_CONFIRM = 4;
+    POWER_SWAP_EVENT_VEH_PREP_REQ = 5;
+    POWER_SWAP_EVENT_CDC_PREP_DONE = 6;
+    POWER_SWAP_EVENT_FAILURE_WARNING_OLD = 7;
+    POWER_SWAP_EVENT_FAILURE_WARNING_NEW = 8;
+};

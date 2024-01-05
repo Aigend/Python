@@ -1,0 +1,11 @@
+import "can_msg.proto";
+option java_package = "com.nextev.cvs_proto.protobuf.events";
+option java_outer_classname = "NBSAbortMessage";
+
+message NBSAbortEvent {
+    optional string id = 1; // unique id, VIN for vehicle data
+    optional string dbc_type = 2; // dbc version
+    optional int32 version = 3; // message protocol version
+    optional uint64 sample_ts = 4; // sample time
+    repeated CanMsg can_msg = 5; //can data
+}

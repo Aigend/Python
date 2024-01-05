@@ -1,0 +1,12 @@
+import "low_soc_range.proto";
+
+option java_package = "com.nextev.cvs_proto.protobuf.cdc";
+option java_outer_classname = "LowSocMessage";
+
+message LowSocEvent {
+
+    optional string id = 1; // unique id, VIN for vehicle data
+    optional int32 version = 2; // message protocol version
+    optional uint64 sample_ts = 3; // low soc signal sample time
+    optional LowSocRange low_soc_range = 4;
+}

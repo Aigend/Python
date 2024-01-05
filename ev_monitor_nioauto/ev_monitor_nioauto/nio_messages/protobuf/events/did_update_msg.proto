@@ -1,0 +1,13 @@
+import "did_data.proto";
+
+option java_package = "com.nextev.cvs_proto.protobuf.events";
+option java_outer_classname = "DIDUpdateMessage";
+
+message DIDUpdateEvent {
+
+    optional string id = 1; // unique id, VIN for vehicle data
+    optional int32 version = 2; // message protocol version
+    optional string did_tag = 3;
+    optional string command_id = 4;
+    repeated DIDData did_data = 5;
+}

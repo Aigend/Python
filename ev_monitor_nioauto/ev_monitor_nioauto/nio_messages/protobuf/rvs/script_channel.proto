@@ -1,0 +1,11 @@
+option java_package = "com.nextev.cvs_proto.protobuf.rvs";
+option java_outer_classname = "ScriptSupportChannel";
+
+message ScriptChannel {
+
+    repeated string avl_cmd = 1; //available commands, shell command in white list
+    optional int32 exit_code = 2; // shell script exit code
+    optional string stdout = 3;  // please also redirect stderr to stdout
+    optional string stderr = 4; // stderr of executing script
+
+}

@@ -1,0 +1,29 @@
+syntax = "proto2";
+
+package model_behavior;
+
+message wl_record_item
+{
+  required string time = 1;
+  required string value = 2;
+  optional  int32 count = 3;
+}
+
+message wl_record
+{
+  required string date = 1;
+  repeated wl_record_item data = 2;
+}
+
+message ViP_record_item
+{
+  required string time = 1;
+  optional int32  count = 2;
+}
+
+message ViP_record
+{
+  required string date = 1;
+  repeated ViP_record_item data =2;
+}
+

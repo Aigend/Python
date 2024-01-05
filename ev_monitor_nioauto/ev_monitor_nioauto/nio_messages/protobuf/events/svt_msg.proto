@@ -1,0 +1,35 @@
+import "position_status.proto";
+import "vehicle_status.proto";
+
+
+option java_package = "com.nextev.cvs_proto.protobuf.events";
+option java_outer_classname = "SVTServiceMessage";
+
+message SVTEvent {
+    optional string id = 1;             // unique id, VIN for vehicle data
+    optional int32 version = 2;         // event protocol version
+    optional uint64 sample_ts = 3;      // event unix timestamp, when call service is triggered
+    optional uint64 event_id = 4;       // event id, current timestamp - millisecond
+    optional string reason_code = 5;    // the reason of call service is trigger, seperated by underscore
+    optional SVTStatus status = 6;      // some important vehicle status
+}
+
+message SVTStatus {
+    optional VehicleStatus vehicle_status = 1;
+    optional PositionStatus position_status = 2;
+    optional PowSupplySourceType pow_supply_source = 3;
+    optional float backup_battery_level = 4;
+    optional AntennaStatus gnss_ant_stats = 5;
+    optional bool anti_theft_alarm = 6;
+
+    enum PowSupplySourceType {
+        LV_BATTERY = 0;
+        BACKUP_BATTERY = 1;
+    }
+
+    enum AntennaStatus {
+        SHORT_CIRCUIT = 0;
+        OPEN_CIRCUIT = 1;
+        NORMAL = 2;
+    }
+}

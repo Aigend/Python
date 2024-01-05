@@ -1,0 +1,103 @@
+cmdopt: dev
+host:
+  tsp: https://tsp-dev.nio.com
+#  tsp_in: https://tsp-dev-int.nio.com
+  tsp_in: https://tsp-dev.nioint.com
+  vms: https://tsp-vms-dev.nio.com
+  lifestyle: https://app-dev.nio.com
+  redis: t-bj-cs-evmonitor-01.dsh08y.0001.cnn1.cache.amazonaws.com.cn
+  app: https://app-dev.nio.com
+#  app_in: https://app-dev-int.nio.com
+  app_in: https://app-dev.nioint.com
+message:
+  #未验证
+  host: msg-dev.app.nio.com
+  port: 20083
+  host_public: tsp-nmp-dev.nio.com
+  port_public: 20083
+
+kafka:
+  cvs:
+    bootstrap.servers:
+      - 10.125.243.61:9092
+      - 10.125.242.97:9092
+      - 10.125.252.75:9092
+    group.id: ev_monitor_test
+    auto.offset.reset: latest
+    security.protocol: sasl_plaintext
+    sasl.mechanisms: PLAIN
+    sasl.username: 5NEgo3WTBXme
+    sasl.password: EJ4XPXviukTv
+    enable.partition.eof: False
+    topics:
+      data_report: swc-cvs-nmp-dev_tsp-10005-data_report
+
+cassandra:
+  #未验证
+  datacollection:
+    nodes:
+      - 10.125.235.114
+      - 10.125.234.104
+      - 10.125.232.234
+    port: 9042
+    keyspace: data_collection_dev
+    user: tsp_read_dev
+    password: mg6WxtraReRtMAAHexeCUzLW
+  evm:
+    nodes:
+      - 10.125.235.114
+      - 10.125.234.104
+      - 10.125.232.234
+    port: 9042
+    keyspace: ev_monitoring_dev
+    user: tsp_read_dev
+    password: mg6WxtraReRtMAAHexeCUzLW
+
+mysql:
+  rvs:
+    host: swc-rds-tsp-master-dev.nioint.com
+    port: 3306
+    user: root
+    password: F8UsnE7al7s
+    database: remote_vehicle_dev
+    autocommit: True
+    cursorclass: pymysql.cursors.DictCursor
+    charset: utf8mb4
+
+mongodb:
+  #未验证
+  rvs:
+    username: tsp_mongo_d_r
+    password: 7OO9gHHiZ9gW1upJsZQ
+    host: 10.125.234.225
+    port: 27017
+    database: remote_vehicle_dev
+
+
+
+redis:
+  # 未验证
+  datacollection:
+    host: d-bj-cs-evmonitor-01.dsh08y.0001.cnn1.cache.amazonaws.com.cn
+    port: 6379
+  cluster:
+    - host: 10.125.241.31
+      port: 6379
+    - host: 10.125.236.164
+      port: 6379
+    - host: 10.125.238.230
+      port: 6379
+
+vehicle:
+  vehicle_id: 866c718a4b934275ab22d974637041b3
+  client_id: "ChCiOkYCAHqj-3Sa1io1xZstEAEYJCCVTigC"
+  vin: EVMzhuzhiqiang001
+
+vehicles:
+  normal:
+    vehicle_id: 866c718a4b934275ab22d974637041b3
+    client_id: "ChCiOkYCAHqj-3Sa1io1xZstEAEYJCCVTigC"
+    vin: EVMzhuzhiqiang001
+
+
+

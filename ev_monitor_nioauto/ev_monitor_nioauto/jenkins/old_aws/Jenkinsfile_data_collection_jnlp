@@ -1,0 +1,39 @@
+def upstream_list = 'cvs-tsp-data-collection-all-deploy-env_test' //上游job列表，逗号分隔
+def project_name = 'tsp-data-collection'
+
+pipeline {
+    agent {
+        kubernetes{
+            yaml """
+apiVersion: v1
+kind: Pod
+metadata:
+  namespace:
+    sqe-test
+  labels:
+    qa: python3
+spec:
+  containers:
+  - name: python36
+    image: swc-harbor.nioint.com/sqe/jnlp-slave-python3.6:v6
+    command:
+    - cat
+    tty: true
+    imagePullPolicy: Always
+"""
+        }
+     } //job运行的executor
+    parameters {
+        choice(name: 'PLATFORM_FILTER', choices: ['python36','all'], description: '选择测试的 python 版本')
+    }
+    stages {
+        stage('stage sdk 功能测试 '){
+            steps{
+              container(params.PLATFORM_FILTER){
+                  sh "echo $PATH"
+              }
+            }
+        }
+
+    }
+}

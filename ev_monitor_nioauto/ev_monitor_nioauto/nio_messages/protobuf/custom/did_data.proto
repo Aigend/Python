@@ -1,0 +1,15 @@
+option java_package = "com.nextev.cvs_proto.protobuf.custom";
+option java_outer_classname = "DIDDataUnit";
+
+message DIDData {
+
+  optional string ecu = 1;
+  repeated DID dids = 2;
+
+  message DID {
+    optional string id = 1;
+    optional string value = 2; // make sense if err_code is empty
+    optional uint64 sample_ts = 3;
+    optional int32 err_code = 4;
+  }
+}

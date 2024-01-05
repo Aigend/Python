@@ -1,0 +1,8 @@
+import "tsplog.proto";
+
+option java_package = "com.nextev.cvs_proto.protobuf.adas";
+option java_outer_classname = "TspLogListUnit";
+
+message TspLogList {
+    repeated TspLog log = 1;
+}

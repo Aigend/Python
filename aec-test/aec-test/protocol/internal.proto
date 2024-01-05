@@ -1,0 +1,30 @@
+syntax = "proto2";
+package aec;
+
+//mcs_info_processor -> other application
+message command
+{
+  required string cmd = 1;
+  repeated string args = 2;
+}
+
+//other application -> aec_info_sender
+message answer
+{
+  required string source = 1;
+  repeated string args = 2;
+}
+
+//camera -> aec_info_sender
+message status
+{
+  required string source = 1;
+  required int32 state = 2;
+}
+
+message mcs_step_json
+{
+  required  string step =1;
+  optional  string service_id=2;
+  optional  string params=3;
+}

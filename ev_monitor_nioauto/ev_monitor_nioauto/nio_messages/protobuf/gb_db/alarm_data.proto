@@ -1,0 +1,80 @@
+option java_package = "com.nextev.cvs_proto.protobuf.gb_db";
+option java_outer_classname = "AlarmDataUnit";
+
+message AlarmData {
+
+    // could report alarms whose level > 0
+    repeated CommonFailure common_failure = 1; // common failure list
+    repeated BJAlarm bj_extension = 2; // extension data for Beijing platform
+    repeated SHAlarm sh_extension = 3; // extension alarm data of Shanghai Platform
+
+
+    message CommonFailure {
+        optional CommonAlarmTag alarm_tag = 1; // common failure code
+        optional AlarmLevel alarm_level = 2; // common failure level
+    }
+
+    message BJAlarm {
+        optional BJAlarmTag alarm_tag = 1; // shanghai failure code
+        optional AlarmLevel alarm_level = 2; // common failure level
+    }
+
+    message SHAlarm {
+        optional SHAlarmTag alarm_tag = 1; // shanghai failure code
+        optional AlarmLevel alarm_level = 2; // common failure level
+    }
+
+    enum AlarmLevel {
+        NO_FAILURE = 0;
+        LEVEL_1 = 1;
+        LEVEL_2 = 2;
+        LEVEL_3 = 3;
+        ALARM_LEVEL_EXCEPTION = 254;
+        ALARM_LEVEL_INVALID = 255;
+    }
+
+    enum CommonAlarmTag {
+        BTRY_TEMP_DIF_ALRM = 0; // battery temperature different alarm, 温度差异报警
+        BTRY_HI_TEMP_ALRM = 1; // battery high temperature alarm, 电池高温报警
+        OVER_VOLT_BTRY_PAK_ALRM = 2; // battery package over voltage alarm, 车载储能装置类型过压报警
+        UNDR_VOLT_BTRY_PAK_ALRM = 3; // battery package under voltage alarm, 车载储能装置类型欠压报警
+        LW_SOC_ALRM = 4; // low soc alarm, SOC低报警
+        OVER_VOLT_SINGL_BTRY_ALRM = 5; // single battery over voltage alarm, 单体电池过压报警
+        UNDR_VOLT_SINGL_BTRY_ALRM = 6; // single battery under voltage alarm, 单体电池欠压报警
+        OVER_HI_SOC_ALRM = 7; // soc over high alarm, SOC过高报警
+        SOC_JMP_CHNG_ALRM = 8; // soc jump change alarm, SOC跳变报警
+        BTRY_PAK_MISMTCH_ALRM = 9; // battery packages mismatch alarm, 可充电储能系统不匹配报警
+        BTRY_PAK_BAD_CONSIS_ALRM = 10; // battery packages bad consistence alarm, 电池单体一致性差报警
+        INSULATN_ALRM = 11; // insulation alarm, 绝缘报警
+        DCDC_TEMP_ALRM = 12; // DCDC temperature alarm, DCDC温度报警
+        BRK_SYS_ALRM = 13; // brake system alarm, 制动系统报警
+        DCDC_STS_ALRM = 14; // DCDC status alarm, DCDC状态报警
+        DRVMOTR_CNTRL_TEMP_ALRM = 15; // driving motor controller temperature alarm, 驱动电机控制器温度报警
+        HI_VOLT_INTRLK_STS_ALRM = 16; // high voltage interlock state alarm, 高压互锁状态报警
+        DRVMOTR_TEMP_ALRM = 17; // driving motor temperature alarm, 驱动电机温度报警
+        BTRY_OVER_CHRG_ALRM = 18; // battery over charge alarm, 车载储能装置类型过充
+    }
+
+    enum SHAlarmTag {
+        DRV_SYS_FAIL_ALRM = 0; // driving motor system failures(SH), 电机驱动系统故障
+        BTRY_TOTL_VOLT_ALRM = 1; // battery total voltage alarm(SH), 电池总电压报警
+        SINGL_BTRY_HIST_TEMP_ALRM = 2;
+        SINGL_BTRY_LWST_TEMP_ALRM = 3;
+        COLLISN_SIGNL_STS = 4; // signal collision state alarm(SH), 碰撞信号状态报警
+        POWR_STORE_FAILR_INDICTN = 5; //power storage system failure alarm(SH), 储能系统故障指示报警
+    }
+
+    enum BJAlarmTag {
+        VEHICLE_CAN_COMMU_ALRM = 0; // CAN communication alarm
+        CHARGE_STATE_ERR_ALRM = 1; // charge state error alarm
+        CHARGE_COMMUNICATION_ERR_ALRM = 2; // charge communication error alarm
+        BTRY_CAN_COMMU_ALRM = 3; // CAN communication alarm
+        BTRY_TOTAL_CURNT_OVER_CURNT_ALRM = 4; // battery total current over current alarm
+        CHARGE_CONN_ERR_ALRM = 5; // charge connection error alarm
+        VEHICLE_CHAGE_ERR_ALRM = 6; // vehicle charge error alarm
+        BTRY_HI_TEMP_ALRM_BJ = 7; // battery high temperature alarm（level 2）
+        MOTR_CAN_COMMU_ALRM = 8; // CAN communication alarm
+        DRV_MOTR_ROTATE_SPD_OVER_HI_ALRM = 9; // driving motor rotation speed over high alarm
+        DRV_MOTR_CURNT_OVER_HI_ALRM = 10; // driving motor current over high alarm
+    }
+}

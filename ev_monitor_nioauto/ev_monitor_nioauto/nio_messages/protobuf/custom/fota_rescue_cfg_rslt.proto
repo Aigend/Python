@@ -1,0 +1,10 @@
+syntax = "proto2";
+option java_package = "com.nextev.cvs_proto.protobuf.custom";
+option java_outer_classname = "FotaRescueCfgRsltUnit";
+
+message FotaRescueCfgRslt {
+
+    optional string apn_name = 1;
+    optional string ip_addr = 2;
+    optional string rat_type = 3;
+}

@@ -1,0 +1,10 @@
+import "did_data.proto";
+
+option java_package = "com.nextev.cvs_proto.protobuf.custom";
+option java_outer_classname = "DIDStatusUnit";
+
+message DIDStatusResp {
+    
+    repeated DIDData did_data = 1;
+    
+}

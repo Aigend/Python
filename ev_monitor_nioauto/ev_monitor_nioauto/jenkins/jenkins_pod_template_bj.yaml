@@ -1,0 +1,57 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  # namespace必须是sqe-test
+  namespace: sqe-test
+spec:
+  containers:
+    # jnlp环境，必选，注意此处name=jnlp不能变，jenkins才能认出来
+    - name: jnlp
+      image: swc-harbor.nioint.com/sqe/jnlp-slave:root_user
+      imagePullPolicy: IfNotPresent
+      # mount的路径保持为jenkins的默认工作路径。jenkins 2.2版本默认工作路径/home/jenkins/agent
+      volumeMounts:
+        - mountPath: /home/jenkins/agent
+          name: jenkins-slave
+
+    # python36环境，可选
+    - name: python36
+      image: swc-harbor.nioint.com/sqe/automation_python36:v1
+      imagePullPolicy: IfNotPresent
+      env:
+        - name: WORKON_HOME # 设置pipenv的虚拟环境路径变量 WORKON_HOME
+          value: /home/jenkins/agent/.local/share/virtualenvs/
+      command:
+        - cat
+      tty: true
+      volumeMounts: # mount的路径保持为jenkins的默认工作路径。
+        - mountPath: /home/jenkins/agent
+          name: jenkins-slave
+      resources: # 资源限定，可调。尽量不要用太多
+        limits:
+          cpu: 500m
+          memory: 1000Mi
+        requests:
+          cpu: 500m
+          memory: 1000Mi
+
+    # java8环境，可选，已安装maven，jacoco
+    - name: java8
+      image: swc-harbor.nioint.com/sqe/automation_java8:v2
+      imagePullPolicy: IfNotPresent
+      volumeMounts:
+        - mountPath: /home/jenkins/agent  # mount的路径保持为jenkins的默认工作路径。
+          name: jenkins-slave
+      command:
+        - cat
+      tty: true
+  # nfs远程磁盘，用于共享公共库，复用资源等
+  volumes:
+    - name: jenkins-slave
+      nfs:
+        path: /data/jenkins-slave-nfs/
+        server: 10.10.129.178
+  # node select 选择sqe可以使用的node机器
+  nodeSelector:
+    node-app: normal
+    node-dept: sqe

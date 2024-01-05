@@ -1,0 +1,11 @@
+import "tsplog.proto";
+
+option java_package = "com.nextev.cvs_proto.protobuf.adas";
+option java_outer_classname = "TspLogList2Unit";
+
+message TspLogList2 {
+    optional string vehicle_uuid = 1; // vehicle_uuid
+    optional string vehicle_id   = 2; // vehicle id
+    optional string adc_version  = 3; // software version
+    repeated TspLog log = 4;
+}

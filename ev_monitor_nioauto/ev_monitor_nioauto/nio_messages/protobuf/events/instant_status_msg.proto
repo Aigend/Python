@@ -1,0 +1,62 @@
+import "door_status.proto";
+import "driving_data.proto";
+import "alarm_signal.proto";
+import "hvac_status.proto";
+import "light_status.proto";
+import "occupant_status.proto";
+import "signal_status.proto";
+import "soc_status.proto";
+import "tyre_status.proto";
+import "window_status.proto";
+import "alarm_data.proto";
+import "driving_motor.proto";
+import "extremum_data.proto";
+import "position_status.proto";
+import "vehicle_status.proto";
+import "bms_status.proto";
+import "can_msg.proto";
+import "trip_status.proto";
+import "body_status.proto";
+import "can_signal.proto";
+
+option java_package = "com.nextev.cvs_proto.protobuf.events";
+option java_outer_classname = "InstantStatusMessage";
+
+message InstantStatusResp {
+
+    optional string id = 1; // unique id, VIN for vehicle data
+    optional string request_id = 2;
+    optional int32 version = 3; // message protocol version
+    optional string icc_id = 4; // ICCID of SIM card
+    optional SamplePoint sample_point = 5;
+    optional uint64 sample_ts = 6;
+    optional string config_version = 7; // for NT2, the version of can_signal configure
+    optional string signallib_version = 8; // for NT2, the current dbc version, such as : BL00.06.00_DA_01
+
+    message SamplePoint {
+        optional uint64 sample_ts = 1;
+        optional DoorStatus door_status = 2;
+        optional DrivingData driving_data = 3;
+        optional AlarmSignal alarm_signal = 4;
+        optional HVACStatus hvac_status = 5;
+        optional LightStatus light_status = 6;
+        optional OccupantStatus occupant_status = 7;
+        optional SignalStatus signal_status = 8;
+        optional SOCStatus soc_status = 9;
+        optional VehicleStatus vehicle_status = 10;
+        optional TyreStatus tyre_status = 11;
+        optional WindowStatus window_status = 12;
+        optional AlarmData alarm_data = 13;
+        optional DrivingMotor driving_motor = 14;
+        optional ExtremumData extremum_data = 15;
+        optional PositionStatus position_status = 16;
+        optional SOCStatus.BatteryPackageInfo battery_package_info = 17;
+        optional BmsStatus bms_status = 18;
+        optional SOCStatus.ChargingInfo charging_info = 19; // charging info
+        optional CanMsg can_msg = 20;
+        optional bool evm_flag = 21;
+        optional TripStatus trip_status = 22;
+        optional BodyStatus body_status = 23;
+        optional CanSignal can_signal = 24;
+    }
+}

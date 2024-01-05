@@ -1,0 +1,97 @@
+//VERSION 1.1.0 last modified by tongsong.cai date: 20220207
+syntax = "proto2";
+package aec;
+
+import "infer_output.proto";
+
+enum top_message_enum_type
+{
+  system_info_enum = 1;
+  realtime_info_enum = 2;
+}
+
+message message_t
+{
+  required top_message_enum_type type = 1;
+  required bytes content = 2;
+}
+
+message total_info
+{
+  required  string device_id = 1;
+  required  string timestamp = 2;
+  repeated  message_t messages = 3;
+}
+
+enum model_active_status
+{
+  active=0;
+  shadow=1;
+  inactive=2;
+  invalid=255;
+}
+
+message system_model_item_t
+{
+  required string model = 1;
+  required string version = 2;
+  optional model_active_status working_status = 3;
+}
+
+message system_data_t
+{
+  required string AI_OS = 1;
+  required string driver = 2;
+  repeated system_model_item_t models = 3;
+}
+
+message system_info
+{
+  required string device_id = 1;
+  required string timestamp = 2;
+  required top_message_enum_type type = 3;
+  required system_data_t data = 4;
+}
+
+enum realtime_message_type_enum
+{
+  step_data_enum=1;
+  infer_data_enum=2;
+}
+
+message realtime_message{
+  required string  device_id = 1;
+  required string timestamp = 2;
+  required realtime_message_type_enum type = 3;
+  optional realtime_info_step_data_t step_message = 4;
+  optional realtime_info_infer_data_t ai_model_message = 5;
+}
+
+message realtime_info_step_data_t
+{
+  required string step = 1;
+}
+
+message model_infer_result_t
+{
+  required int32 result = 1;
+  required int32 error_code = 2;
+  optional WL_result WL=3;
+  optional PiP_result PiP=4;
+  optional PPP_result PPP=7;
+  optional BSA_result BSA=10;
+  optional BBSA_result BBSA=11;
+  optional ViP_result ViP=12;
+  optional VOR_result VOR=13;
+  optional RSDV_PiP_result RSDV_PiP=15;
+  optional RSDS_result RSDS=17;
+  optional WPV_result WPV=21;
+  optional string error_msg=125;
+}
+
+message realtime_info_infer_data_t
+{
+  required string model = 1;
+  required model_infer_result_t reason = 2;
+}
+

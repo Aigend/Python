@@ -1,0 +1,61 @@
+option java_package = "com.nextev.cvs_proto.protobuf.gb_db";
+option java_outer_classname = "VehicleStatusUnit";
+
+message VehicleStatus {
+    // 整车数据
+
+    optional VehicleState vehl_state = 1; // vehicle state
+    optional ChargeStatus chrg_state = 2; // charging state
+    optional OperationMode oprtn_mode = 3; // operation mode
+    optional float speed = 4; // speed
+    optional int32 mileage = 5; // mileage
+    optional float vehl_totl_volt = 6; // total voltage of vehicle(SH,电池总电压)
+    optional float vehl_totl_curnt = 7; // total current of vehicle
+    optional float soc = 8; // soc
+    optional DCDCStatus dc_dc_sts = 9; // DC-DC status
+    optional int32 gear = 10; // gear position
+    optional int32 insulatn_resis = 11; // Insulation resistance
+    optional bool urgt_prw_shtdwn = 12; // Request for urgent power-shut-down on/off state
+    optional ComfortType comf_ena = 13;  // comfEna status
+    optional bool thermal_keeping = 14; // thermal keeping
+    optional string vehl_type_dbc = 15; // "ES8_7.5.3", "ES6_3.0.2";
+    optional bool ntester = 16; // nTester plug in status
+
+    enum VehicleState {
+        DRIVING = 1;
+        PARKED_VEHICLE = 2;
+        DRIVER_PRESENT = 3;
+        SW_UPDATE = 4;
+        EXCEPTION = 254;
+        INVALID = 255;
+    }
+
+    enum DCDCStatus {
+        WORKING = 1;
+        DISCONNECTED = 2;
+        DCDC_EXCEPTION = 254;
+        DCDC_INVALID = 255;
+    }
+
+    enum ChargeStatus {
+        PARKING_CHARGING = 1;
+        DRIVING_CHARGING = 2;
+        NOT_CHARGING = 3;
+        CHARGE_COMPLETE = 4;
+        CHARGING_EXCEPTION = 254;
+        CHARGING_INVALID = 255;
+    }
+
+    enum OperationMode {
+        PURE_ELECTRIC = 1;
+        HYDRIDE = 2;
+        FUEL = 3;
+        OPMODE_EXCEPTION = 254;
+        OPMODE_INVALID = 255;
+    }
+
+    enum ComfortType {
+        COMFORT_DISABLE = 0;
+        COMFORT_ENABLE = 1;
+    }
+}

@@ -1,0 +1,55 @@
+option java_package = "com.nextev.cvs_proto.protobuf.custom";
+option java_outer_classname = "HeatingStatusUnit";
+
+message HeatingStatus {
+    // 加热相关数据
+
+    optional SteerWheelHeatingStatus steer_wheel_heat_sts = 1; // Steer Wheel Heating Status
+    optional SeatHeatingStatus seat_heat_frnt_le_sts = 2;      // Seat Heating Frnt Le Status
+    optional SeatHeatingStatus seat_heat_frnt_ri_sts = 3;      // Seat Heating Frnt Ri Status
+    optional SeatHeatingStatus seat_heat_re_le_sts = 4;        // Seat Heating Re Le Status
+    optional SeatHeatingStatus seat_heat_re_ri_sts = 5;        // Seat Heating Re Ri Status
+    optional HVBattHeatingStatus hv_batt_pre_sts = 6;          // HVBatt Preheating Status
+    optional SeatVentStatus seat_vent_frnt_le_sts = 7;         // Seat Ventilation Frnt Le Status
+    optional SeatVentStatus seat_vent_frnt_ri_sts = 8;         // Seat Ventilation Frnt Ri Status
+    optional BtryWarmUpStatus btry_warm_up_sts = 9;            // ManualChrgWarmup feedback
+    optional SeatVentStatus seat_vent_re_le_sts = 10;          // NT2 only, Seat Ventilation Rear Le Status
+    optional SeatVentStatus seat_vent_re_ri_sts = 11;          // NT2 only, Seat Ventilation Rear Ri Status
+
+    enum SteerWheelHeatingStatus {
+        STEER_WHEEL_HEAT_OFF = 0;
+        STEER_WHEEL_HEAT_ON = 1;
+        STEER_WHEEL_HEAT_RESERVED = 2;
+        STEER_WHEEL_HEAT_INVALID = 3;
+    }
+
+    enum SeatHeatingStatus {
+        SEAT_HEAT_OFF = 0;
+        SEAT_HEAT_LOW = 1;
+        SEAT_HEAT_MIDDLE = 2;
+        SEAT_HEAT_HIGH = 3;
+        SEAT_HEAT_INVALID = 7;
+    }
+
+    enum HVBattHeatingStatus {
+        BVBATT_HEAT_OFF = 0;
+        BVBATT_HEAT_PRE_HEATING = 1;
+        BVBATT_HEAT_CALCULATING = 2;
+        BVBATT_HEAT_INVALID = 3;
+    }
+
+    enum SeatVentStatus {
+        SEAT_VENT_OFF = 0;
+        SEAT_VENT_LOW = 1;
+        SEAT_VENT_MIDDLE = 2;
+        SEAT_VENT_HIGH = 3;
+        SEAT_VENT_INVALID = 7;
+    }
+
+    enum BtryWarmUpStatus{
+        BTRY_WARM_UP_OFF = 0;
+        BTRY_WARM_UP_ON = 1;
+        BTRY_WARM_UP_INVALID = 2;
+    }
+
+}

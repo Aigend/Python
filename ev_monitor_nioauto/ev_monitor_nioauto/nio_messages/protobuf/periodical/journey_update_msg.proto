@@ -1,0 +1,53 @@
+import "driving_data.proto";
+import "occupant_status.proto";
+import "vehicle_status.proto";
+import "position_status.proto";
+import "soc_status.proto";
+import "alarm_data.proto";
+import "driving_motor.proto";
+import "extremum_data.proto";
+import "tyre_status.proto";
+import "hvac_status.proto";
+import "bms_status.proto";
+import "alarm_signal.proto";
+import "can_msg.proto";
+import "trip_status.proto";
+import "body_status.proto";
+import "can_signal.proto";
+
+option java_package = "com.nextev.cvs_proto.protobuf.periodical";
+option java_outer_classname = "JourneyUpdateMessage";
+
+message JourneyUpdateMsg {
+
+    optional string id = 1; // unique id, VIN for vehicle data
+    optional bool reissue = 2; // reissue flag : true, reissue message; false, not
+    optional int32 version = 3; // message protocol version
+    optional string journey_id = 4; // JourneyID, same with journey_start_message
+    optional string icc_id = 5; // ICCID of SIM card
+    repeated SamplePoint sample_points = 6;
+    optional bool around_alarm = 7;
+    optional string config_version = 8; // for NT2, the version of can_signal configure
+    optional string signallib_version = 9; // for NT2, the current dbc version, such as : BL00.06.00_DA_01
+
+    message SamplePoint {
+        optional uint64 sample_ts = 1; // 数据采集时间
+        optional PositionStatus position_status = 2;
+        optional VehicleStatus vehicle_status = 3;
+        optional OccupantStatus occupant_status = 4;
+        optional SOCStatus soc_status = 5;
+        optional DrivingData driving_data = 6;
+        optional AlarmData alarm_data = 7;
+        optional DrivingMotor driving_motor = 8;
+        optional ExtremumData extremum_data = 9;
+        optional HVACStatus hvac_status = 10;
+        optional TyreStatus tyre_status = 11;
+        optional BmsStatus bms_status = 12;
+        optional AlarmSignal alarm_signal = 13;
+        optional bool evm_flag = 14;
+        optional CanMsg can_msg = 15;
+        optional TripStatus trip_status = 16;
+        optional BodyStatus body_status = 17;
+        optional CanSignal can_signal = 18;
+    }
+}

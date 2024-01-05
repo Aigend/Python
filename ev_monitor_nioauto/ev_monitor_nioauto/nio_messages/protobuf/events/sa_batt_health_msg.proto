@@ -1,0 +1,18 @@
+syntax = "proto2";
+
+option java_package = "com.nextev.cvs_proto.protobuf.events";
+option java_outer_classname = "SABattHealthMessage";
+
+
+message SABattHealthEvent {
+
+    optional string id = 1; // unique id, VIN for vehicle data
+    optional int32 version = 2; // message protocol version
+    optional uint64 sample_ts = 3; // time when event happened
+    optional SABattHealth sa_batt_health = 4;  // sa backup battery health status
+
+    enum SABattHealth {
+        HEALTHY = 0;
+        NOT_HEALTHY = 1;
+    }
+}

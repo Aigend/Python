@@ -1,0 +1,42 @@
+import "alarm_signal.proto";
+import "driving_data.proto";
+import "occupant_status.proto";
+import "vehicle_status.proto";
+import "position_status.proto";
+import "soc_status.proto";
+import "driving_motor.proto";
+import "extremum_data.proto";
+import "tyre_status.proto";
+import "hvac_status.proto";
+import "bms_status.proto";
+import "can_msg.proto";
+import "can_signal.proto";
+
+option java_package = "com.nextev.cvs_proto.protobuf.events";
+option java_outer_classname = "AlarmSignalUpdateMessage";
+
+message AlarmSignalUpdateEvent {
+
+    optional string id = 1; // unique id, VIN for vehicle data
+    optional int32 version = 2; // message protocol version
+    optional uint64 sample_ts = 3;
+    optional AlarmSignal alarm_signal = 4;
+    optional SamplePoint sample_points = 5;
+    optional string config_version = 6; // for NT2, the version of can_signal configure
+    optional string signallib_version = 7; // for NT2, the current dbc version, such as : BL00.06.00_DA_01
+
+    message SamplePoint {
+        optional PositionStatus position_status = 1;
+        optional VehicleStatus vehicle_status = 2;
+        optional OccupantStatus occupant_status = 3;
+        optional SOCStatus soc_status = 4;
+        optional DrivingData driving_data = 5;
+        optional DrivingMotor driving_motor = 6;
+        optional ExtremumData extremum_data = 7;
+        optional HVACStatus hvac_status = 8;
+        optional TyreStatus tyre_status = 9;
+        optional BmsStatus bms_status = 10;
+        optional CanMsg can_msg = 11;
+        optional CanSignal can_signal = 12;
+    }
+}

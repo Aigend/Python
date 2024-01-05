@@ -1,0 +1,12 @@
+option java_package = "com.nextev.cvs_proto.protobuf.cdc";
+option java_outer_classname = "LowSocRangeUnit";
+
+message LowSocRange {
+    optional Status low_soc_status = 1; // Low Soc Status
+
+    enum Status {
+        NO_SIGNAL = 0;
+        YELLOW = 1;
+        RED = 2;
+    }
+}

@@ -1,0 +1,8 @@
+option java_package = "com.nextev.cvs_proto.protobuf.rvs";
+option java_outer_classname = "AttachFile";
+
+message FileInfo {
+
+    repeated string file_path = 1;
+
+}

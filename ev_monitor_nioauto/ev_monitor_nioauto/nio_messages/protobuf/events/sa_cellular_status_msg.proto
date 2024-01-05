@@ -1,0 +1,35 @@
+syntax = "proto2";
+
+option java_package = "com.nextev.cvs_proto.protobuf.events";
+option java_outer_classname = "SACellularChangeMessage";
+
+
+message SACellularStatusEvent {
+
+    optional string id = 1; // unique id, VIN for vehicle data
+    optional int32 version = 2; // message protocol version
+    optional uint64 sample_ts = 3; // time when event happened
+    optional SACellularStatus sa_cellular_status = 4;
+}
+
+message SACellularStatus {
+    optional int32 prefmode_number = 1; // the executing number of pref mode in the lastest cellular recover
+    optional int32 cfun_number = 2; // the executing number of cfun in the lastest cellular recover
+    optional DisconnectionType disconnection_type = 3; // the type of cellular disconnection n in the lastest cellular recover
+    optional int64 disconnection_duration = 4; // the duration of the lastest cellular disconnection
+    optional int32 flight_mode_number = 5; // the executing number of flight in the lastest cellular recover
+    optional RestartStatus restart_or_not = 6; // whether SA restart or not in the latest cellular recover
+
+    enum DisconnectionType {
+        FAILED_TO_ATTACH_NETWORK = 1; // failed to attach the network
+        DATA_SERVICE_NOT_SUPPORT = 2; // the network-based system (such as 2G) does not support data service
+        APN_DIALING_FAILED = 3; // APN dialing failed
+        APN_DISCONNECTED_OR_FAILED_TO_CONNECT = 4; // APN disconnected or failed to connect
+        PING_AND_DIG_DNS_SERVER_FAILED_AT_THE_SAME_TIME = 5; // ping & dig DNS server failed at the same time
+    }
+
+    enum RestartStatus {
+        NO = 0;
+        YES = 1;
+    }
+}

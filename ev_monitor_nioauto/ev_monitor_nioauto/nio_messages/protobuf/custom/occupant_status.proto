@@ -1,0 +1,16 @@
+option java_package = "com.nextev.cvs_proto.protobuf.custom";
+option java_outer_classname = "OccupantStatusUnit";
+
+message OccupantStatus {
+    // 乘客信息
+
+    optional SeatOccupantStatus fr_le_seat_occupant_status = 1; // front left seat occupant status
+    optional SeatOccupantStatus fr_ri_seat_occupant_status = 2; // front right seat occupant status
+
+    enum SeatOccupantStatus {
+        NO_OCCUPANT = 0;
+        OCCUPANT = 1;
+        RESERVED = 2;
+        INVALID = 3;
+    }
+}

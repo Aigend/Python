@@ -1,0 +1,43 @@
+option java_package = "com.nextev.cvs_proto.protobuf.custom";
+option java_outer_classname = "DrivingDataUnit";
+
+message DrivingData {
+    // 行驶信息
+
+    optional VehDrvgMod vcu_drvg_mod = 1; // vehicle driving mode
+    optional float steer_whl_rotn_ag = 2; // steer wheel rotation angle
+    optional sint32 steer_whl_rotn_spd = 3; // steer wheel rotation speed
+    optional float aclrtn_pedal_posn = 4; // acceleration pedal position
+    optional BrkPedalStatus brk_pedal_sts = 5; // brake pedal position
+    optional float average_speed = 6; // average speed in the last report time interval
+    optional float max_speed = 7; // max speed in the last report time interval
+    optional float min_speed = 8; // min speed in the last report time interval
+    optional float veh_dispd_spd = 9; // Vehicle Display Speed min:0 max:360
+    optional int32 veh_outd_hum =10; // Vehicle outside hummity "%"
+    optional int32 veh_dispd_spd_sts = 11; // Vehicle Display Speed sts. value { 1:"Invalid", 0:"Valid" }
+
+    message BrkPedalStatus {
+        optional BrkPedalState state = 1;
+        optional BrkPedalValid valid = 2;
+    }
+
+    enum BrkPedalState {
+        NOT_PRESSED = 0;
+        PRESSED = 1;
+        RESERVERD = 2;
+        ERROR = 3;
+    }
+
+    enum BrkPedalValid {
+        BRK_PED_VALID = 0;
+        BRK_PED_INVALID = 1;
+    }
+
+    enum VehDrvgMod {
+        AUTOMATIC_MODE = 0;
+        ECONOMY_MODE = 1;
+        COMFORT_MODE = 2;
+        SPORT_MODE = 3;
+        DRV_MOD_INVALID = 7;
+    }
+}

@@ -1,0 +1,21 @@
+option java_package = "com.nextev.cvs_proto.protobuf.custom";
+option java_outer_classname = "BodyStatusUnit";
+
+message BodyStatus {
+    optional int32 wiper_req = 1; //RLS wiper request to CGW 0 Wiper off;1 Wiper action once;2 Speed1(Lo);3 Speed2(Hi);4 Reserved;5 Reserved;6 Reserved;7 SNA
+    optional int32 rain_sensor_fail_sts = 2; //Rain sensor failure status 0 No Error 1 Error
+    optional int32 frnt_wipr_inter_spd = 3; //Front wiper intermittent speed 0 Reserved;1 intermittent speed 1;2 intermittent speed 2;3 intermittent speed 3;4 intermittent speed 4;5 Reserved;6 Reserved;7 Invalid
+    optional int32 frnt_wiper_park_sts = 4; //Front wiper park position status 0 Park;1 No park;2 Reserved;3 Invalid
+    optional int32 frnt_wipr_swt_sts = 5; //Front wiper switch status 0 Front wiper off;1 Front wiper low speed;2 Front wiper high speed;3 Front wiper intermediate speed;4 Front wiper wipe one time;5 Reserved;6 Reserved;7 Invalid
+    optional int32 wiper_swith_position = 6; //Wiper switch position 0 Wiper off;1 Wiper in Auto mode;2 Wiper in manual mode;3 Wash mode;4 Reserved;5 Reserved;6 Reserved;7 Reserved;
+    optional int32 drv_cushion_length_pos = 7; //Driver Cushion Length position 0-65534
+    optional int32 drv_cushion_hight_pos = 8; //Driver Cushion Height position 0-16382
+    optional int32 drv_backrest_pos =9; //Driver Cushion Backrest position 0-65534
+    optional int32 drv_cushion_tilt_pos =10;  //Driver Cushion Tilt position 0-65534
+    optional int32 pass_cushion_length_pos = 11; //Passenger Cushion Length position 0-65534
+    optional int32 pass_leg_support_pos = 12; //Passenger Leg Support position 0-65534
+    optional int32 pass_backrest_pos = 13; //Passenger Backrest position 0-65534
+    optional int32 seat_adjmt_frnt_ri_cush_lift_mot_posn = 14;  //Passenger Cushion Height position 0-16383
+    optional int32 seat_adjmt_foot_rest_mot_posn = 15; //Passenger FootRest position 0-16383
+
+}

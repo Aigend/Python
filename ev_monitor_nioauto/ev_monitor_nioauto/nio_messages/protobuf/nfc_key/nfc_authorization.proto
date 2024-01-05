@@ -1,0 +1,29 @@
+
+message AccessInfo {
+    required string user_id = 1;
+    required string device_id = 2;
+    required string vehicle_id = 3;
+    required string access_mode = 4;
+    required string refresh_token = 5;
+    repeated string perm_list = 6;
+}
+
+message VirtualKey {
+    required string certificate = 1;
+    required AccessInfo access = 2;
+    required string access_sig = 3;
+}
+
+message AESKey {
+    required bytes key = 1;
+    required bytes iv = 2;
+}
+
+message NFCAuthorization {
+    required bytes enc_virtual_key = 1;
+    required bytes enc_aes_key = 2;
+    required string action = 3;
+    required string device_id = 4;
+    required int32 ts1 = 5;
+    required string sig = 6;
+}

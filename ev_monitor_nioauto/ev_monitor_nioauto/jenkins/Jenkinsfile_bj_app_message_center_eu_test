@@ -1,0 +1,76 @@
+pipeline {
+     agent {
+         label 'SEQ-CVS-TEST-AUTO-2'
+     }
+
+     parameters {
+         choice(name: 'env', choices: 'test_marcopolo\nstg_marcopolo', description: '测试环境，请选择test_marcopolo？stg_marcopolo？')
+         string(name: 'keywords', defaultValue: 'tests/app_message_center', description: '关键字，用于过滤测试用例，可以使用目录名、py文件名过滤')
+         string(name: 'rerun_times', defaultValue: '2', description: '运行失败重试的次数')
+         string(name: 'rerun_delay', defaultValue: '5', description: '运行失败重试间隔秒数')
+     }
+     environment {
+         //git相关
+         git_url = 'git@git.nevint.com:automation/ev_monitor_nioauto.git' //项目仓库地址
+         git_key = 'c8615bc3-c995-40ed-92ba-d5b66943f116' //固定值，不要修改
+         git_branch = 'master'
+         gitpullerr = 'noerr'
+
+         //job失败后发送的邮件名单
+         email_list = 'li.liu2@nio.com, qiangwei.zhang@nio.com'
+     }
+     options {
+         buildDiscarder(logRotator(numToKeepStr: '30'))  //保存的job构建记录总数
+         timeout(time: 30, unit: 'MINUTES')  //job超时时间
+         disableConcurrentBuilds() //不允许同时执行流水线
+     }
+     triggers {
+         //pollSCM('H * * * 1-5')//周一到周五，每小时
+         cron('H(0-30) H(8-9) * * *') //每天
+         //gitlab(triggerOnPush: false, triggerOnMergeRequest: false, branchFilterType: 'All')
+         //upstream(upstreamProjects: "${upstream_list}", threshold: hudson.model.Result.SUCCESS)
+     }
+     stages {
+         // 如果jenkins project的config里配了pipeline scripts from SCM，此步骤可参略
+         stage('拉取测试代码') {
+             steps {
+                 git branch: "${git_branch}", credentialsId: "${git_key}", url: "${git_url}"
+             }
+         }
+         stage('安装测试依赖') {
+             steps {
+                 // sh "pipenv --rm"
+                 sh "pipenv install --skip-lock --ignore-pipfile"
+                 sh "pipenv graph"
+             }
+         }
+         stage('执行测试用例') {
+             steps {
+                 script {
+                     sh "rm -rf $env.WORKSPACE/allure-*"//执行前先清空报告
+                     sh "echo $PATH"
+                     sh "pipenv run py.test --env '${params.env}' '${params.keywords}' --reruns '${params.rerun_times}' --reruns-delay '${params.rerun_delay}'"
+                 }
+             }
+         }
+     }
+     post {
+          always{
+             // 将allure 报告展示到jenkins上
+             script {
+                 allure includeProperties: false, jdk: '', report: 'jenkins-allure-report', results: [[path: 'allure-results']]
+             }
+         }
+         failure {
+             script {
+                 if (gitpullerr == 'noerr') {
+                     mail to: "${email_list}",
+                     subject: "[Jenkins Build Notification] ${JOB_NAME} - Build # ${BUILD_NUMBER} -构建失败!",
+                     body: "'${env.JOB_NAME}' (${env.BUILD_NUMBER}) 执行失败了 \n请及时前往 ${env.BUILD_URL} 进行查看"
+                 } else {
+                     echo 'scm pull error ignore send mail'
+                 }
+             }
+         }
+     }
+}

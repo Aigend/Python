@@ -1,0 +1,610 @@
+{
+  "ai_models": [
+    "WL",
+    "PiP",
+    "SMD",
+    "PPP",
+    "WLCC",
+    "BSCC",
+    "BSA",
+    "BBSA",
+    "ViP2",
+    "VOR",
+    "RSDV_PiP",
+    "RSDV_VLSV2",
+    "RSDS",
+    "SAPA",
+    "RC",
+    "BBCC",
+    "WPV"
+  ],
+  "cameras": [
+    {
+      "name": "camera_1",
+      "max_read_count": 300,
+      "link": "rtsp://192.168.1.10:8554/Streaming/Channels/106",
+      "sensor_code": "PRFF-2955",
+      "driver_type": "opencv"
+    },
+    {
+      "name": "camera_2",
+      "max_read_count": 300,
+      "link": "rtsp://192.168.1.10:8554/Streaming/Channels/104",
+      "sensor_code": "PRBS-3346",
+      "driver_type": "opencv"
+    },
+    {
+      "name": "camera_3",
+      "max_read_count": 300,
+      "link": "rtsp://192.168.1.10:8554/Streaming/Channels/104",
+      "sensor_code": "PLBS-3346",
+      "driver_type": "opencv"
+    },
+    {
+      "name": "camera_4",
+      "max_read_count": 300,
+      "link": "rtsp://192.168.1.10:8554/Streaming/Channels/104",
+      "sensor_code": "PLFS-3346",
+      "driver_type": "opencv"
+    },
+    {
+      "name": "camera_5",
+      "max_read_count": 300,
+      "link": "rtsp://192.168.1.10:8554/Streaming/Channels/104",
+      "sensor_code": "PRFS-3346",
+      "driver_type": "opencv"
+    },
+    {
+      "name": "camera_6",
+      "max_read_count": 3,
+      "link": "192.168.1.10:5000/ISAPI/Streaming/Channels/110/picture",
+      "sensor_code": "BBSS-3346",
+      "driver_type": "curl"
+    },
+    {
+      "name": "camera_7",
+      "max_read_count": 3,
+      "link": "192.168.1.10:5000/ISAPI/Streaming/Channels/111/picture",
+      "sensor_code": "BUSS-3346",
+      "driver_type": "curl"
+    },
+    {
+      "name": "camera_8",
+      "max_read_count": 300,
+      "link": "rtsp://192.168.1.10:8554/Streaming/Channels/107",
+      "sensor_code": "FSSG-2T47",
+      "driver_type": "opencv"
+    }
+  ],
+  "init_actions": [
+    {
+      "item": "WL",
+      "action": "load"
+    },
+    {
+      "item": "PiP",
+      "action": "load"
+    },
+    {
+      "item": "SMD",
+      "action": "load"
+    },
+    {
+      "item": "PPP",
+      "action": "load"
+    },
+    {
+      "item": "WLCC",
+      "action": "load"
+    },
+    {
+      "item": "BSCC",
+      "action": "load"
+    },
+    {
+      "item": "BSA",
+      "action": "load"
+    },
+    {
+      "item": "BBSA",
+      "action": "load"
+    },
+    {
+      "item": "ViP2",
+      "action": "load"
+    },
+    {
+      "item": "VOR",
+      "action": "load"
+    },
+    {
+      "item": "RSDV_PiP",
+      "action": "load"
+    },
+    {
+      "item": "RSDV_VLSV2",
+      "action": "load"
+    },
+    {
+      "item": "RSDS",
+      "action": "load"
+    },
+    {
+      "item": "SAPA",
+      "action": "load"
+    },
+    {
+      "item": "RC",
+      "action": "load"
+    },
+    {
+      "item": "BBCC",
+      "action": "load"
+    },
+    {
+      "item": "WPV",
+      "action": "load"
+    }
+  ],
+  "step_actions": [
+    {
+      "step": "1",
+      "item_actions": [
+        {
+          "item": "RC",
+          "action": "load"
+        }
+      ]
+    },
+    {
+      "step": "0",
+      "item_actions": [
+        {
+          "item": "RC",
+          "action": "do_work"
+        }
+      ]
+    },
+    {
+      "step": "2",
+      "item_actions": [
+        {
+          "item": "RC",
+          "action": "unload"
+        }
+      ]
+    },
+    {
+      "step": "1000",
+      "item_actions": [
+        {
+          "item": "BBSA",
+          "action": "load"
+        }
+      ]
+    },
+    {
+      "step": "1001",
+      "item_actions": [
+        {
+          "item": "BBSA",
+          "action": "do_work"
+        }
+      ]
+    },
+    {
+      "step": "1002",
+      "item_actions": [
+        {
+          "item": "BBSA",
+          "action": "unload"
+        }
+      ]
+    },
+    {
+      "step": "1100",
+      "item_actions": [
+        {
+          "item": "BSA",
+          "action": "load"
+        }
+      ]
+    },
+    {
+      "step": "1101",
+      "item_actions": [
+        {
+          "item": "BSA",
+          "action": "do_work"
+        }
+      ]
+    },
+    {
+      "step": "1102",
+      "item_actions": [
+        {
+          "item": "BSA",
+          "action": "unload"
+        }
+      ]
+    },
+    {
+      "step": "1200",
+      "item_actions": [
+        {
+          "item": "BSCC",
+          "action": "load"
+        }
+      ]
+    },
+    {
+      "step": "1201",
+      "item_actions": [
+        {
+          "item": "BSCC",
+          "action": "do_work"
+        }
+      ]
+    },
+    {
+      "step": "1202",
+      "item_actions": [
+        {
+          "item": "BSCC",
+          "action": "unload"
+        }
+      ]
+    },
+    {
+      "step": "1300",
+      "item_actions": [
+        {
+          "item": "PiP",
+          "action": "load"
+        }
+      ]
+    },
+    {
+      "step": "1301",
+      "item_actions": [
+        {
+          "item": "PiP",
+          "action": "do_work"
+        }
+      ]
+    },
+    {
+      "step": "1302",
+      "item_actions": [
+        {
+          "item": "PiP",
+          "action": "unload"
+        }
+      ]
+    },
+    {
+      "step": "1400",
+      "item_actions": [
+        {
+          "item": "PPP",
+          "action": "load"
+        }
+      ]
+    },
+    {
+      "step": "1401",
+      "item_actions": [
+        {
+          "item": "PPP",
+          "action": "do_work"
+        }
+      ]
+    },
+    {
+      "step": "1402",
+      "item_actions": [
+        {
+          "item": "PPP",
+          "action": "unload"
+        }
+      ]
+    },
+    {
+      "step": "1500",
+      "item_actions": [
+        {
+          "item": "RSDV_PiP",
+          "action": "load"
+        }
+      ]
+    },
+    {
+      "step": "1501",
+      "item_actions": [
+        {
+          "item": "RSDV_PiP",
+          "action": "do_work"
+        }
+      ]
+    },
+    {
+      "step": "1502",
+      "item_actions": [
+        {
+          "item": "RSDV_PiP",
+          "action": "unload"
+        }
+      ]
+    },
+    {
+      "step": "1600",
+      "item_actions": [
+        {
+          "item": "RSDV_VLSV2",
+          "action": "load"
+        }
+      ]
+    },
+    {
+      "step": "1601",
+      "item_actions": [
+        {
+          "item": "RSDV_VLSV2",
+          "action": "do_work"
+        }
+      ]
+    },
+    {
+      "step": "1602",
+      "item_actions": [
+        {
+          "item": "RSDV_VLSV2",
+          "action": "unload"
+        }
+      ]
+    },
+    {
+      "step": "1700",
+      "item_actions": [
+        {
+          "item": "SMD",
+          "action": "load"
+        }
+      ]
+    },
+    {
+      "step": "1701",
+      "item_actions": [
+        {
+          "item": "SMD",
+          "action": "do_work"
+        }
+      ]
+    },
+    {
+      "step": "1702",
+      "item_actions": [
+        {
+          "item": "SMD",
+          "action": "unload"
+        }
+      ]
+    },
+    {
+      "step": "2200",
+      "item_actions": [
+        {
+          "item": "ViP2",
+          "action": "load"
+        }
+      ]
+    },
+    {
+      "step": "2201",
+      "item_actions": [
+        {
+          "item": "ViP2",
+          "action": "do_work"
+        }
+      ]
+    },
+    {
+      "step": "2202",
+      "item_actions": [
+        {
+          "item": "ViP2",
+          "action": "unload"
+        }
+      ]
+    },
+    {
+      "step": "2300",
+      "item_actions": [
+        {
+          "item": "VOR",
+          "action": "load"
+        }
+      ]
+    },
+    {
+      "step": "2301",
+      "item_actions": [
+        {
+          "item": "VOR",
+          "action": "do_work"
+        }
+      ]
+    },
+    {
+      "step": "2302",
+      "item_actions": [
+        {
+          "item": "VOR",
+          "action": "unload"
+        }
+      ]
+    },
+    {
+      "step": "2400",
+      "item_actions": [
+        {
+          "item": "WL",
+          "action": "load"
+        }
+      ]
+    },
+    {
+      "step": "2401",
+      "item_actions": [
+        {
+          "item": "WL",
+          "action": "do_work"
+        }
+      ]
+    },
+    {
+      "step": "2402",
+      "item_actions": [
+        {
+          "item": "WL",
+          "action": "unload"
+        }
+      ]
+    },
+    {
+      "step": "2500",
+      "item_actions": [
+        {
+          "item": "WLCC",
+          "action": "load"
+        }
+      ]
+    },
+    {
+      "step": "2501",
+      "item_actions": [
+        {
+          "item": "WLCC",
+          "action": "do_work"
+        }
+      ]
+    },
+    {
+      "step": "2502",
+      "item_actions": [
+        {
+          "item": "WLCC",
+          "action": "unload"
+        }
+      ]
+    },
+    {
+      "step": "2600",
+      "item_actions": [
+        {
+          "item": "RSDS",
+          "action": "load"
+        }
+      ]
+    },
+    {
+      "step": "2601",
+      "item_actions": [
+        {
+          "item": "RSDS",
+          "action": "do_work"
+        }
+      ]
+    },
+    {
+      "step": "2602",
+      "item_actions": [
+        {
+          "item": "RSDS",
+          "action": "unload"
+        }
+      ]
+    },
+    {
+      "step": "2700",
+      "item_actions": [
+        {
+          "item": "SAPA",
+          "action": "load"
+        }
+      ]
+    },
+    {
+      "step": "2701",
+      "item_actions": [
+        {
+          "item": "SAPA",
+          "action": "do_work"
+        }
+      ]
+    },
+    {
+      "step": "2702",
+      "item_actions": [
+        {
+          "item": "SAPA",
+          "action": "unload"
+        }
+      ]
+    },
+    {
+      "step": "2800",
+      "item_actions": [
+        {
+          "item": "BBCC",
+          "action": "load"
+        }
+      ]
+    },
+    {
+      "step": "2801",
+      "item_actions": [
+        {
+          "item": "BBCC",
+          "action": "do_work"
+        }
+      ]
+    },
+    {
+      "step": "2802",
+      "item_actions": [
+        {
+          "item": "BBCC",
+          "action": "unload"
+        }
+      ]
+    },
+    {
+      "step": "2900",
+      "item_actions": [
+        {
+          "item": "WPV",
+          "action": "load"
+        }
+      ]
+    },
+    {
+      "step": "2901",
+      "item_actions": [
+        {
+          "item": "WPV",
+          "action": "do_work"
+        }
+      ]
+    },
+    {
+      "step": "2902",
+      "item_actions": [
+        {
+          "item": "WPV",
+          "action": "unload"
+        }
+      ]
+    }
+  ]
+}

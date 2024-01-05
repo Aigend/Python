@@ -1,0 +1,15 @@
+# Created by .ignore support plugin (hsz.mobi)
+.idea/
+*.pyc
+*.log
+.DS_Store
+.cache/
+test/__pycache__/
+__pycache__
+.pytest_cache/
+allure-results/
+report/
+.venv
+
+# Ignore test generated changes
+./config/ssh/config_tmp

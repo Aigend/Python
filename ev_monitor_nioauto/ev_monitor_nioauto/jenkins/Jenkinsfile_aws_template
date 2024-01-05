@@ -1,0 +1,132 @@
+def upstream_list = 'cvs-tsp-rvs-server-all-deploy-env_test' //上游job列表，逗号分隔。 用于upstream trigger
+def project_name = 'cvs-slytherin-docker'
+
+pipeline {
+    // jenkins根据如下配置在k8s中创建pod
+    agent {
+     kubernetes{
+            cloud 'kubernetes' //cloud关联 宝山私有云为kubernetes-test，aws云为kubernetes
+            label 'SEQ-AUTOTEST-PYTHON36-CVS-EVM' //label一定要写。运行自动化pod的前缀名
+            defaultContainer 'python36' //stages和post步骤中默认用到的container。如需指定其他container，可用语法 container("java8"){...}
+            idleMinutes 10 //所创建的pod在job结束后直到销毁前的等待时间
+            yamlFile "jenkins/jenkins_pod_template_aws.yaml" //指定创建pod时的yaml配置文件
+        }
+     }
+
+    parameters {
+        choice(name: 'env', choices: 'test\ndev\nstg', description: '测试环境，请选择dev？test？stg？')
+        string(name: 'keywords', defaultValue: 'test_charge_complete_process', description: '关键字，用于过滤测试用例，可以使用目录名、py文件名过滤')
+    }
+    environment {
+        //git相关
+        git_url = 'git@git.nevint.com:automation/slytherin_nioauto.git' //项目仓库地址
+        git_key = 'c8615bc3-c995-40ed-92ba-d5b66943f116' //固定值，不要修改
+        git_branch = 'master'
+        gitpullerr = 'noerr'
+
+        //job失败后发送的邮件名单
+        email_list = 'li.liu2@nio.com, hongzhen.bi@nio.com'
+
+        //代码覆盖率jacoco相关
+        git_service_url = 'git@git.nevint.com:greatwall/slytherin.git' //被测试服务的git地址
+        git_service_branch = 'jacoco_test' //被测试服务的brach
+        dump_ip='192.168.167.225' //被测服务的ip
+        dump_port='8987' //被测服务用于jacoco的端口
+        scannerHome = tool 'sonar-sanner-4.2' // sonar工具，用于在sonarqube上展示jacoco-report
+    }
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '30'))  //保存的job构建记录总数
+        timeout(time: 30, unit: 'MINUTES') //job超时时间
+        disableConcurrentBuilds() //不允许同时执行流水线
+    }
+    triggers {
+        //pollSCM('H * * * 1-5')//周一到周五，每小时
+        cron('30 H(1-2) * * *') //每天
+        //gitlab(triggerOnPush: false, triggerOnMergeRequest: false, branchFilterType: 'All')
+        //upstream(upstreamProjects: "${upstream_list}", threshold: hudson.model.Result.SUCCESS)
+    }
+    stages {
+        // 如果jenkins project的config里配了pipeline scripts from SCM，此步骤可参略
+        stage('拉取测试代码') {
+            steps {
+                git branch: "${git_branch}", credentialsId: "${git_key}", url: "${git_url}"
+            }
+        }
+        stage('安装测试依赖') {
+            steps {
+                // sh "pipenv --rm"
+                sh "pipenv install --skip-lock --ignore-pipfile"
+                sh "pipenv graph"
+            }
+        }
+        stage('执行测试用例') {
+            steps {
+                script {
+                    sh "rm -rf $env.WORKSPACE/allure-*"//执行前先清空报告
+                    sh "echo $PATH"
+                    sh "pipenv run py.test --env '${params.env}' -k '${params.keywords}'"
+                }
+            }
+        }
+    }
+    post {
+        always{
+            container("java8"){
+                // 将allure 报告展示到jenkins上
+                script {
+                    allure includeProperties: false, jdk: '', report: 'jenkins-allure-report', results: [[path: 'allure-results']]
+                }
+
+                // jacoco覆盖率相关
+                script {
+                    version = sh returnStdout: true ,script: "echo \$(curl -s http://venus.nioint.com/ext_api/version?env_name=${params.env}\\&project_name=${project_name} |jq '.data.version')"
+                    println(version);
+                    // 获取被测项目commitid
+                    def check_version = version[-9..-3]
+                    println(check_version);
+                    // 编译被测项目
+                    dir("${project_name}"){
+                        git branch: "${git_service_branch}", credentialsId: "${git_key}", url: "${git_service_url}"
+                        git checkout: "${git_service_branch}"
+                        sh 'mvn clean compile'
+                    }
+                    // 获取覆盖率数据
+                    sh """
+                        java -jar /usr/bin/jacococli.jar dump --address ${dump_ip} --port ${dump_port} --destfile jacoco-integration.exec
+                        java -jar /usr/bin/jacococli.jar report jacoco-integration.exec --classfiles   ${project_name}/target/classes   --xml  ${project_name}/jacoco-report.xml  --html  jacoco-report  --sourcefiles  ${project_name}/src/main/java --encoding utf-8
+                    """
+                    // 在Jenkins上展示jacoco-report
+                    jacoco(execPattern: 'jacoco-integration.exec', classPattern: "${project_name}/target/classes", sourcePattern: "${project_name}/src/main/java")
+                    // 在sonarqube上展示jacoco-report
+                    withSonarQubeEnv('sonar') {
+                        sh """
+                             cd ${project_name}
+                             ${scannerHome}/bin/sonar-scanner \
+                             -Dsonar.projectKey="${project_name}-CI" \
+                             -Dsonar.projectName="${project_name}-CI" \
+                             -Dsonar.sources=src \
+                             -Dsonar.sourceEncoding=UTF-8 \
+                             -Dsonar.java.binaries=target/classes \
+                             -Dsonar.language=java \
+                             -Dsonar.dynamicAnalysis=reuseReports \
+                             -Dsonar.java.coveragePlugin=jacoco \
+                             -Dsonar.coverage.jacoco.xmlReportPaths=jacoco-report.xml \
+                             -Dsonar.projectVersion=${version}
+                         """
+                    }
+                }
+            }
+        }
+        failure {
+            script {
+                if (gitpullerr == 'noerr') {
+                    mail to: "${email_list}",
+                    subject: "[Jenkins Build Notification] ${JOB_NAME} - Build # ${BUILD_NUMBER} -构建失败!",
+                    body: "'${env.JOB_NAME}' (${env.BUILD_NUMBER}) 执行失败了 \n请及时前往 ${env.BUILD_URL} 进行查看"
+                } else {
+                    echo 'scm pull error ignore send mail'
+                }
+            }
+        }
+    }
+}

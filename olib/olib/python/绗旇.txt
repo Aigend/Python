@@ -1,0 +1,97 @@
+python:
+    bytes和bytearray,大小端模式：
+        https://blog.csdn.net/u013008795/article/details/88945733
+	线程锁:
+	    https://z.itpub.net/article/detail/DE03B9C2CC0ECD3366C7ADCDE9550CE6
+	元类，__new__的执行顺序：
+	    https://blog.csdn.net/weixin_43988680/article/details/123903473
+	python终端编码问题解决
+        https://www.zybuluo.com/wzhang1117/note/803061
+	pyenv 配置多版本的python环境:
+	    https://www.jianshu.com/p/8aaf2525fa80
+        https://blog.51cto.com/u_14320361/2488888
+	ctypes库：
+	    https://docs.python.org/zh-cn/3.7/library/ctypes.html#arrays
+	一个强大的命令行解析器Plumbum:
+	    https://www.jianshu.com/p/e13fd0c38acf
+	psutil库:
+	    http://www.360doc.com/content/21/1112/16/51091873_1003876985.shtml
+	queue中task_done和join用法：Python queue模块详解 - lincappu - 博客园
+	for 和迭代器对象、可迭代对象的关系：
+		Python学习之:一文搞懂 for 和迭代器对象、可迭代对象的关系，以及他们各自的用处_for语句产生的可迭代对象为空_暖仔会飞的博客-CSDN博客
+	ThreadPoolExecutor的submit和map使用:http://c.biancheng.net/view/2627.html
+	python中Base64原理和使用:python中Base64原理和使用
+	hashlib的使用:进行数据账号加密和完整性验证：
+		https://blog.csdn.net/dreaming_coder/article/details/108247249
+	asyncio教程:https://www.liujiangblog.com/course/python/83
+		api:https://docs.python.org/zh-cn/3.9/library/asyncio-task.html#task-object
+		https://www.jianshu.com/p/6d582b07c65a
+	抽象基类，six模块的作用，直接继承和虚拟子类：
+		Python高级:了解Python ABC(抽象基类)及 应用场景_hurt--的博客-CSDN博客
+	requests post请求data和json数据格式深入：知乎 - 有问题，就会有答案
+
+
+redis:
+	中文官网：https://www.redis.com.cn/redis-stream.html
+
+git：
+	官网：https://git-scm.com/book/zh/v2/Git-%E5%88%86%E6%94%AF-%E5%8F%98%E5%9F%BA
+
+
+jenkins
+	教程参考：https://www.bilibili.com/video/BV19M4y1c7m4
+	官网：https://www.jenkins.io/zh/
+
+grpc:
+	grpc| python 实战 grpc:https://www.jianshu.com/p/43fdfeb105ff
+
+
+java
+	java泛型：https://blog.csdn.net/qq_66912832/article/details/125272259
+
+kafka:
+	文档：https://kafka-python.readthedocs.io/en/master/apidoc/KafkaConsumer.html
+	使用介绍：kafka实战教程(python操作kafka)，kafka配置文件详解_kafka python_腾讯数据架构师的博客-CSDN博客
+
+mqtt:
+	MQTT协议基础：https://www.51cto.com/article/670429.html
+	MQTT深入：https://blog.csdn.net/CM_STC89C52/article/details/122712188
+	python调用mqtt:https://blog.csdn.net/weixin_41656968/article/details/80848542#13subscribe
+
+Mysql:
+	MySQL为什么要用B+树实现索引:
+		https://cloud.tencent.com/developer/article/1543335
+
+docker:
+	在用：https://yeasy.gitbook.io/docker_practice/image/build
+	参考官网：https://docs.docker.com/engine/reference/commandline/
+	中文参考网站：
+	  https://yeasy.gitbook.io/docker_practice/image/dockerfile
+	  https://outmanzzq.github.io/2019/10/22/docker-network/#%E4%BA%8C%E9%BB%98%E8%AE%A4%E7%BD%91%E7%BB%9C
+	视频教程：https://www.bilibili.com/video/BV1og4y1q7M4?p=2
+	docker-compose教程(安装，使用, 快速入门)_pushiqiang的博客-CSDN博客
+
+can 通信：
+	知乎 - 有问题，就会有答案
+	https://blog.csdn.net/weixin_45403142/article/details/120075619
+	https://blog.csdn.net/LiuXF93/article/details/113729294
+
+boost库实现python和C通信：
+	教程：Boost库学习与应用_翔底的博客-CSDN博客
+	# 官方网站
+		https://www.boost.org/
+		# 下载地址
+		https://www.boost.org/users/download/
+		# 预编译版本下载地址
+		https://sourceforge.net/projects/boost/files/boost-binaries/
+		wget https://boostorg.jfrog.io/artifactory/main/release/1.73.0/source/boost_1_73_0.tar.bz2 --no-check-certificate
+		tar xvf boost_1_73_0.tar.bz2
+		cd boost_1_73_0
+		./boostrap.sh
+		./b2 --buildtype=complete install
+
+modbus:
+	半双工通信：数据可以在一个信号载体的两个方向上传输，但是不能同时传输
+	例如，在一个局域网上使用具有半双工传输的技术，一个工作站可以在线上发送数据，然后立即在线上接收数据，
+	这些数据来自数据刚刚传输的方向。 
+	像全双工传输一样，半双工包含一个双向线路（线路可以在两个方向上传递数据）

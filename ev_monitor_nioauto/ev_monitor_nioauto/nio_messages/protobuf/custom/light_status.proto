@@ -1,0 +1,17 @@
+option java_package = "com.nextev.cvs_proto.protobuf.custom";
+option java_outer_classname = "LightStatusUnit";
+
+message LightStatus {
+    // 灯相关数据
+
+    optional Status hi_beam_on = 1; // High Beam Status
+    optional Status lo_beam_on = 2; // Low Beam Status
+    optional Status head_light_on = 3; // Head Light Status
+
+    enum Status {
+        LIGHT_OFF = 0;
+        LIGHT_ON = 1;
+        LIGHT_RESERVED = 2;
+        LIGHT_INVALID = 3;
+    }
+}

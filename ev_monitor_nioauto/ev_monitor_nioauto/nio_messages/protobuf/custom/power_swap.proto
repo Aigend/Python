@@ -1,0 +1,191 @@
+syntax = "proto2";
+option java_package = "com.nextev.cvs_proto.protobuf.custom";
+option java_outer_classname = "PowerSwapUnit";
+
+    // 换电相关
+message PowerSwapPeriodic {
+    optional PwrSwapProcessStatus pwr_swap_process = 1; //
+    optional StationPwrSwapStepStatus station_pwr_swap_step = 2; //
+    optional ChdSecuDoorLockReqStatus cdc_chd_secu_door_lock_req = 3;//CDC child door lock req
+    optional ChdSecuDoorLockReqStatus cgw_chd_secu_door_lock_unlock = 4;//CGW child door unlock
+    optional ChdSecuDoorLockReqStatus bcm_chd_secu_door_lock_sts = 5;//BCM child door//BCM child door sts
+
+    enum ChdSecuDoorLockReqStatus{
+        CHD_SECU_LOCK_NO_CHD_DOOR_LOCK = 0;
+        CHD_SECU_LOCK_CHD_DOOR_LOCK = 1;
+        CHD_SECU_LOCK_RESERVED = 2;
+        CHD_SECU_LOCK_INVALID = 3;
+    }
+    //VAL_ 770 PwrSwapProc 15 "Invalid" 14 "Reserved" 13 "Reserved" 12 "Reserved"
+    //11 "Reserved" 10 "Reserved" 9 "Exit PS" 8 "New battery info match" 7 "Diagnose"
+    //6 "Swap HV Battery" 5 "Swap prepare" 4 "Vehicle prepare" 3 "Info match" 2 "Authen" 1 "PSAP" 0 "No action" ;
+    enum PwrSwapProcessStatus {
+        PWR_SWAP_PROCESS_NO_ACTION = 0;
+        PWR_SWAP_PROCESS_PSAP = 1;
+        PWR_SWAP_PROCESS_AUTHEN = 2;
+        PWR_SWAP_PROCESS_INFO_MATCH = 3;
+        PWR_SWAP_PROCESS_VEHICLE_PREPARE = 4;
+        PWR_SWAP_PROCESS_SWAP_PREPARE = 5;
+        PWR_SWAP_PROCESS_SWAP_HV_BATTERY = 6;
+        PWR_SWAP_PROCESS_DIAGNOSE = 7;
+        PWR_SWAP_PROCESS_NEW_BATTERY_INFO_MATCH = 8;
+        PWR_SWAP_PROCESS_EXIT_PS  = 9;
+        PWR_SWAP_PROCESS_RESERVED = 10;
+        PWR_SWAP_PROCESS_INVALID  = 11;
+    }
+    //VAL_ 770 StationPwrSwapStep 15 "Invalid" 14 "Reserved" 13 "Reserved"
+    //12 "Reserved" 11 "Reserved" 10 "Reserved" 9 "Reserved" 8 "Reserved"
+    //7 "Diagnose" 6 "Close the door" 5 "Loading" 4 "Transferring" 3 "Unloading" 2 "Open the door" 1 "Prepare" 0 "No action" ;
+    enum StationPwrSwapStepStatus {
+        STATION_PWR_SWAP_STEP_NO_ACTION = 0;
+        STATION_PWR_SWAP_STEP_PREPARE = 1;
+        STATION_PWR_SWAP_STEP_OPEN_THE_DOOR = 2;
+        STATION_PWR_SWAP_STEP_UNLOADING = 3;
+        STATION_PWR_SWAP_STEP_TRANSFERRING = 4;
+        STATION_PWR_SWAP_STEP_LOADING = 5;
+        STATION_PWR_SWAP_STEP_CLOSE_THE_DOOR = 6;
+        STATION_PWR_SWAP_STEP_DIAGNOSE = 7;
+        STATION_PWR_SWAP_STEP_RESERVED = 8;
+        STATION_PWR_SWAP_STEP_INVALID  = 9;
+    }
+}
+
+message PowerSwapEvent {
+    optional VehPwrSwapModReqStatus veh_pwr_swap_mod_req = 1;
+    optional PwrSwapModStsStatus pwr_swap_mod_sts = 2;
+    optional PwrSwapResStatus pwr_swap_res = 3;
+    optional VehPosnConfirmStatus veh_posn_confirm = 4;
+    optional VehPrepReqStatus veh_prep_req = 5;
+    optional PwrSwapCdnPrepStatus pwr_swap_cdn_prep = 6;
+    optional EPBStsStatus epb_sts = 7;
+    optional VCUActGearStatus vcu_act_gear = 8;
+    optional LCDeactivationRequestStsStatus lc_deactivation_request_sts = 9;
+    optional ChdSecuDoorLockStsStatus chd_secu_door_lock_sts = 10;
+    optional PwrSwapModFailrWarnStatus pwr_swap_mod_failr_warn = 11;
+    optional PwrSwapWarnTextStatus pwr_swap_warn_text = 12;
+    optional float pwr_swap_steer_whl_rotn_ag = 13; // steer wheel rotation angle
+    //VAL_ 431 VehPwrSwapModReq 3 "Invalid" 2 "Off" 1 "On" 0 "No action" ;
+    enum VehPwrSwapModReqStatus{
+        VEH_PWR_SWAP_MOD_REQ_NO_ACTION = 0;
+        VEH_PWR_SWAP_MOD_REQ_ON = 1;
+        VEH_PWR_SWAP_MOD_REQ_OFF = 2;
+        VEH_PWR_SWAP_MOD_REQ_INVALID  = 3;
+    }
+
+    //VAL_ 770 PwrSwapModSts 7 "Invalid" 6 "Reserved" 5 "Reserved" 4 "Reserved" 3 "Reserved" 2 "Reserved" 1 "On" 0 "Off" ;
+    enum PwrSwapModStsStatus{
+        PWR_SWAP_MOD_STS_OFF = 0;
+        PWR_SWAP_MOD_STS_ON = 1;
+        PWR_SWAP_MOD_STS_RESERVED = 2;
+        PWR_SWAP_MOD_STS_INVALID = 3;
+    }
+
+    //VAL_ 770 PwrSwapRes 3 "Reserved" 2 "Fail" 1 "Success" 0 "No request" ;
+    enum PwrSwapResStatus{
+        PWR_SWAP_RES_NO_REQUEST = 0;
+        PWR_SWAP_RES_SUCCESS = 1;
+        PWR_SWAP_RES_FAIL = 2;
+        PWR_SWAP_RES_RESERVED = 3;
+    }
+
+    //VAL_ 770 VehPosnConfirm 3 "Invalid" 2 "Reserved" 1 "Confirmed" 0 "Not confirmed" ;
+    enum VehPosnConfirmStatus{
+        VEH_POSN_CONFIRM_NOT_CONFIRMED = 0;
+        VEH_POSN_CONFIRM_CONFIRMED = 1;
+        VEH_POSN_CONFIRM_RESERVED = 2;
+        VEH_POSN_CONFIRM_INVALID = 3;
+    }
+    //VAL_ 770 VehPrepReq 3 "Invalid" 2 "Reserved" 1 "Prepared" 0 "Not prepared" ;
+    enum VehPrepReqStatus{
+        VEH_PREP_REQ_NOT_PREPARED = 0;
+        VEH_PREP_REQ_PREPARED = 1;
+        VEH_PREP_REQ_INVALID = 2;
+    }
+    //VAL_ 699 PwrSwapCdnPrep 3 "Invalid" 2 "Reserved" 1 "Prepared" 0 "Not prepared" ;
+    enum PwrSwapCdnPrepStatus{
+        PWR_SWAP_CDN_PREP_NOT_PREPARED = 0;
+        PWR_SWAP_CDN_PREP_PREPARED = 1;
+        PWR_SWAP_CDN_PREP_RESERVED = 2;
+        PWR_SWAP_CDN_PREP_INVALID = 3;
+    }
+    //VAL_ 91 EPBSts 7 " Reserved" 6 " Reserved" 5 " Reserved" 4 " EPB applying"
+    //3 " EPB not applied" 2 " EPB releasing" 1 " EPB applied" 0 " Unknown" ;
+    enum EPBStsStatus{
+        EPB_STS_UNKNOW = 0;
+        EPB_STS_EPB_APPLIED = 1;
+        EPB_STS_EPB_RELEASING = 2;
+        EPB_STS_EPB_NOT_APPLIED = 3;
+        EPB_STS_EPB_APPLYING = 4;
+    }
+    //VAL_ 535 VCUActGear 7 " Invalid" 6 " Reserved" 5 " Reserved" 4 " Reserved"
+    //3 " Parking" 2 " Reverse" 1 " Drive" 0 " Neutral" ;
+    enum VCUActGearStatus{
+        VCU_ACT_GEAR_NEUTRAL = 0;
+        VCU_ACT_GEAR_DRIVE = 1;
+        VCU_ACT_GEAR_RESERVED = 2;
+        VCU_ACT_GEAR_PARKING = 3;
+        VCU_ACT_GEAR_INVALID = 4;
+    }
+    //VAL_ 654 LC_Deactivation_RequestSts 1 "Allowed" 0 "Not allowed" ;
+    enum LCDeactivationRequestStsStatus{
+        LC_DEACTIVATION_REQUEST_STS_NOT_ALLOWED = 0;
+        LC_DEACTIVATION_REQUEST_STS_ALLOWED = 1;
+    }
+    //VAL_ 432 ChdSecuDoorLockSts 3 " Invalid" 2 " Reserved" 1 " Child door lock" 0 " No Child door lock" ;
+    enum ChdSecuDoorLockStsStatus{
+        CHD_SECU_DOOR_LOCK_STS_NO_CHILD_DOOR_LOCK = 0;
+        CHD_SECU_DOOR_LOCK_STS_CHILD_DOOR_LOCK = 1;
+        CHD_SECU_DOOR_LOCK_STS_RESERVED = 2;
+        CHD_SECU_DOOR_LOCK_STS_INVALID = 3;
+    }
+    //VAL_ 770 PwrSwapModFailrWarn 7 "Invalid" 6 "Vehicle gear position error" 5 "Vehicle position error"
+    //4 "Authrozation failure" 3 "TLS disconnect" 2 "Wifi disconnect" 1 "12v battery SOC low" 0 "No warning" ;
+    enum PwrSwapModFailrWarnStatus{
+        PWR_SWAP_MOD_FAILR_WARN_NO_WARNING = 0;
+        PWR_SWAP_MOD_FAILR_WARN_TWELVE_V_BATTERY_SOC_LOW = 1;
+        PWR_SWAP_MOD_FAILR_WARN_WIFI_DISCONNECT = 2;
+        PWR_SWAP_MOD_FAILR_WARN_TLS_DISCONNECT = 3;
+        PWR_SWAP_MOD_FAILR_WARN_AUTHROZATION_FAILURE = 4;
+        PWR_SWAP_MOD_FAILR_WARN_VEHICLE_POSITION_ERROR = 5;
+        PWR_SWAP_MOD_FAILR_WARN_VEHICLE_GEAR_POSITION_ERROR = 6;
+        PWR_SWAP_MOD_FAILR_WARN_INVALID = 7;
+    }
+    //VAL_ 770 PwrSwapWarnText 63 "Invalid" 26 "fire alarm" 25 "station serious alarm"
+    //24 "station general alarm" 23 "communication disconnect" 22 "new battery info match fail"
+    //21 "diagnose fail" 20 "swap timeout" 19 "station swap pause" 18 "station swap HV Battery fail"
+    //17 "vehicle sleep fail" 16 "power down fail" 15 "info match timeout" 14 "standstill state error"
+    //13 "Vehicle info match fail" 12 "Vehicle info collect fail" 11 "Vehicle Gear Position Error"
+    //10 "Auth timeout" 9 "Vehicle Position error" 8 "PS is busy now" 7 "Illegal auth info"
+    //6 "Request invalid ps id" 5 "Ps is not ready" 4 "Auth Info Expired" 3 "Auth TLS disconnect"
+    //2 "Auth WiFi disconnect" 1 "12V Battery SOC low" 0 "No warning" ;
+    enum PwrSwapWarnTextStatus{
+        PWR_SWAP_WARN_TEXT_NO_WARNING = 0;
+        PWR_SWAP_WARN_TEXT_TWELVE_V_BATTERY_SOC_LOW = 1;
+        PWR_SWAP_WARN_TEXT_AUTH_WIFI_DISCONNECT = 2;
+        PWR_SWAP_WARN_TEXT_AUTH_TLS_DISCONNECT = 3;
+        PWR_SWAP_WARN_TEXT_AUTH_INFO_EXPIRED = 4;
+        PWR_SWAP_WARN_TEXT_PS_IS_NOT_READY = 5;
+        PWR_SWAP_WARN_TEXT_REQUEST_INVALID_PS_ID = 6;
+        PWR_SWAP_WARN_TEXT_ILLEGAL_AUTH_INFO = 7;
+        PWR_SWAP_WARN_TEXT_PS_IS_BUSY_NOW = 8;
+        PWR_SWAP_WARN_TEXT_VEHICLE_POSITION_ERROR = 9;
+        PWR_SWAP_WARN_TEXT_AUTH_TIMEOUT = 10;
+        PWR_SWAP_WARN_TEXT_VEHICLE_GEAR_POSITION_ERROR = 11;
+        PWR_SWAP_WARN_TEXT_VEHICLE_INFO_COLLECT_FAIL = 12;
+        PWR_SWAP_WARN_TEXT_VEHICLE_INFO_MATCH_FAIL = 13;
+        PWR_SWAP_WARN_TEXT_STANDSTILL_STATE_ERROR = 14;
+        PWR_SWAP_WARN_TEXT_INFO_MATCH_TIMEOUT = 15;
+        PWR_SWAP_WARN_TEXT_POWER_DOWN_FAIL = 16;
+        PWR_SWAP_WARN_TEXT_VEHICLE_SLEEP_FAIL = 17;
+        PWR_SWAP_WARN_TEXT_STATION_SWAP_HV_BATTERY_FAIL = 18;
+        PWR_SWAP_WARN_TEXT_STATION_SWAP_PAUSE = 19;
+        PWR_SWAP_WARN_TEXT_SWAP_TIMEOUT = 20;
+        PWR_SWAP_WARN_TEXT_DIAGNOSE_FAIL = 21;
+        PWR_SWAP_WARN_TEXT_NEW_BATTERY_INFO_MATCH_FAIL = 22;
+        PWR_SWAP_WARN_TEXT_COMMUNICATION_DISCONNECT = 23;
+        PWR_SWAP_WARN_TEXT_STATION_GENERAL_ALARM = 24;
+        PWR_SWAP_WARN_TEXT_STATION_SERIOUS_ALARM = 25;
+        PWR_SWAP_WARN_TEXT_FIRE_ALARM = 26;
+        PWR_SWAP_WARN_TEXT_INVALID = 63;
+    }
+}

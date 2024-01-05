@@ -1,0 +1,42 @@
+option java_package = "com.nextev.cvs_proto.protobuf.custom";
+option java_outer_classname = "DTCStatusUnit";
+
+message DTCStatusResp {
+    
+    repeated DTCStatus  dtcs = 1; // mapping to query DTCs
+    optional DTCExtData dtc_ext_data = 2; // mapping to query one DTC
+    repeated ClrDTCStatus clr_dtc = 3; // mapping to clear DTC
+    optional DTCSnapshot dtc_snapshot = 4; // mapping to query snapshot of DTC
+    
+    message DTCExtData {
+        optional int32 ecu_no = 1;
+        optional int32 dtc_no = 2;
+        optional uint32 occ_counter = 3;
+        optional uint64 occ_ts = 4; // occur time (utc timestamp in seconds)
+        optional int32 odo_val = 5;
+        optional int32 lv_batt_vol = 6;
+        optional int32 veh_speed = 7;
+        optional int32 status = 8;
+    }
+
+    message ClrDTCStatus {
+        optional int32 ecu_no = 1;
+        optional int32 status = 2; // status = 0 if success, refer to the negative response code table
+    }
+    
+    message DTCStatus {
+        optional int32 ecu_no = 1;
+        optional int32 dtc_no = 2; // dtc_no = -1 if failed to get the DTC status for specific ECU, and the failure reason outside maybe 'partial_fail'
+        optional int32 status = 3;
+    }
+    
+    message DTCSnapshot {
+        optional int32 ecu_no = 1;
+        optional int32 dtc_no = 2;
+        optional int32 status = 3;
+        optional int32 record_no = 4;
+        optional int32 identifiers = 5; // size of did data
+        optional string ecu_version = 6;
+        repeated string did_data = 7;
+    }
+}

@@ -1,0 +1,22 @@
+import "can_msg.proto";
+import "position_status.proto";
+import "driving_data.proto";
+option java_package = "com.nextev.cvs_proto.protobuf.events";
+option java_outer_classname = "HighFrequencyMessage";
+
+message HighFrequencyEvent {
+    optional string id = 1; // unique id, VIN for vehicle data
+    optional string dbc_type = 2; // dbc version
+    optional int32 version = 3; // message protocol version
+    optional uint64 sample_ts = 4; // status change time
+    repeated HighFreData high_fre_data = 5; // high frequency data
+
+}
+
+message HighFreData {
+    optional uint64 sample_time = 1; // data collection time
+    optional CanMsg can_msg = 2; //can data
+    optional PositionStatus.Attitude attitude = 3; // gpsd data
+    optional DrivingData steerWhlag = 4; // steering wheel angle
+
+}

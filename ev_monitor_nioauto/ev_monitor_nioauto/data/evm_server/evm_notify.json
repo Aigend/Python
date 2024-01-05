@@ -1,0 +1,295 @@
+{
+    "precondition": {
+        "headers": {
+            "content-type": "application/json"
+        },
+        "payload": {
+            "icc_id": "ICCLJTESTO1528282594",
+            "reissue": false,
+            "charge_id": "201903070001",
+            "around_alarm": 1,
+            "sample_points": [
+            {
+                "alarm_signal": {
+                    "signal_int": [
+                        {
+                            "name": "BCM_13:TpmsReLeWhlDeltaPressSts",
+                            "sn": "1552043360566",
+                            "value": 1
+                        }
+                    ]
+                },
+                "bms_status": {
+                    "avg_cell_volt": 4.663000106811523,
+                    "avg_temp": -15,
+                    "chrg_pwr_lmt": 518.0999755859375,
+                    "dischrg_pwr_lmt": 374.1000061035156,
+                    "health_status": 85.4000015258789,
+                    "in_coolant_temp": 7.875,
+                    "isolation_level": 2,
+                    "out_coolant_temp": 6.25
+                },
+                "can_msg": {
+
+                },
+                "charging_info": {
+                    "charger_type": 5,
+                    "estimate_chrg_time": 1138,
+                    "in_volt_ac": 52.7,
+                    "in_volt_dc": 323.49
+                },
+                "driving_data": {
+                    "aclrtn_pedal_posn": 59.58399963378906,
+                    "average_speed": 22.331249237060547,
+                    "brk_pedal_sts": {
+                        "state": 1,
+                        "valid": 0
+                    },
+                    "max_speed": 347.3999938964844,
+                    "min_speed": 205.08749389648438,
+                    "steer_whl_rotn_ag": 605.4000244140625,
+                    "steer_whl_rotn_spd": 860,
+                    "vcu_drvg_mod": 0
+                },
+                "driving_motor": {
+                    "motor_list": [
+                        {
+                            "drvmotr_cntrl_temp": 27,
+                            "drvmotr_contl_dc_bus_curnt": -835.7999877929688,
+                            "drvmotr_contl_involt": 805,
+                            "drvmotr_rotn_spd": 654,
+                            "drvmotr_rotn_torq": -194.375,
+                            "drvmotr_sn": 1,
+                            "drvmotr_sts": 1,
+                            "drvmotr_temp": 193,
+                            "max_neg_torq_st": -436.625,
+                            "max_pos_torq_st": -1360.5,
+                            "torq_command": 1162.5
+                        },
+                        {
+                            "drvmotr_cntrl_temp": 84,
+                            "drvmotr_contl_dc_bus_curnt": 1120.4000244140625,
+                            "drvmotr_contl_involt": 197.25,
+                            "drvmotr_rotn_spd": -15472,
+                            "drvmotr_rotn_torq": -607.875,
+                            "drvmotr_sn": 2,
+                            "drvmotr_sts": 255,
+                            "drvmotr_temp": 62,
+                            "max_neg_torq_st": 1437,
+                            "max_pos_torq_st": -1843.5,
+                            "torq_command": 1644.25
+                        }
+                    ],
+                    "pwr_sys_rdy": true
+                },
+                "evm_flag": true,
+                "sample_ts": 0,
+                "extremum_data": {
+                    "highest_temp": 38,
+                    "hist_temp_btry_sbsys_sn": 81,
+                    "hist_temp_prb_sn": 31,
+                    "hist_volt_btry_sbsys_sn": 42,
+                    "hist_volt_singl_btry_sn": 154,
+                    "lowest_temp": -33.5,
+                    "lwst_temp_btry_sbsys_sn": 90,
+                    "lwst_temp_prb_sn": 114,
+                    "lwst_volt_btry_sbsys_sn": 175,
+                    "lwst_volt_singl_btry_sn": 241,
+                    "sin_btry_hist_volt": 3.9800000190734863,
+                    "sin_btry_lwst_volt": 0.1679999977350235
+                },
+                "hvac_status": {
+                    "air_con_on": true,
+                    "amb_temp_c": 30.5,
+                    "cbn_pre_sts": 3,
+                    "ccu_cbn_pre_ac_ena_sts": 1,
+                    "ccu_cbn_pre_aqs_ena_sts": 1,
+                    "outside_temp_c": 39.5,
+                    "pm_2p5_cabin": 912,
+                    "pm_2p5_filter_active": true
+                },
+                "occupant_status": {
+                    "fr_le_seat_occupant_status": 0,
+                    "fr_ri_seat_occupant_status": 2
+                },
+                "position_status": {
+                    "altitude": 1585.7,
+                    "altitude_uncertainty": 1660.5,
+                    "attitude": {
+                        "acc_len": 2750555.79,
+                        "acc_x": 43362271.98,
+                        "acc_x_calib_sts": 3,
+                        "acc_y": 26878906.41,
+                        "acc_y_calib_sts": 0,
+                        "acc_z": 46058066.31,
+                        "acc_z_calib_sts": 0,
+                        "depth": -13.18,
+                        "dip": 131.47,
+                        "gyro_x": 31099223.81,
+                        "gyro_x_calib_sts": 2,
+                        "gyro_y": 42493123.41,
+                        "gyro_y_calib_sts": 1,
+                        "gyro_z": 7184593.06,
+                        "gyro_z_calib_sts": 0,
+                        "heading": 201.23,
+                        "imu_status": 4,
+                        "mag_len": 5126.67,
+                        "mag_x": 37628.57,
+                        "mag_y": 20704.31,
+                        "mag_z": 32979.75,
+                        "pitch": -56.03,
+                        "roll": 118.9,
+                        "sensors": [
+                            {
+                                "cal_status": 1,
+                                "fault_bad_meas": true,
+                                "fault_bad_ttag": false,
+                                "fault_missing_meas": false,
+                                "fault_noisy_meas": false,
+                                "is_ready": true,
+                                "is_used": false,
+                                "obs_freq": 64,
+                                "time_status": 1,
+                                "type": 4
+                            }
+                        ],
+                        "single_tick_calib_sts": 0,
+                        "temp": 166.73,
+                        "x_accel": 87,
+                        "x_accel_valid": true,
+                        "x_ang_rate": 362,
+                        "x_ang_rate_valid": false,
+                        "y_accel": 251,
+                        "y_accel_valid": false,
+                        "y_ang_rate": 184,
+                        "y_ang_rate_valid": false,
+                        "yaw": 62.43,
+                        "z_accel": 181,
+                        "z_accel_valid": true,
+                        "z_ang_rate": 380,
+                        "z_ang_rate_valid": true
+                    },
+                    "climb": -76.637,
+                    "climb_uncertainty": 836.135,
+                    "fusion_mode": 4,
+                    "gps_speed": 332,
+                    "gps_speed_uncertainty": 77,
+                    "gps_ts": 1552043360465,
+                    "heading": 37,
+                    "latitude": 39.464656,
+                    "latitude_uncertainty": -154.156,
+                    "longitude": 122.018616,
+                    "longitude_uncertainty": 134.815,
+                    "mode": 5,
+                    "posng_valid_type": 2,
+                    "satellite": {
+                        "quantity": 9032,
+                        "skyview": [
+                            {
+                                "azimuth": 144,
+                                "elevation": 77,
+                                "prn_id": 162,
+                                "snr": 97.959558,
+                                "used": true
+                            }
+                        ],
+                        "snr": [
+                            68.651158,
+                            25.64139
+                        ]
+                    }
+                },
+                "soc_status": {
+                    "btry_cap": 864.7999877929688,
+                    "btry_paks": [
+                        {
+                            "btry_pak_curnt": 1570.9000244140625,
+                            "btry_pak_hist_temp": 82.5,
+                            "btry_pak_lwst_temp": 2,
+                            "btry_pak_sn": 1,
+                            "btry_pak_voltage": 320,
+                            "frm_start_btry_sn": 1,
+                            "prb_temp_lst": [
+                                10,
+                                20,
+                                30
+                            ],
+                            "sin_btry_qunty_of_frm": 3,
+                            "sin_btry_qunty_of_pak": 3,
+                            "sin_btry_voltage": [
+                                10,
+                                20,
+                                30
+                            ],
+                            "temp_prb_qunty": 3
+                        }
+                    ],
+                    "btry_qual_actvtn": false,
+                    "chrg_final_soc": 66,
+                    "chrg_state": 0,
+                    "dump_enrgy": 71.4000015258789,
+                    "hivolt_btry_curnt": 1164,
+                    "realtime_power_consumption": 667,
+                    "remaining_range": 448,
+                    "sin_btry_hist_temp": -24,
+                    "sin_btry_lwst_temp": 139,
+                    "soc": 54
+                },
+                "tyre_status": {
+                    "frnt_le_whl_press": 115.33200073242188,
+                    "frnt_le_whl_temp": 177,
+                    "frnt_ri_whl_press": 350.114990234375,
+                    "frnt_ri_whl_temp": 160,
+                    "re_le_whl_press": 190.8470001220703,
+                    "re_le_whl_temp": 34,
+                    "re_ri_whl_press": 12.357000350952148,
+                    "re_ri_whl_temp": 202
+                },
+                "vehicle_status": {
+                    "chrg_state": 254,
+                    "comf_ena": 0,
+                    "dc_dc_sts": 255,
+                    "gear": 4,
+                    "insulatn_resis": 23238,
+                    "mileage": 12456251,
+                    "oprtn_mode": 3,
+                    "soc": 96.5,
+                    "speed": 64.0687484741211,
+                    "urgt_prw_shtdwn": true,
+                    "vehl_state": 255,
+                    "vehl_totl_curnt": -1721,
+                    "vehl_totl_volt": 551.5
+                }
+            }
+        ] }
+    },
+    "test": [
+      {
+        "case": "events type=clean_unsent_evm_message, kafka recieves 1 message, return success",
+        "querystring": {
+              "app_id": 10001,
+              "lang": "zh-cn",
+              "timestamp": 1487597732
+            },
+        "payload": {
+              "events": [
+                {
+                  "type": "clean_unsent_evm_message",
+                  "cleans": [
+                    {
+                      "attribution": 156,
+                      "vin": "LJTESTO1528282604",
+                      "start_ts": 1548147602000,
+                      "end_ts": 1548147602000
+                    }
+                  ]
+                }
+              ]
+            },
+        "headers": {
+              "content-type": "application/x-www-form-urlencoded"
+            },
+        "expected": {}
+      }
+    ]
+}

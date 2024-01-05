@@ -1,0 +1,16 @@
+option optimize_for = LITE_RUNTIME;
+
+option java_package = "com.nextev.cvs_proto.protobuf.events";
+option java_outer_classname = "BMSDIDMessage";
+
+message BMSDIDEvent {
+    optional string id = 1; // unique id, VIN for vehicle data
+    optional int32 version = 2; // message protocol version
+    optional uint64 sample_ts = 3; // sample time
+    repeated DIDInfo did_info = 4; // BMS DID info
+}
+
+message DIDInfo {
+    optional string id = 1;       //BMS did_number
+    optional string value = 2;    //value of related DID
+}

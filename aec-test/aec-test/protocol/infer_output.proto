@@ -1,0 +1,104 @@
+syntax = "proto2";
+package aec;
+
+message infer_result_output
+{
+  required int32 result = 1;
+  required int32 error_code = 2;
+  required string reason = 3;
+  optional string detail = 4;
+  optional string mode = 5;
+}
+
+message BSA_result
+{
+  required int32 result = 1;
+  repeated int32 detect_items = 2;
+  required string timestamp = 3;
+  optional string origin_img_name = 4;
+  optional int32 origin_img_transfer_state = 5;
+  optional string failure_img_name = 6;
+  optional int32 failure_img_transfer_state = 7;
+  optional int32 battery_type = 8;
+}
+
+message BBSA_result
+{
+  required string timestamp = 1;
+  optional string img_name = 2;
+  optional int32 img_transfer_state = 3;
+  optional int32 battery_type = 4;
+  optional string origin_img_name = 5;
+  optional int32 origin_img_transfer_state = 6;
+  optional string failure_img_name = 7;
+  optional int32 failure_img_transfer_state = 8;
+  optional int32 result = 9;
+}
+
+message WL_result
+{
+  required  double res1 = 1;
+  required  double res2 = 2;
+  optional  double res3 = 3;
+  required  double threshold = 4;
+  required  string timestamp = 5;
+}
+
+message PiP_result
+{
+  required  int32 res = 1;
+  required  string  timestamp = 2;
+}
+
+enum AEC_battery_type
+{
+  service_battery = 1;
+  vehicle_battery = 2;
+  na_battery = 255;
+}
+
+message ViP_result
+{
+  required int32 result = 1;
+  optional  double res1 = 2;
+  optional  double res2 = 3;
+  optional  double threshold = 4;
+  optional  string timestamp = 5;
+}
+
+message VOR_result
+{
+  required int32 result = 1;
+  required string timestamp = 2;
+  required string detail = 3;
+}
+
+message RSDS_result
+{
+  optional  int32 front_up_state = 1;
+  optional  int32 front_down_state = 2;
+  optional  int32 back_up_state = 3;
+  optional  int32 back_down_state = 4;
+  required  string timestamp = 5;
+}
+
+message PPP_result
+{
+  required  int32 res = 1;
+  required  string timestamp = 2;
+  required string detail = 3;
+}
+
+message RSDV_PiP_result
+{
+  required  int32 res = 1;
+  required  string  timestamp = 2;
+}
+
+message WPV_result
+{
+  optional int32 lf = 1;
+  optional int32 rf = 2;
+  optional int32 lb = 3;
+  optional int32 rb = 4;
+}

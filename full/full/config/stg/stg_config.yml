@@ -1,0 +1,6 @@
+cmdopt: stg
+charge:
+  bms: bms.json
+  acdc: acdc.json
+  pdu: pdu.json
+  plc: plc.json

@@ -1,0 +1,13 @@
+option java_package = "com.nextev.cvs_proto.protobuf.events";
+option java_outer_classname = "GDSystemInformationMessage";
+
+message GDSystemInformationEvent {
+    optional uint64 sample_ts = 1;      // event timestamp, when this event is reported
+    optional int32 mon_window_sec = 2; // monitoring window in seconds
+    repeated SysInfoItem sys_info_items = 3;
+
+    message SysInfoItem {
+        optional string key = 1; // current support list: "mem_usage", "disk_usage", "emmc_life", it maybe added some other items later
+        optional string value = 2; // e.g. "mem_usage" -> 30, so value is 30
+    }
+}

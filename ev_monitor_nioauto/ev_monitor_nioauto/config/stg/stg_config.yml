@@ -1,0 +1,623 @@
+cmdopt: stg
+host:
+  tsp: https://tsp-stg.nio.com
+  tsp_ex: https://tsp-stg.nio.com
+  tsp_in: https://tsp-stg.nioint.com
+  v_in_4430: https://v-stg.nioint.com:4430
+  adc_ex_4430: https://tsp-adc-stg.nio.com:4430
+  vms: https://tsp-vms-stg.nio.com
+  lifestyle: https://app-stg.nio.com
+  mock: http://10.110.3.103:5000
+  app: https://app-stg.nio.com
+  app_ex: https://app-stg.nio.com
+  app_in: https://app-stg.nioint.com
+  msg_ex: https://msg-stg.nio.com
+  msg_in: https://msg-stg.nioint.com
+  app_tob_in: https://app-tob-stg.nioint.com
+  gis_in: https://gis-stg.nioint.com
+  uds_in: http://uds-stg.nioint.com
+  phoenix_ex: https://phoenix-datalogger-stg.nio.com
+message:
+  host_ex: nmp-stg.nio.com # 外网
+  port_ex: 20083
+  host_public_ex: nmp-stg.nio.com
+  port_public_ex: 20084
+  host: tsp-nmp-stg.nioint.com
+  port: 20083
+  host_public: tsp-nmp-stg.nio.com
+  port_public: 20084
+kafka:
+  comn:
+    bootstrap.servers:
+      - swc-common-kafka00-stg.nioint.com:9092
+      - swc-common-kafka01-stg.nioint.com:9092
+      - swc-common-kafka02-stg.nioint.com:9092
+    group.id: ev_monitor_test
+    auto.offset.reset: latest
+    security.protocol: sasl_plaintext
+    sasl.mechanisms: PLAIN
+    sasl.username: MQkcWVlK2Ijy
+    sasl.password: gernCmuEnqgW
+    enable.partition.eof: False
+    session.timeout.ms: 10000
+    topics:
+      vehicle_data: swc-tsp-data_collection-stg-vehicle_data
+      ecall: swc-cvs-tsp-stg-80001-ecall
+      power_swap: swc-cvs-tsp-stg-80001-power_swap
+      wti_can_signal: swc-cvs-tsp-stg-80001-wti_can_signal # 下游SCR电池告警系统消费
+      charging: swc-cvs-tsp-stg-80001-charging # 充电信息下游PE（Power Express）消费
+      admin_change: swc-tsp-poseidon-stg-80001-admin_change #推送主用车人变更等信息。possedon，UDS消费
+      vehicle_notification: swc-cvs-tsp-stg-80001-hermes-vehicle_status_notification # 下游有NSC（NIO Service Cloud）Morgan系统，消费车辆低电量提醒信息 ，推送到APP Msg，最终发送短信和App消息提醒
+      bms_config: swc-cvs-tsp-stg-80001-bms-config # 电池管理系统Bamboo
+      fod: swc-cvs-tsp-stg-80001-fod # Mercury、Artemis、VINBOM
+      bms_msg: swc-tsp-data_collection-stg-bms_can_msg
+      owner_change: swc-cvs-tsp-stg-80001-owner-change # PowerNorth权益需求
+      green_dragon: swc-cvs-tsp-stg-80001-green-dragon # 转发绿龙相关事件
+      ignite: swc-cvs-tsp-stg-80001-hermes-ignite_notification
+      hdmap: swc-cvs-tsp-stg-80001-rvs-hdmap # 高精度地图
+      wti_data: swc-cvs-tsp-stg-80001-wti_data
+      adas_fail: swc-cvs-tsp-stg-80001-adas-psap-fail
+      adas_map: ds-cvs-data_report-stg-adc_message
+      usual_place: swc-cvs-tsp-stg-80001-usual_place
+      can_60: swc-tsp-data_collection-stg-can_msg_60
+      battery_pack: ds-battery-trace-stg-pack # 电池包信息
+      ecall_ad: swc-cvs-tsp-stg-80001-ecall-ad
+      trial_drive: swc-cvs-tsp-stg-80001-trial-drive
+      drive_test: swc-uds-drive-stg-order-change
+      activity-changed: dd-uos-scms-stg-activity-changed #车辆活动变更kafka
+  cvs:
+    bootstrap.servers:
+      - cvs-kafka01-stg.nioint.com:9092
+      - cvs-kafka02-stg.nioint.com:9092
+      - cvs-kafka03-stg.nioint.com:9092
+    group.id: ev_monitor_test
+    auto.offset.reset: latest
+    security.protocol: sasl_plaintext
+    sasl.mechanisms: PLAIN
+    sasl.username: mv5ET4yB379G
+    sasl.password: X84vUQotCzNT
+    enable.partition.eof: False
+    topics:
+      cgw: swc-cvs-nmp-stg_tsp-10005-client_status
+      cdc: swc-cvs-nmp-stg-30007-client_status
+      adc: swc-cvs-nmp-stg_tsp-10107-client_status
+      adc_nt2: swc-cvs-nmp-stg_tsp-100512-client_status
+      data_report: swc-cvs-nmp-stg_tsp-10005-data_report
+      data_report_periodical: swc-cvs-nmp-stg_tsp-10005-data_report_periodical
+      data_report_adc: swc-cvs-nmp-stg_tsp-100512-data_report
+      alarm_reported: swc-tsp-evm-stg-alarm_signals_reported # evm sever上报告警到国家平台后，slytherin 会消费它更新history_wti_alarm表
+      push_event: swc-cvs-tsp-stg-80001-push_event # hermes消费该topic推送通知给手机，例如svt，specific的下雨未关窗
+      bcu_07: swc-tsp-data_collection-stg-can_msg
+      push_email: swc-cvs-nmp-cn-stg-push-email # app_message邮件推送
+      push_mi: swc-cvs-nmp-cn-stg-push-mi # app_message小米推送
+      push_apns: swc-cvs-nmp-cn-stg-push-apns # app_message苹果推送
+      push_hw: swc-cvs-nmp-cn-stg-push-hw # app_message华为推送
+      push_fcm: swc-cvs-nmp-cn-stg-push-fcm # app_message谷歌推送
+      push_sms: swc-cvs-nmp-cn-stg-push-sms # 短信推送
+      push_feishu: swc-cvs-nmp-cn-stg-push-feishu # 飞书推送
+      notice: swc-tsp-data_collection-stg-notice # http://showdoc.nevint.com/index.php?s=/datacollection&page_id=6840
+      mileage_check: swc-tsp-data_collection-stg-mileage_check
+  adas:
+    bootstrap.servers:
+      - adas-kafka00-stg.nioint.com:9092
+      - adas-kafka01-stg.nioint.com:9092
+      - adas-kafka02-stg.nioint.com:9092
+    group.id: ev_monitor_test
+    auto.offset.reset: latest
+    security.protocol: sasl_plaintext
+    sasl.mechanisms: PLAIN
+    sasl.username: LKNw1JFwenLK
+    sasl.password: ijd5nK6wLmeII
+    enable.partition.eof: False
+    topics:
+      data_report_10107: swc-adas-nmp-stg_tsp-10107-data_report # np数据。slyther消费
+
+
+cassandra:
+  datacollection:
+    nodes:
+      - tsp-cassandra-01-stg.nioint.com
+      - tsp-cassandra-02-stg.nioint.com
+      - tsp-cassandra-03-stg.nioint.com
+    port: 9042
+    keyspace: data_collection_stg
+    user: tsp_stg_r
+    password: Ne6K8pu2CSgixto3cnnFWmZ9
+    jump_machine: jump
+  evm:
+    nodes:
+      - 10.128.237.39
+      - 10.128.236.230
+      - 10.128.239.173
+    port: 9042
+    keyspace: ev_monitoring_stg
+    user: tsp_stg_r
+    password: Ne6K8pu2CSgixto3cnnFWmZ9
+    jump_machine: jump
+
+mysql:
+  rvs:
+    host: swc-rds-tsp-master-stg.nioint.com
+    port: 3306
+    user: tsp_stg_r
+    password: Y2YzOTcy
+    database: remote_vehicle_staging
+    autocommit: True
+    cursorclass: pymysql.cursors.DictCursor
+    charset: utf8mb4
+    retry_num: 60
+#    jump_machine: jump
+  sharding:
+    host: swc-rds-tsp-master-stg.nioint.com
+    port: 3306
+    user: tsp_stg_r
+    password: Y2YzOTcy
+    database: tsp_sharding_staging
+    autocommit: True
+    charset: utf8mb4
+    retry_num: 60
+#    jump_machine: jump
+  rvs_data:
+    host: swc-rds-tsp-master-stg.nioint.com
+    port: 3306
+    user: tsp_stg_r
+    password: Y2YzOTcy
+    database: rvs_data_stg
+    autocommit: True
+    cursorclass: pymysql.cursors.DictCursor
+    charset: utf8mb4
+    retry_num: 60
+#    jump_machine: jump
+#  vms:
+#    # 未验证
+#    host: s-awsbj-tsp-01.cw00om4rxgzj.rds.cn-north-1.amazonaws.com.cn
+#    port: 3306
+#    user: tsp_stg_r
+#    password: Y2YzOTcy
+#    database: vms_test
+#    autocommit: True
+#    cursorclass: pymysql.cursors.DictCursor
+#    charset: utf8mb4
+#  fota:
+#    # 未验证
+#    host: 10.112.12.65
+#    user: test-team
+#    passwd: tes123
+#    db: fota-ver
+#  statistics:
+#    host: swc-rds-vms-master-stg.nioint.com
+#    port: 3306
+#    user: tsp_test_s_r
+#    password: qA4bD8QsaOpwwQHE09N
+#    database: vehicle_data_statistics_staging
+#    SSH_host: 10.128.245.27
+#    SSH_user: your_user_name
+#    SSH_key: path_of_your_private_key
+#    SSH_port: 2222
+
+  # 需要走跳板机
+  nmp:
+    host: swc-rds-tsp-master-stg.nioint.com
+    port: 3306
+    user: tsp_stg_r
+    password: Y2YzOTcy
+    database: message_staging_tsp
+    autocommit: True
+    charset: utf8mb4
+    retry_num: 60
+    jump_machine: jump
+  nmp_app:
+    host: swc-rds-cs-master-stg.nioint.com
+    port: 3306
+    user: user_message
+    password: gzNw1ZNehIY
+    database: message_staging_new
+    autocommit: True
+    cursorclass: pymysql.cursors.DictCursor
+    charset: utf8mb4
+    retry_num: 60
+    jump_machine: jump
+  nmp_app_copy:
+    host: s-awsbj-message-01-new.cw00om4rxgzj.rds.cn-north-1.amazonaws.com.cn
+    port: 3306
+    user: u_message
+    password: KpgnycxssLRrwoFnoRk
+    database: message_prod
+    autocommit: True
+    cursorclass: pymysql.cursors.DictCursor
+    charset: utf8mb4
+    retry_num: 60
+    jump_machine: jump
+  nmp_app_tob:
+    host: swc-rds-cs-master-stg.nioint.com
+    port: 3306
+    user: app_msg_tob_staging_rw
+    password: D4Q8DM44iqRIg8MPOSj
+    database: app_msg_tob_staging
+    autocommit: True
+    cursorclass: pymysql.cursors.DictCursor
+    charset: utf8mb4
+    retry_num: 60
+    jump_machine: jump
+#
+#  # 需要走跳板机
+#  data_stat:
+#    host: swc-rds-vms-master-stg.nioint.com
+#    port: 3306
+#    user: tsp_test_s_r
+#    password: qA4bD8QsaOpwwQHE09N
+#    database: vehicle_data_statistics_staging
+#    autocommit: True
+#    cursorclass: pymysql.cursors.DictCursor
+#    charset: utf8mb4
+  battery_trace:
+    host: swc-rds-tsp-master-stg.nioint.com
+    port: 3306
+    user: tsp_stg_r
+    password: Y2YzOTcy
+    database: battery_trace_staging
+    autocommit: True
+    cursorclass: pymysql.cursors.DictCursor
+    charset: utf8mb4
+    retry_num: 60
+    #jump_machine: jump
+
+mongodb:
+  rvs:
+    username: tsp_rw_stg
+    password: Rm06MNMjf0uKibC8Fr4
+    host: 10.128.234.187
+    port: 27017
+    database: remote_vehicle_stg
+    jump_machine: jump
+
+redis:
+  datacollection:
+    host: s-tsp-message-01.dyebgy.0001.cnn1.cache.amazonaws.com.cn
+    port: 6379
+    jump_machine: jump
+  cluster:
+    nodes: [{host: tsp-cluster-cache-stg.nioint.com, port: 6379}]
+    jump_machine: jump
+  message:
+    host: s-bj-cs-message-01.dyebgy.0001.cnn1.cache.amazonaws.com.cn # 需要跳板机
+    port: 6379
+    jump_machine: jump
+  vms_server:
+    host: tsp-02-redis-stg.nioint.com
+    port: 6379
+    jump_machine: jump
+s3:
+  sqe:
+    aws_access_key_id: AKIAOKXUQMU7TLJTZUFA
+    aws_secret_access_key: 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
+    region_name: cn-north-1
+    bucket: com-nio-tsp-stg
+
+vehicle:
+  vehicle_id: 996aad41030c4291813516a236dbee6d
+  client_id: "ChDMrG_fqcmQ1CwFDdFFfZ60EAEY0g8glU4oAg=="
+  vin: SQEHUT15905152530
+  phone: 98762486907
+  phone_code: 120336
+  account_id: 125697180
+vehicles:
+  register_client:
+    NT1:
+      v1:
+        vid: 03931ed31ce0441a9f94874f23cb9b09
+        vin: SQETEST0117977909
+        10005_client: ChAaMjGnyl3PvDlO4mtuA1VUEAEY3-YcIJVOKAI=
+        10107_client: ChC3Hjvyip2Kx8Qn-4cN0EPsEAEY_OYcIPtOKAI=
+      v2:
+        vid: ab7e2766ee094455847401e51d7f83bf
+        vin: SQETEST0329461931
+        10005_client: ChCa7YFOO8YkvZCzeAUKt0D2EAEY_eYcIJVOKAI=
+        10107_client: ChD0weBb1Nxw1Z-d76-_M_9nEAEY_uYcIPtOKAI=
+    NT2:
+      v1:
+        vid: cf5c0fac765944b78062387c654d07da
+        vin: SQETEST0522398453
+        10005_client: ChBcOWAVqB_Dddw-NAElOHN_EAEY-OYcIJVOKAI=
+        100512_client: ChBjB59XnrOPq_77m6oYdoeBEAEY--YcIKCRBigC
+      v2:
+        vid: 81299aea279e422da9a039340d490a41
+        vin: SQETEST0344996631
+        10005_client: ChCRiKFIfQ_XWjbj6dMMrirZEAEYhOocIJVOKAI=
+        100512_client: ChAhYqJK1qK88X6psj-A_XaKEAEYheocIKCRBigC
+  normal:
+    vehicle_id: 996aad41030c4291813516a236dbee6d
+    client_id: "ChDMrG_fqcmQ1CwFDdFFfZ60EAEY0g8glU4oAg=="
+    cdc_client_id: "ChAeUWbovx55BlUkj73nQgKGEAEYvcx4ILfqASgB"
+    vin: SQEHUT15905152530
+    phone: 98762486907
+    phone_code: 861413
+    account_id: 125697180
+  nmp:
+    vehicle_id: a2d883247f3c4339a120b559b9c0818e
+    client_id: "ChBbbp96rqR_8Q67vUys1_q2EAEY2eQPIJVOKAI="
+    vin: SQETEST0759725270
+    account_id: 730795298
+    phone: 98762487028
+    phone_code: 838799
+    token_10000: "Bearer 2.01dxWJ8LNIPVK3r52xNw6lQ/nE80YFz6uqSrb+yUAUP0="
+    token_10001: "Bearer 2.0Gbi8z9s3XkDQEFhZmq6t7TESopZ/PyXUERLBRwkE8oE="
+    token_10002: "Bearer 2.0Weh7rXgXRaS/Guwk8vI6LNje4V7PgGtjpZ96BKGDGEg="
+    token_80001: "Bearer 2.097vYoJCCG7zN12MIPKLGEGIH49hq4G0dGSyGXdak5CE="
+    client_id_app_10001: "ChC4_IBCMzDs__PcGWrC2ATaEAEYvc57IJFOKAE="
+    device_id_app: "45895a7c65521c96"
+  vehicle_for_repair:
+    vehicle_id: 0d58f0e096d6478db653a5c693276f0b
+    client_id: "ChAO4mx_0VfzXGd8ubSCGPXYEAEY7uQPIJVOKAI="
+    vin: SQETEST0045301676
+  gb_private:
+    vehicle_id: 022abfc6b421443e980477e22014d009
+    client_id: "ChCElSg8cW0r4UzRrNPVLANzEAEY7-QPIJVOKAI="
+    vin: SQETEST0653642108
+    attribution: 156
+    domain: 2
+  gb_public:
+    vehicle_id: 33c24dbd5b1548cea4de2510d7adfd19
+    vin: LJ1EEAUU3J7700402
+    attribution: 156
+    domain: 1
+  sh_public:
+    vehicle_id: a5b0980a6e83433e94e19fc59c6b8d91
+    vin: LJ1EEAUU6J7700460
+    attribution: 310000
+    domain: 1
+  sh_private:
+    vehicle_id: 96356bce5064452b9c05a3198977b932
+    vin: SQETEST0966413857
+    attribution: 156
+    domain: 0
+  v_statistic_1:
+    vehicle_id: 25613b71b0d14a258d743c94f14f8039
+    vin: SQETEST0161683758
+    client_id: ChBCKUb9YTG2W_kIoFA6ZiO8EAEY07gBIJVOKAI=
+    account_id: 718218691
+    model_series: ES8003
+    register_area_code: 360100
+    mobile: 98762401080
+    phone_code: 531248
+  v_statistic_2:
+    vehicle_id: e699260be9034542adbeb483fa2f486e
+    vin: SQETEST0162330785
+    client_id: ChBXAJTeYjj3Ka4qvf7RQ0lAEAEY1LgBIJVOKAI=
+    model_series: ES6001
+    account_id: 555116995
+    register_area_code: 110100
+    mobile: 98762401082
+    phone_code: 126574
+  v_statistic_3:
+    vehicle_id: 7a6f53ed9c4e464f82bf1ebdc033b736
+    vin: SQETEST0471805319
+    model_series: ES6002
+    account_id: 838826996
+    register_area_code: 120100
+    mobile: 98762401055
+    phone_code: 652731
+  v_statistic_4:
+    vehicle_id: 7c5b58dc76a440938320a6dcac56b275
+    vin: SQETEST0941216147
+    model_series: ES6003
+    account_id: 203526516
+    register_area_code: 131000
+  v_statistic_5:
+    vehicle_id: 8202b099a5e748df9b1faedcdcacab8f
+    vin: SQETEST0841236146
+    model_series: ES6001
+    account_id: 342485198
+    register_area_code: 140400
+  v_statistic_6:
+    vehicle_id: fc69031b8d5044e38d945b3891afc23f
+    vin: SQETEST0841622274
+    model_series: ES6003
+    account_id: 420253081
+    register_area_code: 540100
+  v_statistic_7_real_vehicle:
+    vehicle_id: ad59b75cfe3f4114b64485966878e486
+    vin: LJ1E6A3U7J7706220
+    model_series: null
+    model_type: ES8
+    account_id: 554776371
+    register_area_code: null
+  v_statistic_8_real_vehicle:
+    vehicle_id: dca0a1b77d4142c6b6517866ecb7dbd2
+    vin: LJ1EEAUU5J7700580
+    model_series: ES8003
+    model_type: ES8
+    account_id: 565055631
+    register_area_code: 310100
+  v_statistic_9_real_vehicle:
+    vehicle_id: 345534644c1f43ac9b9884732acc70ed
+    vin: LJ1E6A2U8K7705578
+    model_series: ES6003
+    model_type: ES6
+    account_id: 952544921
+    register_area_code: 110100
+  v_ES6:
+    vehicle_id: 289b2c4c990f4ad194530fe1c44ab10a
+    client_id: "ChBbFhstObw_XArW6fFwY7z5EAEYq-QPIJVOKAI="
+    vin: SQETEST0249816557
+    model_type_year: G1.1
+  v_new_ES8:
+    vehicle_id: 6250c1d035164be9a1d97e5c907d81b5
+    client_id: "ChD0Ok0Z-SugHI0X4qHaX-1YEAEYrOQPIJVOKAI="
+    vin: SQETEST0350942206
+    model_type_year: G1.F
+  EC6:
+    vehicle_id: 01c01df0d1004a25b33447fa897288c9
+    client_id: "ChCpu3FDsAOVkXtJoAWmFJuYEAEYreQPIJVOKAI="
+    vin: SQETEST0851120026
+  oscp_vehicle:
+    vehicle_id: 8dd0af9d5e734691845757be77d42852
+    client_id: "ChDqskktQbCDoYSu9YNljL3eEAEYpBMglU4oAg=="
+    vin: SQETEST0055267515
+  vehicle_history_1:
+    vehicle_id: 25613b71b0d14a258d743c94f14f8039
+    vin: SQETEST0161683758
+    client_id: ChBCKUb9YTG2W_kIoFA6ZiO8EAEY07gBIJVOKAI=
+    account_id: 718218691
+    model_series: ES8003
+    register_area_code: 360100
+    mobile: 98762401080
+    phone_code: 531248
+  vehicle_history_2:
+    vehicle_id: e699260be9034542adbeb483fa2f486e
+    vin: SQETEST0162330785
+    client_id: ChBXAJTeYjj3Ka4qvf7RQ0lAEAEY1LgBIJVOKAI=
+    model_series: ES6001
+    account_id: 555116995
+    register_area_code: 110100
+    mobile: 98762401082
+    phone_code: 126574
+
+  li:
+    vehicle_id: 8440ca3bbf584983bf14481b7664961c
+    client_id: ChBYTNH3EPjONBa_9PvAAsOHEAEYi-QPIJVOKAI=
+    vin: SQETEST0485632007
+    account_id: 905519103
+    phone: 98762486922
+    phone_code: 235524
+    vehicle_id_2: e0ddeefb603d4aed98c6591c01490969
+    client_id_2: ChDt_zWSzXzinXMJWOpl2oJ3EAEYo-QPIJVOKAI=
+    vin_2: SQETEST0118098775
+
+  colin:
+    vin: SQETEST0796385027
+    vehicle_id: 93559d4d994444ffa1a7165cd5d91b45
+    client_id: ChCrJ3vQn7GFgzd9M9p9KaWWEAEYvJwcIJVOKAI=
+
+  navigation:
+    vehicle_id: 25613b71b0d14a258d743c94f14f8039
+    account_id: 718218691
+
+  v_sample_ts:
+    vehicle_id: 007894b25bd4499182a6eaec5c69e830
+    vin: SQETEST0741173623
+
+  et7_can_signal:
+    vin: SQETEST0668351029
+    vehicle_id: e3423b45368c4c3793bcb9e8304397c8
+    client_id: ChDDEl044OQUigXwsAbQmtLSEAEY8-QcIJVOKAI=
+
+push_sms:
+  user_id: 687145
+  account_id: 242222849
+  recipient: "+8617610551933"
+nmp_app:
+  update_client_id: None
+  bind_client_id: None
+  account_id: 285692821
+  phone: 98762489681
+  vc_code: 362335
+  push_notify:
+    user1:
+      account_id: 469181138
+      phone: 98762489683
+      vc_code: 455470
+      app_id: 10001
+    user2:
+      account_id: 158271143
+      phone: 98762489682
+      vc_code: 458642
+      app_id: 10001
+app_message_keeper:
+  nmp_app:
+    10001: # ANDROID_NIO_APP
+      user1:
+        update_client_id: ChCCUjnqgmx2QY1rGpUHzUN-EAEYz6CAASCRTigB
+        bind_client_id: ChClh5IENgMmWKXidR074eFvEAEY0r-XASCRTigB
+        account_id: 288908977
+        mobile: 98762545868
+        vc_code: 345382
+        token_10002: "Bearer 2.0wuPpG3xXHBMIdw+z1HX9DCtgcyjPgLjGzIWL/Tfy75I="
+        token_10001: "Bearer 2.0LGx5uFUP/ycUX9qzUen63p8VjD2FO1mo8MP46I6oGCU="
+      user2:
+        account_id: 262253659
+        mobile: 98762767474
+        vc_code: 523053
+    10002: # IOS_NIO_APP
+      user1:
+        update_client_id: ChC0npzpKLhEFiJXRRRth1PWEAEY-7-XASCSTigA
+        bind_client_id: ChBk7S-khuCcDiGAtqoCwOGeEAEY06CAASCSTigA
+        account_id: 415220827
+        mobile: 98762545870
+        vc_code: 777678
+        token_10002: "Bearer 2.02lSMCb5jxgmGSCh/Ur2VLMTMKfZW5gibaB4Ox+37mtc="
+        token_10001: "Bearer 2.0lIipnibPYuIckWb5lBCFvgljCEpzkH+AngX+ebZ4cmI="
+      user2:
+        account_id: 427361345
+        mobile: 98762767476
+        vc_code: 163613
+  nmp_app_tob:
+    10003: # Staff APP register client
+      user1:
+        update_client_id: ChCmLjULApzr3ChtZkf2OWxMEAEYDyCTTigB
+        bind_client_id: ChCRA82y2Lt27SDKLFAqEsr8EAEYDSCTTigB
+        account_id: 136635060
+        mobile: 98762519910
+        vc_code: 201089
+      user2:
+        account_id: 90385217
+        mobile: 98762519911
+        vc_code: 950770
+    10018: # Fellow APP register client
+      user1:
+        update_client_id: ChCNZ0veYnCDKZsd-UvN_X0BEAEYECCiTigB
+        bind_client_id: ChDMEJ3_h7xRLFIW5SvdXwrREAEYDiCiTigB
+        account_id: 259138155
+        mobile: 98762519912
+        vc_code: 762691
+      user2:
+        account_id: 221463409
+        mobile: 98762519913
+        vc_code: 783096
+
+
+secret:
+  10000: acbd18db4cc2f85cedef654fccc4a4d8
+  10001: 4AE54A0CF4C8B3E4f3E0d24C34A42068
+  10002: 2bc9b00fdcf8f7ded6d77afdd7077e79
+  10003: f174b769ad18af17c0f65b83214ac0cc
+  10004: 7936e30cb1b8948ac2f283871642029c
+  10005: b207319e51865e85e01c15cb29804b55
+  10006: 68f828215165cd42cab37e8643a00019
+  10007: ae108a49688ab8b87f392b452d43829e
+  10008: 4cfdb3115a617a508ef584f896c08133
+  10010: 2ab59bd6192acb105f0f5c254ef55443
+  10011: d52afaba16414c0f845dae70b4f8ac79
+  10012: f49e94b0f390ef210bd9eeee823d746a
+  10013: 33a130f9425063421cd9e7b6ed6050a5
+  10014: 6396c6d430dd48809fea88fb01d94cce
+  10016: cbaa22028ddd4b169e4ce452a3138afd
+  10018: 9a429afaf2044c51b0cc3cda8cfd5a89
+  10022: 2f1f42e22ea484b2f9db2049540066c0
+  10023: 18aca711d33d5c318a9ade7b22a3d341
+  10024: 012b025c58c14adbb67ae14c1f5d854c
+  10066: 0ca7836511d143279a0ec04773c4b19b
+  10102: 5e725e3d9a5c4b579275903f91682f04
+  10107: 32513691d40e486597f8c05eb65a7de9
+  30006: 93ee15dab422478289d4def041193134
+  30007: 3ca9b9c97ae94f2dacabc006d8eaad1c
+  30010: 1b3424e49a4b402c9fb8a6d2dc662cb8
+  50004: f911639ddc3d44bd9eaa6d21c96875b2
+  80001: 689fC85e79F6Da61E039427E7176e691
+  80002: fe386ea056f44149ada32fb7fa8dba66
+  100002: aD6309a8082eb1c8E3371EF361AaCd51
+  100004: f990a4ce5D0d88C03b196c707c5230db
+  100006: 6295f98351F04a0e575aC8e8fD6e1Bde
+  100008: bD6f916F622aBecF77d638E485A1B2f4
+  100024: A8f7cF54A8322129A800190a471eAEA8
+  100034: c4A26BF73b79d87FE7b7F2D46562EE48
+  100055: 98d0fdf3000b2e7dd87cFC821791c9f0
+  100105: 3B1b5ef9df2d4a019d69Fc5fb0638a7D
+  100159: 8f95def9cc84a6428c64e21fc4efa344
+  100423: dd35E1229a61747824Fcd0d8b0a58aee
+  100078: 837016E157CAeFcbFd1966A8D03213FE
+  100480: 2f4dd0361F4a78a290c6f00F720b2294
+  100512: 696433D71723ba795e07550620a60D4b
+  100557: 2d51957f0aD29E58FC0A6e63ddcf6ee3
+  100466: 0e46BAeD8774386F8486A1510F3f414c
+

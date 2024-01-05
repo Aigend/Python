@@ -1,0 +1,15 @@
+import "trip_status.proto";
+import "soc_status.proto";
+import "position_status.proto";
+import "vehicle_status.proto";
+option java_package = "com.nextev.cvs_proto.protobuf.events";
+
+message TripStartEvent {
+    optional string id = 1;             // unique id, VIN for vehicle data
+    optional int32 version = 2;         // event protocol version
+    optional uint64 sample_ts = 3;      // event unix timestamp, when call service is triggered
+    optional TripStatus trip_status = 4;
+    optional PositionStatus position_status = 5; // start position
+    optional SOCStatus soc_status = 6;  // soc status
+    optional VehicleStatus vehicle_status = 7; // vehicle status
+}

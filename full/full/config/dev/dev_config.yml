@@ -1,0 +1,141 @@
+cmdopt: dev
+station: PS-NIO-35014021-268699c2
+charge:
+  - branch: 10
+    file:
+      bms: bms_10.json
+      acdc0: acdc_0.json
+      acdc1: acdc_1.json
+      acdc2: acdc_2.json
+      plc: plc.json
+      pdu: pdu_10.json
+  - branch: 11
+    file:
+      bms: bms_11.json
+      acdc3: acdc_3.json
+      acdc4: acdc_4.json
+      acdc5: acdc_5.json
+      plc: plc.json
+      pdu: pdu_11.json
+  - branch: 12
+    file:
+      bms: bms_12.json
+      acdc6: acdc_6.json
+      acdc7: acdc_7.json
+      acdc8: acdc_8.json
+      plc: plc.json
+      pdu: pdu_12.json
+  - branch: 13
+    file:
+      bms: bms_13.json
+      acdc9: acdc_9.json
+      acdc10: acdc_10.json
+      acdc11: acdc_11.json
+      plc: plc.json
+      pdu: pdu_13.json
+  - branch: 14
+    file:
+      bms: bms_14.json
+      acdc12: acdc_12.json
+      acdc13: acdc_13.json
+      acdc14: acdc_14.json
+      plc: plc.json
+      pdu: pdu_14.json
+  - branch: 15
+    file:
+      bms: bms_15.json
+      acdc15: acdc_15.json
+      acdc16: acdc_16.json
+      acdc17: acdc_17.json
+      plc: plc.json
+      pdu: pdu_15.json
+  - branch: 16
+    file:
+      bms: bms_16.json
+      acdc18: acdc_18.json
+      acdc19: acdc_19.json
+      acdc20: acdc_20.json
+      plc: plc.json
+      pdu: pdu_16.json
+  - branch: 17
+    file:
+      bms: bms_17.json
+      acdc21: acdc_21.json
+      acdc22: acdc_22.json
+      acdc23: acdc_23.json
+      plc: plc.json
+      pdu: pdu_17.json
+  - branch: 18
+    file:
+      bms: bms_18.json
+      acdc24: acdc_24.json
+      acdc25: acdc_25.json
+      acdc26: acdc_26.json
+      plc: plc.json
+      pdu: pdu_18.json
+  - branch: 19
+    file:
+      bms: bms_19.json
+      acdc27: acdc_27.json
+      acdc28: acdc_28.json
+      acdc29: acdc_29.json
+      plc: plc.json
+      pdu: pdu_19.json
+
+flexible_charge:
+  - branch: 10
+    file:
+      bms: bms_flexible_10.json
+      acdc0: acdc_0.json
+      acdc1: acdc_1.json
+      acdc2: acdc_2.json
+      acdc3: acdc_3.json
+      acdc4: acdc_4.json
+      acdc5: acdc_5.json
+      plc: plc_flexible.json
+      pdu: pdu_flexible_mod_1.json
+  - branch: 12
+    file:
+      bms: bms_flexible_12.json
+      acdc6: acdc_6.json
+      acdc7: acdc_7.json
+      acdc8: acdc_8.json
+      acdc9: acdc_9.json
+      acdc10: acdc_10.json
+      acdc11: acdc_11.json
+      plc: plc_flexible.json
+      pdu: pdu_flexible_mod_2.json
+  - branch: 14
+    file:
+      bms: bms_flexible_14.json
+      acdc12: acdc_12.json
+      acdc13: acdc_13.json
+      acdc14: acdc_14.json
+      acdc15: acdc_15.json
+      acdc16: acdc_16.json
+      acdc17: acdc_17.json
+      plc: plc_flexible.json
+      pdu: pdu_flexible_mod_3.json
+  - branch: 16
+    file:
+      bms: bms_flexible_16.json
+      acdc18: acdc_18.json
+      acdc19: acdc_19.json
+      acdc20: acdc_20.json
+      acdc21: acdc_21.json
+      acdc22: acdc_22.json
+      acdc23: acdc_23.json
+      plc: plc_flexible.json
+      pdu: pdu_flexible_mod_4.json
+  - branch: 18
+    file:
+      bms: bms_flexible_18.json
+      acdc24: acdc_24.json
+      acdc25: acdc_25.json
+      acdc26: acdc_26.json
+      acdc27: acdc_27.json
+      acdc28: acdc_28.json
+      acdc29: acdc_29.json
+      plc: plc_flexible.json
+      pdu: pdu_flexible_mod_5.json
+

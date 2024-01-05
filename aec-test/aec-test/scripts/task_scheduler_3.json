@@ -1,0 +1,392 @@
+{
+  "station_type": 1,
+  "ai_models": [
+    "BSA",
+    "BBSA",
+    "PiP",
+    "PPP",
+    "WL",
+    "ViP",
+    "RSDS",
+    "WPV",
+    "SAPA",
+    "RC"
+  ],
+  "cameras": [
+    {
+      "name": "camera_1",
+      "max_read_count": 300,
+      "link": "192.168.1.10:5000/ISAPI/Streaming/Channels/101/picture",
+      "sensor_code": "WLV6345",
+      "driver_type": "curl"
+    },
+    {
+      "name": "camera_2",
+      "max_read_count": 300,
+      "link": "rtsp://192.168.1.10:8554/Streaming/Channels/104",
+      "sensor_code": "PRR2345",
+      "driver_type": "opencv"
+    },
+    {
+      "name": "camera_3",
+      "max_read_count": 300,
+      "link": "rtsp://192.168.1.10:8554/Streaming/Channels/104",
+      "sensor_code": "PLR2345",
+      "driver_type": "opencv"
+    },
+    {
+      "name": "camera_4",
+      "max_read_count": 300,
+      "link": "rtsp://192.168.1.10:8554/Streaming/Channels/104",
+      "sensor_code": "PLF2345",
+      "driver_type": "opencv"
+    },
+    {
+      "name": "camera_5",
+      "max_read_count": 300,
+      "link": "rtsp://192.168.1.10:8554/Streaming/Channels/104",
+      "sensor_code": "PRF2345",
+      "driver_type": "opencv"
+    },
+    {
+      "name": "camera_6",
+      "max_read_count": 300,
+      "link": "192.168.1.10:5000/ISAPI/Streaming/Channels/106/picture",
+      "sensor_code": "BFB6345",
+      "driver_type": "curl"
+    },
+    {
+      "name": "camera_7",
+      "max_read_count": 300,
+      "link": "192.168.1.10:5000/ISAPI/Streaming/Channels/107/picture",
+      "sensor_code": "BRB6345",
+      "driver_type": "curl"
+    },
+    {
+      "name": "camera_8",
+      "max_read_count": 300,
+      "link": "192.168.1.10:5000/ISAPI/Streaming/Channels/108/picture",
+      "sensor_code": "BUS6345",
+      "driver_type": "curl"
+    },
+    {
+      "name": "camera_9",
+      "max_read_count": 300,
+      "link": "192.168.1.10:5000/ISAPI/Streaming/Channels/109/picture",
+      "sensor_code": "LFS2T47",
+      "driver_type": "curl"
+    },
+    {
+      "name": "camera_10",
+      "max_read_count": 300,
+      "link": "192.168.1.10:5000/ISAPI/Streaming/Channels/120/picture",
+      "sensor_code": "RFS2T47",
+      "driver_type": "curl"
+    }
+  ],
+  "init_actions": [
+    {
+      "item": "BSA",
+      "action": "load"
+    },
+    {
+      "item": "BBSA",
+      "action": "load"
+    },
+    {
+      "item": "PiP",
+      "action": "load"
+    },
+    {
+      "item": "PPP",
+      "action": "load"
+    },
+    {
+      "item": "WL",
+      "action": "load"
+    },
+    {
+      "item": "ViP",
+      "action": "load"
+    },
+    {
+      "item": "RSDS",
+      "action": "load"
+    },
+    {
+      "item": "WPV",
+      "action": "load"
+    },
+    {
+      "item": "SAPA",
+      "action": "load"
+    },
+    {
+      "item": "RC",
+      "action": "load"
+    }
+  ],
+  "step_actions": [
+    {
+      "step": "1",
+      "item_actions": [
+        {
+          "item": "RC",
+          "action": "load"
+        }
+      ]
+    },
+    {
+      "step": "0",
+      "item_actions": [
+        {
+          "item": "RC",
+          "action": "do_work"
+        }
+      ]
+    },
+    {
+      "step": "2",
+      "item_actions": [
+        {
+          "item": "RC",
+          "action": "unload"
+        }
+      ]
+    },
+    {
+      "step": "1000",
+      "item_actions": [
+        {
+          "item": "BBSA",
+          "action": "load"
+        }
+      ]
+    },
+    {
+      "step": "1001",
+      "item_actions": [
+        {
+          "item": "BBSA",
+          "action": "do_work"
+        }
+      ]
+    },
+    {
+      "step": "1002",
+      "item_actions": [
+        {
+          "item": "BBSA",
+          "action": "unload"
+        }
+      ]
+    },
+    {
+      "step": "1100",
+      "item_actions": [
+        {
+          "item": "BSA",
+          "action": "load"
+        }
+      ]
+    },
+    {
+      "step": "1101",
+      "item_actions": [
+        {
+          "item": "BSA",
+          "action": "do_work"
+        }
+      ]
+    },
+    {
+      "step": "1102",
+      "item_actions": [
+        {
+          "item": "BSA",
+          "action": "unload"
+        }
+      ]
+    },
+    {
+      "step": "1300",
+      "item_actions": [
+        {
+          "item": "PiP",
+          "action": "load"
+        }
+      ]
+    },
+    {
+      "step": "1301",
+      "item_actions": [
+        {
+          "item": "PiP",
+          "action": "do_work"
+        }
+      ]
+    },
+    {
+      "step": "1302",
+      "item_actions": [
+        {
+          "item": "PiP",
+          "action": "unload"
+        }
+      ]
+    },
+    {
+      "step": "1400",
+      "item_actions": [
+        {
+          "item": "PPP",
+          "action": "load"
+        }
+      ]
+    },
+    {
+      "step": "1401",
+      "item_actions": [
+        {
+          "item": "PPP",
+          "action": "do_work"
+        }
+      ]
+    },
+    {
+      "step": "1402",
+      "item_actions": [
+        {
+          "item": "PPP",
+          "action": "unload"
+        }
+      ]
+    },
+    {
+      "step": "2201",
+      "item_actions": [
+        {
+          "item": "ViP",
+          "action": "do_work"
+        }
+      ]
+    },
+    {
+      "step": "2202",
+      "item_actions": [
+        {
+          "item": "ViP",
+          "action": "unload"
+        }
+      ]
+    },
+    {
+      "step": "2400",
+      "item_actions": [
+        {
+          "item": "WL",
+          "action": "load"
+        }
+      ]
+    },
+    {
+      "step": "2401",
+      "item_actions": [
+        {
+          "item": "WL",
+          "action": "do_work"
+        }
+      ]
+    },
+    {
+      "step": "2402",
+      "item_actions": [
+        {
+          "item": "WL",
+          "action": "unload"
+        }
+      ]
+    },
+    {
+      "step": "2600",
+      "item_actions": [
+        {
+          "item": "RSDS",
+          "action": "load"
+        }
+      ]
+    },
+    {
+      "step": "2601",
+      "item_actions": [
+        {
+          "item": "RSDS",
+          "action": "do_work"
+        }
+      ]
+    },
+    {
+      "step": "2602",
+      "item_actions": [
+        {
+          "item": "RSDS",
+          "action": "unload"
+        }
+      ]
+    },
+    {
+      "step": "2900",
+      "item_actions": [
+        {
+          "item": "WPV",
+          "action": "load"
+        }
+      ]
+    },
+    {
+      "step": "2901",
+      "item_actions": [
+        {
+          "item": "WPV",
+          "action": "do_work"
+        }
+      ]
+    },
+    {
+      "step": "2902",
+      "item_actions": [
+        {
+          "item": "WPV",
+          "action": "unload"
+        }
+      ]
+    },
+    {
+      "step": "2700",
+      "item_actions": [
+        {
+          "item": "SAPA",
+          "action": "load"
+        }
+      ]
+    },
+    {
+      "step": "2701",
+      "item_actions": [
+        {
+          "item": "SAPA",
+          "action": "do_work"
+        }
+      ]
+    },
+    {
+      "step": "2702",
+      "item_actions": [
+        {
+          "item": "SAPA",
+          "action": "unload"
+        }
+      ]
+    }
+  ]
+}

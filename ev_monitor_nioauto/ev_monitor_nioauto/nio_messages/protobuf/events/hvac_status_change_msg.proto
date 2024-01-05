@@ -1,0 +1,12 @@
+import "hvac_status.proto";
+
+option java_package = "com.nextev.cvs_proto.protobuf.events";
+option java_outer_classname = "HVACStatusChangeMessage";
+
+message HVACStatusChangeEvent {
+
+    optional string id = 1; // unique id, VIN for vehicle data
+    optional int32 version = 2; // message protocol version
+    optional uint64 sample_ts = 3; // sample time
+    optional HVACStatus hvac_status = 4; // HVAC status
+}

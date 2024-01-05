@@ -1,0 +1,52 @@
+option java_package = "com.nextev.cvs_proto.protobuf.adas";
+option java_outer_classname = "AdasHeaderUnit";
+
+message AdasHeader {
+    optional uint64 timestamp                       = 1;   // ms
+
+    optional uint32 vehicle_type                    = 2;    // vehicle type 	(FC_stVehicleProject << 8) + FC_stVehicleGeneration
+    optional string adc_git_branch                  = 3;    // asimov git branch name, such as kepler
+    optional string adc_git_commit                  = 4;    // asimov git commit, such as a1b2c3d
+    optional string proto_git_commit                = 5;    // proto git commit, such as a1b2c3d
+
+    optional VehicleState vehicle_state             = 6;
+    optional uint32 mileage                         = 7;   // odometer
+    optional float vehicle_speed                    = 8;   // kph
+    optional float yaw_rate                         = 9;   // deg/sec
+
+    optional float steering_angle                   = 10;   // deg
+    optional float steering_angle_speed             = 11;   // deg/sec
+    optional float acc_pedal_position               = 12;   // %
+    optional BrakePedalStatus brake_pedal_status    = 13;
+    optional float brake_pressure                   = 14;   // bar
+    optional TurnIndicator turn_indicator           = 15;
+
+    optional double gps_longitude                   = 16;   // gps longitude
+    optional double gps_latitude                    = 17;   // gps latitude
+    optional float gps_heading                      = 18;   // gps heading
+    optional uint32 gps_status                      = 19;   // gps quility (0-9)
+    optional float gps_hdop                         = 20;   // gps horizontal dilution of precision
+    optional float trip_odometer                    = 21;   // tripOdometer
+
+    enum VehicleState {
+        VEHICLE_STATE_PARKED              =0;
+        VEHICLE_STATE_DRIVER_PRESENT      =1;
+        VEHICLE_STATE_DRIVING             =2;
+        VEHICLE_STATE_SOFTWARE_UPDATE     =3;
+        VEHICLE_STATE_INVALID             =15;
+    }
+
+    enum BrakePedalStatus {
+        BRAKE_PEDAL_STATUS_NOT_PRESSED = 0;
+        BRAKE_PEDAL_STATUS_PRESSED     = 1;
+        BRAKE_PEDAL_STATUS_RESERVED    = 2;
+        BRAKE_PEDAL_STATUS_INVALID     = 3;
+    }
+
+    enum TurnIndicator {
+        TURN_INDICATOR_NONE    = 0;
+        TURN_INDICATOR_LEFT    = 1;
+        TURN_INDICATOR_RIGHT   = 2;
+        TURN_INDICATOR_INVALID = 3;
+    }
+}

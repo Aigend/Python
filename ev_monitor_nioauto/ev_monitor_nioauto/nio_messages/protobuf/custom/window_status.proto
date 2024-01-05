@@ -1,0 +1,59 @@
+option java_package = "com.nextev.cvs_proto.protobuf.custom";
+option java_outer_classname = "WindowStatusUnit";
+
+message WindowStatus {
+    // 窗数据
+    optional WindowPosition window_positions = 1;
+    optional SunRoofStatus sun_roof_positions = 2;
+
+    message WindowPosition {
+        optional int32 win_frnt_le_posn = 1; // Front left window position, 0 - 100 (%)
+        optional int32 win_frnt_ri_posn = 2; // Front right window position, 0 - 100 (%)
+        optional int32 win_re_le_posn = 3; // Rear left window position, 0 - 100 (%)
+        optional int32 win_re_ri_posn = 4; // Rear right window position, 0 - 100 (%)
+        optional WindowFailure win_frnt_le_failure = 5; // Front left window failure
+        optional WindowFailure win_frnt_ri_failure = 6; // Front right windowfailure
+        optional WindowFailure win_re_le_failure = 7; // Rear left window failure
+        optional WindowFailure win_re_ri_failure = 8; // Rear right window failure
+    }
+
+    message SunRoofStatus {
+        optional int32 sun_roof_posn = 1; // Sunroof position, 0 - 100 (%)
+        optional int32 sun_roof_shade_posn = 2; // Sunroof shade position, 0 - 100 (%)
+        optional PosnSts sun_roof_posn_sts = 3; // Sunroof position status
+        optional SunRoofFailure sun_roof_failure = 4; // Sunroof failure
+        optional SunRoofFailure sun_roof_shade_failure = 5; // Sunroof shade failure
+    }
+
+    message WindowFailure {
+        // 0:No error, 1:Error
+        optional bool hal_error = 1;
+        optional bool motor_relay_error = 2;
+        optional bool over_heat_protect = 3;
+        optional bool lin_response_error = 4;
+        optional bool fl_under_voltage = 5;
+        optional bool fl_over_voltage = 6;
+        optional bool fl_switch_stick_error = 7;
+    }
+
+    message SunRoofFailure {
+        // 0:No error, 1:Error
+        optional bool lin_response_error = 1;
+        optional bool ecu_status = 2;
+        optional bool hall_sensor_status = 3;
+        optional bool relay_status = 4;
+        optional bool over_voltage = 5;
+        optional bool under_voltage = 6;
+    }
+
+    enum PosnSts {
+        TILT_UP = 0;
+        VENT_AREA = 1;
+        ANTIPINCH_IN_VENT = 2;
+        FULLY_CLOSE = 3;
+        ANTIPINCH_IN_PARTIALLY_SLIDE = 4;
+        PARTIALLY_SLIDE = 5;
+        FULLY_OPEN = 6;
+        UNINITIALIZED = 7;
+    }
+}

@@ -1,0 +1,115 @@
+option java_package = "com.nextev.cvs_proto.protobuf.gb_db";
+option java_outer_classname = "PositionStatusUnit";
+
+message PositionStatus {
+    // 车辆位置数据
+    optional PosngValidType posng_valid_type = 1; // 定位状态
+    optional double longitude = 2; // longitude 0-180 deg : east (plus) , west(minus)
+    optional double latitude = 3; // latitude 0-180 deg : north (plus) , south(minus)
+    optional double heading = 4; // Heading of vehicle
+    optional double altitude = 5; // Altitude of vehicle position in meters
+    optional double gps_speed = 6; // gps speed
+    optional double climb = 7; // vertical speed
+    optional int64 gps_ts = 8; // gps timestamp 
+
+    optional double longitude_uncertainty = 9; // longitude position uncertainty
+    optional double latitude_uncertainty = 10; // latitude position uncertainty
+    optional double altitude_uncertainty = 11; // altitude position uncertainty
+    optional double gps_speed_uncertainty = 12; // gps speed uncertainty
+    optional double climb_uncertainty = 13; // climb uncertainty
+
+    optional Satellite satellite = 14;
+    optional int32 mode = 15;
+    optional int32 fusion_mode = 16;
+    optional Attitude attitude = 17;
+
+    enum PosngValidType {
+        VALID = 0;
+        INVALID = 1;
+        GPS_MALFUNCTION = 2;
+    }
+
+    message Satellite {
+        optional int32 quantity = 1; // quantity of the satellite
+        repeated double snr = 2; // signal-to-noise ratio (dB), this field will not used in future, is replaced by skyview.snr.
+        repeated Skyview skyview = 3; 
+    }
+
+    message Skyview {
+        optional int32 prn_id = 1;      // PRN ID of the satellite
+        optional int32 azimuth = 2;     // azimuth, degrees from true north.
+        optional int32 elevation = 3;   // elevation in degrees.
+        optional double snr = 4;        // signal-to-noise ratio (dB)
+        optional bool used = 5;         // used in current solution.
+    }
+
+    message Attitude {
+        optional double heading = 1;   // Heading, degrees from true north 
+        optional double pitch = 2;     // Pitch in degrees, 1e-2
+        optional double yaw = 3;   // Yaw in degrees, 1e-2
+        optional double roll = 4;  // Roll in degrees, 1e-2
+        optional double dip = 5;   // Local magnetic inclination, degrees, positive when the magnetic field points downward (into the Earth).
+        optional double mag_len = 6;  // Scalar magnetic field strength.
+        optional double mag_x = 7;  // X component of magnetic field strength.
+        optional double mag_y = 8;  // Y component of magnetic field strength.
+        optional double mag_z = 9;  // Z component of magnetic field strength.
+        optional double acc_len = 10;  // Scalar acceleration.
+        optional double acc_x = 11;  // X component of acceleration.
+        optional double acc_y = 12;  // Y component of acceleration.
+        optional double acc_z = 13;  // Z component of acceleration.
+        optional double gyro_x = 14;  // X component of acceleration.
+        optional double gyro_y = 15;  // Y component of acceleration.
+        optional double gyro_z = 16;  // Z component of acceleration.
+        optional double temp = 17;  // 	Temperature at sensor, degrees centigrade.
+        optional double depth = 18;  // Water depth in meters.
+        optional int32 x_accel = 19;  // Compensated x-axis acceleration (gravity-free). Unit:mg;
+        optional int32 y_accel = 20;  // Compensated y-axis acceleration (gravity-free). Unit:mg;
+        optional int32 z_accel = 21;  // Compensated z-axis acceleration (gravity-free). Unit:mg;
+        optional int32 x_ang_rate = 22;   // Compensated x-axis angular rate. Unit:deg/s;
+        optional int32 y_ang_rate = 23;   // Compensated y-axis angular rate. Unit:deg/s;
+        optional int32 z_ang_rate = 24;   // Compensated z-axis angular rate. Unit:deg/s;
+
+        optional int32 imu_status = 25;  // IMU-mount status.
+        optional int32 single_tick_calib_sts = 26;  // 0=Sensor is not calibrated; 1=Sensor is calibrating; 2/3=Sensor is calibrated;
+        optional int32 acc_x_calib_sts = 27;  // 0=Sensor is not calibrated; 1=Sensor is calibrating; 2/3=Sensor is calibrated;
+        optional int32 acc_y_calib_sts = 28;  // 0=Sensor is not calibrated; 1=Sensor is calibrating; 2/3=Sensor is calibrated;
+        optional int32 acc_z_calib_sts = 29;  // 0=Sensor is not calibrated; 1=Sensor is calibrating; 2/3=Sensor is calibrated;
+        optional int32 gyro_x_calib_sts = 30;  // 0=Sensor is not calibrated; 1=Sensor is calibrating; 2/3=Sensor is calibrated;
+        optional int32 gyro_y_calib_sts = 31;  // 0=Sensor is not calibrated; 1=Sensor is calibrating; 2/3=Sensor is calibrated;
+        optional int32 gyro_z_calib_sts = 32;  // 0=Sensor is not calibrated; 1=Sensor is calibrating; 2/3=Sensor is calibrated;
+        optional bool x_accel_valid = 33;  // 0=not valid; 1=valid;
+        optional bool y_accel_valid = 34;  // 0=not valid; 1=valid;
+        optional bool z_accel_valid = 35;  // 0=not valid; 1=valid;	    
+        optional bool x_ang_rate_valid = 36;  // 0=not valid; 1=valid;
+        optional bool y_ang_rate_valid = 37;  // 0=not valid; 1=valid;
+        optional bool z_ang_rate_valid = 38;  // 0=not valid; 1=valid; 
+        repeated Sensors sensors = 39;
+    }
+
+    message Sensors {
+        optional SensorType type = 1;   // sensor type
+        optional bool is_used = 2;    // sensor is used
+        optional bool is_ready = 3;   // sensor is ready
+        optional int32 cal_status = 4;   // 0=Sensor is not calibrated; 1=Sensor is calibrating; 2/3=Sensor is calibrated;
+        optional int32 time_status = 5;  // 0=No data; 1=Reception of the first byte used to tag the measurement; 2=Event input used to tag the measurement; 3=Time tag provided with the data
+        optional int32 obs_freq = 6;   // observation frequency
+        optional bool fault_bad_meas = 7;   // bad measurements detected
+        optional bool fault_bad_ttag = 8;   // bad measurement time-tags detected
+        optional bool fault_missing_meas = 9;   // missing or time-misaligned measurements detected
+        optional bool fault_noisy_meas = 10;   // high measurement noise-level detected
+    }
+
+    enum SensorType {
+        Z_AXIS_GYROSCOPE = 0;
+        REAR_LEFT_WHEEL_TICKS = 1;
+        REAR_RIGHT_WHEEL_TICKS = 2;
+        SINGLE_TICK = 3;
+        GYROSCOPE_TEMP = 4;
+        Y_AXIS_GYROSCOPE = 5;
+        X_AXIS_GYROSCOPE = 6;
+        X_AXIS_ACC = 7;
+        Y_AXIS_ACC = 8;
+        Z_AXIS_ACC = 9;
+        SENS_UNKNOWN = 255;
+    }
+}

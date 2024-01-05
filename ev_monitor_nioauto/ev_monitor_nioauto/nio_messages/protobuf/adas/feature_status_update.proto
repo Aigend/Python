@@ -1,0 +1,11 @@
+option java_package = "com.nextev.cvs_proto.protobuf.adas";
+option java_outer_classname = "FeatureStatusUpdateUnit";
+
+import "position_status.proto";
+import "feature_status.proto";
+
+message FeatureStatusUpdate {
+    optional PositionStatus position       = 1;
+    optional FeatureStatus  feature_status = 2;
+    optional int64          timestamp      = 3;
+}

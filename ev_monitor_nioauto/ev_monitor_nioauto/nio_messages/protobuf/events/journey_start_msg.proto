@@ -1,0 +1,20 @@
+import "soc_status.proto";
+import "position_status.proto";
+import "vehicle_status.proto";
+
+option java_package = "com.nextev.cvs_proto.protobuf.events";
+option java_outer_classname = "JourneyStartMessage";
+
+message JourneyStartEvent {
+
+    optional string id = 1; // unique id, VIN for vehicle data
+    optional int32 version = 2; // message protocol version
+    optional string journey_id = 3; // JourneyID = YYMMDD####
+    optional string icc_id = 4; // ICCID of SIM card
+    optional uint64 sample_ts = 5; // journey start time
+    optional SOCStatus.BatteryPackageInfo battery_package_info = 6; // battery package info
+    optional PositionStatus position_status = 7;
+    optional SOCStatus soc_status = 8;
+    optional VehicleStatus vehicle_status = 9;
+    optional int32 pm25_fil = 10;
+}

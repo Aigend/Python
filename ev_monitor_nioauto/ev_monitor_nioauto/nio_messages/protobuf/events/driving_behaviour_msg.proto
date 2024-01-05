@@ -1,0 +1,16 @@
+option java_package = "com.nextev.cvs_proto.protobuf.events";
+option java_outer_classname = "DrivingBehaviourMessage";
+
+message DrivingBehaviourEvent {
+
+    optional string id = 1; // unique id, VIN for vehicle data
+    optional int32 version = 2; // message protocol version
+    optional uint64 sample_ts = 3; // sample time
+    repeated Behavior behaviour = 4;
+
+    enum Behavior {
+        SHARP_TURN = 0; // steer wheel sharp turning
+        RAPID_DECELERATION = 1; // rapid deceleration
+        RAPID_ACCELERATION = 2; // rapid acceleration
+    }
+}

@@ -1,0 +1,46 @@
+option java_package = "com.nextev.cvs_proto.protobuf.custom";
+option java_outer_classname = "HVACStatusUnit";
+
+message HVACStatus {
+    // 空调状态数据
+
+    optional float amb_temp_c = 1; // ambient temperature in Celsius degree
+    optional float outside_temp_c = 2; // outside temperature in Celsius degree
+    optional bool air_con_on = 3; // air conditioner On/Off status
+    optional int32 pm_2p5_cabin = 4; // PM 2.5 in cabin
+    optional bool pm_2p5_filter_active = 5; // PM 2.5 filter active status
+    optional CbnPreSts cbn_pre_sts = 6;
+    optional CCUCbnPreACEnaSts ccu_cbn_pre_ac_ena_sts = 7;
+    optional CCUCbnPreAQSEnaSts ccu_cbn_pre_aqs_ena_sts = 8;
+    optional CbnHiTDrySts cbn_hi_t_dry_sts = 9;// air conditioner ventilation dry mode status
+    optional CCUMaxDefrstLampReq ccu_max_defrst_sts = 10; // Max defrost function status, 0 is off, 1 is on
+
+    enum CbnPreSts {
+        OFF = 0; // Off
+        ON = 1; // On
+        CALCULATE_ESTIMATED_TIME_STATUS = 2; // Calculate Estimated Time Status
+        RESERVED = 3; // Reserved
+    }
+
+    enum CCUCbnPreACEnaSts {
+        DISABLE_AC = 0; // Disable A/C
+        ENABLE_AC = 1; // Enable A/C
+    }
+
+    enum CCUCbnPreAQSEnaSts {
+        DISABLE_AQS = 0; // Disable AQS
+        ENABLE_AQS = 1; // Enable AQS
+    }
+
+    enum CbnHiTDrySts {
+        DRY_OFF = 0;
+        DRY_ON  = 1;
+        DRY_ERROR = 2;
+    }
+
+    enum CCUMaxDefrstLampReq {
+        LAMP_OFF = 0;
+        LAMP_ON  = 1;
+    }
+
+}

@@ -1,0 +1,24 @@
+import "vehicle_status.proto";
+import "can_msg.proto";
+
+option java_package = "com.nextev.cvs_proto.protobuf.events";
+option java_outer_classname = "LvBattChargingMessage";
+
+message LvBattChargingEvent {
+    optional string id = 1; // unique id, VIN for vehicle data
+    optional int32 version = 2; // message protocol version
+    optional uint64 sample_ts = 3; // status change time
+    optional uint64 event_id = 4;       // event id, timestamp - millisecond, same with the first lv batt charging event sample_ts
+    optional int32 event_num = 5;   //  1,2,3,4,5
+    optional float cgw_log_voltage = 6;  // current CGW log voltage, 0~65535 mv, -1: invalid
+    optional float cgw_log_soc = 7;   // current CGW log soc, 0~100%, -1:invalid
+    optional VehicleStatus vehicle_status = 8;   // vehicle status
+    optional CanMsg can_msg = 9;   // can msg
+    repeated PreCgwLogInfo pre_cgw_log_info = 10;  // 10 group cgw log info before lv batt charging event.
+}
+
+message PreCgwLogInfo {
+    optional uint64 sample_ts = 1;
+    optional float cgw_log_volatage = 2;
+    optional float cgw_log_soc = 3;
+}

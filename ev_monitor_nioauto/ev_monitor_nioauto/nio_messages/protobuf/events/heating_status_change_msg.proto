@@ -1,0 +1,11 @@
+import "heating_status.proto";
+
+option java_package = "com.nextev.cvs_proto.protobuf.events";
+option java_outer_classname = "HeatingStatusChangeMessage";
+
+message HeatingStatusChangeEvent {
+    optional string id = 1; // unique id, VIN for vehicle data
+    optional int32 version = 2; // message protocol version
+    optional uint64 sample_ts = 3; // sample time
+    optional HeatingStatus heating_status = 4;
+}

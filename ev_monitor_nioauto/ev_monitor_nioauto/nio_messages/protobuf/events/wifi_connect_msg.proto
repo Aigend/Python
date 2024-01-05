@@ -1,0 +1,36 @@
+syntax = "proto2";
+option java_package = "com.nextev.cvs_proto.protobuf.events";
+option java_outer_classname = "WifiConnectMessage";
+
+message WifiConnectEvent {
+    optional string id = 1; // unique id, VIN for vehicle data
+    optional int32 version = 2; // message protocol version
+    optional uint64 sample_ts = 3; // the time the event was triggered
+    optional int32 result = 4;  // the result of wifi connect, 0:success  1:failure
+    optional string connect_time = 5;  // the time from wifi_scan to wifi_connection
+    optional PSAPParkViewStatusSts psap_pwr_swap_sts = 6;
+    optional PwrSwapManPrkgReqStatus pwr_swap_man_park_req = 7;
+    optional VehPwrSwapModReqStatus veh_pwr_swap_mod_req = 8;
+
+    //VAL_ 748 PSAPParkViewStatus 3 "Reserved" 2 "Reserved" 1 "Activated" 0 "Off" ;
+    enum PSAPParkViewStatusSts{
+        PSAP_PWR_SWAP_STS_OFF = 0;
+        PSAP_PWR_SWAP_STS_ON = 1;
+        PSAP_PWR_SWAP_STS_RESERVED = 2;
+    }
+
+    //VAL_ 699 PwrSwapManPrkgReq 1 "Request" 0 "No request" ;
+    enum PwrSwapManPrkgReqStatus{
+        PWR_SWAP_MAN_PARK_NOREQ = 0;
+        PWR_SWAP_MAN_PARK_REQ = 1;
+    }
+
+    //VAL_ 431 VehPwrSwapModReq 3 "Invalid" 2 "Off" 1 "On" 0 "No action" ;
+    enum VehPwrSwapModReqStatus{
+        VEH_PWR_SWAP_MOD_REQ_NO_ACTION = 0;
+        VEH_PWR_SWAP_MOD_REQ_ON = 1;
+        VEH_PWR_SWAP_MOD_REQ_OFF = 2;
+        VEH_PWR_SWAP_MOD_REQ_INVALID  = 3;
+    }
+}
+

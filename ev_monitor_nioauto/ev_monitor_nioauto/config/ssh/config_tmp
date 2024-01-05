@@ -1,0 +1,49 @@
+Host jump
+    HostName 10.128.253.29
+    Port 2222
+    ForwardAgent yes
+    User li.liu2
+    IdentityFile /Users/qiangwei.zhang/workspace/ev_monitor_nioauto/config/ssh/ssh_key
+    ProxyCommand /usr/local/bin/corkscrew proxy-bj.nioint.com 8080 %h %p
+Host jumpzqw
+    HostName 10.128.253.29
+    Port 2222
+    ForwardAgent yes
+    User qiangwei.zhang.o
+    IdentityFile /Users/qiangwei.zhang/workspace/ev_monitor_nioauto/config/ssh/ssh_key
+    ProxyCommand /usr/local/bin/corkscrew proxy-bj.nioint.com 8080 %h %p
+Host jump_stg_mp
+    HostName 10.138.123.70
+    Port 2222
+    ForwardAgent yes
+    User li.liu2
+    IdentityFile /Users/qiangwei.zhang/workspace/ev_monitor_nioauto/config/ssh/ssh_key
+    ProxyCommand /usr/local/bin/corkscrew proxy-bj.nioint.com 8080 %h %p
+Host auto01
+    Hostname     10.110.93.76
+    Port         22
+    User li.liu2
+    ProxyCommand /usr/local/bin/corkscrew proxy-bj.nioint.com 8080 %h %p
+    IdentityFile /Users/qiangwei.zhang/workspace/ev_monitor_nioauto/config/ssh/ssh_key
+Host auto02
+    Hostname     10.110.93.77
+    Port         22
+    User li.liu2
+    ProxyCommand /usr/local/bin/corkscrew proxy-bj.nioint.com 8080 %h %p
+    IdentityFile /Users/qiangwei.zhang/workspace/ev_monitor_nioauto/config/ssh/ssh_key
+Host auto03
+    Hostname     10.110.3.103
+    Port         22
+    User li.liu2
+    ProxyCommand /usr/local/bin/corkscrew proxy-bj.nioint.com 8080 %h %p
+    IdentityFile /Users/qiangwei.zhang/workspace/ev_monitor_nioauto/config/ssh/ssh_key
+Host auto04
+    Hostname     10.112.17.16
+    Port         22
+    User li.liu2
+    ProxyCommand /usr/local/bin/corkscrew proxy-bj.nioint.com 8080 %h %p    
+    IdentityFile /Users/qiangwei.zhang/workspace/ev_monitor_nioauto/config/ssh/ssh_key
+Host *
+    ServerAliveInterval 30
+    ServerAliveCountMax 10
+    TCPKeepAlive yes

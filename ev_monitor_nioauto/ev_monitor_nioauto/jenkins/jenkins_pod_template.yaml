@@ -1,0 +1,47 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  namespace: sqe-test
+spec:
+  hostAliases:
+    - ip: "10.133.32.117"
+      hostnames:
+       - cls-9fmq675n.ccs.tencent-cloud.com
+  volumes:
+    - name: seq-siqi-empty-volume
+      emptyDir: { }
+  containers:
+    # jnlp环境，必选，注意此处name=jnlp不能变，jenkins才能认出来
+    - name: jnlp
+      image: swc-harbor.nioint.com/sqe/jnlp-slave:root_user
+      imagePullPolicy: IfNotPresent
+      # mount的路径保持为jenkins的默认工作路径。jenkins 2.2版本默认工作路径/home/jenkins/agent
+      volumeMounts:
+        - mountPath: /home/jenkins/agent
+          name: seq-siqi-empty-volume
+    # python3环境，可选
+    - name: python3
+      image: hrb.nioint.com/sqe/automation_python36:v2
+      imagePullPolicy: IfNotPresent
+      command:
+        - cat
+      tty: true
+      env:
+        - name: WORKON_HOME # 设置pipenv的虚拟环境路径变量 WORKON_HOME
+          value: /home/jenkins/agent/.local/share/virtualenvs/
+      volumeMounts: # mount的路径保持为jenkins的默认工作路径。
+        - mountPath: /home/jenkins/agent
+          name: seq-siqi-empty-volume
+      resources: # 资源限定，可调。尽量不要用太多
+        limits:
+          cpu: 300m
+          memory: 800Mi
+    - name: java8
+      image: hrb.nioint.com/sqe/automation_java8:v4.3
+      imagePullPolicy: IfNotPresent
+      command:
+        - cat
+      tty: true
+      volumeMounts: # mount的路径保持为jenkins的默认工作路径。
+        - mountPath: /home/jenkins/agent
+          name: seq-siqi-empty-volume

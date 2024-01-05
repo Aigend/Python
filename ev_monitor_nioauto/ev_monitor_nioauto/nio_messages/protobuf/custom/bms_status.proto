@@ -1,0 +1,13 @@
+option java_package = "com.nextev.cvs_proto.protobuf.custom";
+option java_outer_classname = "BmsStatuslUnit";
+
+message BmsStatus {
+    optional int32 isolation_level = 1; // BMS isolation level
+    optional float health_status = 2; // BMS health status
+    optional float chrg_pwr_lmt = 3; // BMS charge power limit dynamic
+    optional float dischrg_pwr_lmt = 4; // BMS discharge power limit dynamic
+    optional float avg_cell_volt = 5; // BMS average cell voltage
+    optional float avg_temp = 6; // BMS average temperature
+    optional float in_coolant_temp = 7; // BMS inlet coolant temperature
+    optional float out_coolant_temp = 8; // BMS outlet coolant temperature
+}

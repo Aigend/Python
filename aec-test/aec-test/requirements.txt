@@ -1,0 +1,8 @@
+Flask==2.3.2
+colorlog==6.6.0
+pyzmq==25.0.2
+psutil==5.9.2
+zmq==0.0.0
+opencv-python~=4.8.0.74
+requests~=2.27.1
+pip

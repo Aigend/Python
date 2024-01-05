@@ -1,0 +1,55 @@
+pipeline {
+    agent {
+        label 'aec'
+    }
+    /*
+    environment{
+        //data='{"test_id": "111", "version": "http://10.110.168.160:9000/pus3.0/P0309823 AT/AEC-APP/023012.1.11.0/023012.1.11.0.zip", "test_detail": [{"test_case_id": "Test_Single_Algorith_001", "test_count": "100"}, {"test_case_id": "Test_Single_Algorith_002", "test_count": "100"}, {"test_case_id": "Test_Single_Algorith_004", "test_count": "100"}, {"test_case_id": "Test_Single_Algorith_005", "test_count": "100"}, {"test_case_id": "Test_Single_Algorith_006", "test_count": "100"}, {"test_case_id": "Test_Single_Algorith_013", "test_count": "100"}, {"test_case_id": "Test_Single_Algorith_015", "test_count": "100"}, {"test_case_id": "Test_Single_Algorith_017", "test_count": "100"}, {"test_case_id": "Test_Single_Algorith_020", "test_count": "100"}, {"test_case_id": "Test_Multiple_Algorith_001", "test_count": "100"}, {"test_case_id": "Test_Multiple_Algorith_002", "test_count": "100"}]}'
+        //data='{"test_id": "111", "version": "http://10.110.168.160:9000/pus3.0/auto ci/AEC-APP/023012.1.11.5/023012.1.11.5.zip", "test_detail": [{"test_case_id": "Test_Single_Algorith_001", "test_count": "100"}, {"test_case_id": "Test_Single_Algorith_002", "test_count": "100"}, {"test_case_id": "Test_Single_Algorith_004", "test_count": "100"}, {"test_case_id": "Test_Single_Algorith_005", "test_count": "100"}, {"test_case_id": "Test_Single_Algorith_006", "test_count": "100"}, {"test_case_id": "Test_Single_Algorith_013", "test_count": "100"}, {"test_case_id": "Test_Single_Algorith_015", "test_count": "100"}, {"test_case_id": "Test_Single_Algorith_017", "test_count": "100"}, {"test_case_id": "Test_Single_Algorith_020", "test_count": "100"}, {"test_case_id": "Test_Multiple_Algorith_001", "test_count": "100"}, {"test_case_id": "Test_Multiple_Algorith_002", "test_count": "100"}, {"test_case_id": "Test_Normal_SwapBattery_001", "test_count": "100"}]}'
+        //data='{"test_id": "111", "version": "http://10.110.168.160:9000/pus3.0/auto ci/AEC-APP/023012.1.11.5/023012.1.11.5.zip", "test_detail": [{"test_case_id": "Test_Normal_SwapBattery_001", "test_count": "10"}]}'
+        data='{"test_id": "111", "version": "http://10.110.168.160:9000/pus3.0/auto ci/AEC-APP/023012.1.11.5/023012.1.11.5.zip", "test_detail": [{"test_case_id": "Test_Single_Algorith_001", "test_count": "100"}, {"test_case_id": "Test_Single_Algorith_002", "test_count": "100"}, {"test_case_id": "Test_Single_Algorith_004", "test_count": "100"}, {"test_case_id": "Test_Single_Algorith_005", "test_count": "100"}, {"test_case_id": "Test_Single_Algorith_006", "test_count": "100"}, {"test_case_id": "Test_Single_Algorith_013", "test_count": "100"}, {"test_case_id": "Test_Single_Algorith_015", "test_count": "100"}, {"test_case_id": "Test_Single_Algorith_017", "test_count": "100"}, {"test_case_id": "Test_Single_Algorith_020", "test_count": "100"}, {"test_case_id": "Test_Multiple_Algorith_001", "test_count": "100"}, {"test_case_id": "Test_Multiple_Algorith_002", "test_count": "100"}, {"test_case_id": "Test_Normal_SwapBattery_001", "test_count": "100"}]}'
+    }
+    **/
+    options{
+      buildDiscarder(logRotator(numToKeepStr:'20'))
+      disableConcurrentBuilds() // 同一个pipeline,Jenkins默认是可以同时执行的，而此选项则是禁止多个pipeline并行执行
+      timestamps()// 为控制台输出时间戳。
+    }
+
+    stages{
+        stage("upgradeAecVersion"){
+            steps{
+               sh 'bash upgrade.sh'
+            }
+            post {
+                always {
+                  echo 'upgradeAecVersion executor success...'
+                }
+            }
+        }
+
+        stage("executorScriptsTest"){
+            steps{
+                sh 'python3 aw.py'
+            }
+            post {
+                always {
+                  echo 'executorScriptsTest executor success...'
+                }
+            }
+        }
+
+        stage("collectLogs"){
+            steps{
+                sh 'bash scp.sh'
+            }
+            post {
+                always {
+                  echo 'executorScriptsTest executor success...'
+                }
+            }
+        }
+
+    }
+
+}

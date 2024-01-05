@@ -1,0 +1,87 @@
+cmdopt: prod
+host:
+#  app_in: https://app-msg-eu.nioint.com
+  app_in: https://app-eu.nioint.com
+#  app_in: https://app.nioint.com
+  tsp_in: https://tsp.eu.nio.com
+  uds_in: https://uds.nioint.com
+
+message:
+  host: tsp-nmp.nioint.com
+  port: 20083
+  host_qc: 10.132.140.20
+  port_qc: 20083
+vehicles:
+  normal_qc:
+    vehicle_id: ce86a87d33414d38b0820d4fe09358de
+    client_id: "ChDZ0IcO3ShwIz_Mi-3wcjUiEAEYdSCVTigC"
+    vin: LJ1EEAUU7J7700497
+  normal_qc_discard:
+    vehicle_id: 09f119ad54fe444faa59be8a0d824c63
+    client_id: "ChDHGjxpgSFKTW4AcAqy3ko2EAEYoQMglU4oAg=="
+    vin: LJ1EEAUUXJ7700834
+
+kafka:
+  qc:
+    bootstrap.servers:
+      - 10.132.138.3:9092
+      - 10.132.138.5:9092
+      - 10.132.138.6:9092
+    group.id: ev_monitor_test
+    auto.offset.reset: latest
+    security.protocol: sasl_plaintext
+    sasl.mechanisms: PLAIN
+    sasl.username:  j36QKnHpp0LrUgI
+    sasl.password: pXXQvrMdyR8qhZN
+    enable.partition.eof: False
+    topics:
+      ecall_qc: swc-cvs-tsp-prod-80001-ecall
+      power-swap_qc: swc-cvs-tsp-prod-80001-power_swap
+      wti_qc: swc-cvs-tsp-prod-80001-wti_can_signal
+push_sms:
+  user_id: 3328616
+  account_id: 180205016
+  mobile: 17610551933
+push_email:
+  account_ids: 1003752538
+  user_ids: 111890072
+  user_id_lists: "111890072"
+  recipients: 550736273@qq.com
+secret:
+  10000: acbd18db4cc2f85cedef654fccc4a4d8
+  10001: e5b57f8542b96193e4b0dfe8a96b6cc0
+  10002: 2bc9b00fdcf8f7ded6d77afdd7077e79
+  10003: f174b769ad18af17c0f65b83214ac0cc
+  10004: 7936e30cb1b8948ac2f283871642029c
+  10005: b207319e51865e85e01c15cb29804b55
+  10006: 68f828215165cd42cab37e8643a00019
+  10007: ae108a49688ab8b87f392b452d43829e
+  10008: 4cfdb3115a617a508ef584f896c08133
+  10010: 2ab59bd6192acb105f0f5c254ef55443
+  10011: d52afaba16414c0f845dae70b4f8ac79
+  10012: f49e94b0f390ef210bd9eeee823d746a
+  10013: 33a130f9425063421cd9e7b6ed6050a5
+  10014: 6396c6d430dd48809fea88fb01d94cce
+  10016: cbaa22028ddd4b169e4ce452a3138afd
+  10022: 2f1f42e22ea484b2f9db2049540066c0
+  10023: 18aca711d33d5c318a9ade7b22a3d341
+  10024: 012b025c58c14adbb67ae14c1f5d854c
+  10066: 0ca7836511d143279a0ec04773c4b19b
+  10102: 5e725e3d9a5c4b579275903f91682f04
+  10107: 8d8c1c8295a6458c83e40a62c7a0970f
+  30006: 93ee15dab422478289d4def041193134
+  30007: 3ca9b9c97ae94f2dacabc006d8eaad1c
+  30010: 1b3424e49a4b402c9fb8a6d2dc662cb8
+  50004: f911639ddc3d44bd9eaa6d21c96875b2
+  80001: ce058c35eed7458180eaf877d35fda83
+  80002: fe386ea056f44149ada32fb7fa8dba66
+  100002: aD6309a8082eb1c8E3371EF361AaCd51
+  100004: f990a4ce5D0d88C03b196c707c5230db
+  100006: 6295f98351F04a0e575aC8e8fD6e1Bde
+  100008: bD6f916F622aBecF77d638E485A1B2f4
+  100024: A8f7cF54A8322129A800190a471eAEA8
+  100034: c4A26BF73b79d87FE7b7F2D46562EE48
+  100055: 98d0fdf3000b2e7dd87cFC821791c9f0
+  100105: 3B1b5ef9df2d4a019d69Fc5fb0638a7D
+  100159: 8f95def9cc84a6428c64e21fc4efa344
+  100423: dd35E1229a61747824Fcd0d8b0a58aee

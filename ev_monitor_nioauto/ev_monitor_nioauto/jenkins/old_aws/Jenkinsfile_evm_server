@@ -1,0 +1,97 @@
+def upstream_list = 'cvs-tsp-evm-server-all-deploy-env_test' //上游job列表，逗号分隔
+def project_name = 'tsp-evm-server'
+
+pipeline {
+    agent { label 'jnlp-slave-python3.6' } //job运行的executor
+    parameters {
+        choice(name: 'env', choices: 'test\ndev\nstg', description: '测试环境，请选择dev？test？stg？')
+        string(name: 'keywords', defaultValue: 'tests/evm_server', description: '关键字，用于过滤测试用例，可以使用目录名、py文件名过滤')
+    }
+    environment {
+        git_url = 'git@git.nevint.com:automation/ev_monitor_nioauto.git' //项目仓库地址
+        git_key = 'c8615bc3-c995-40ed-92ba-d5b66943f116' //固定值，不要修改
+        git_branch = 'master'
+        gitpullerr = 'noerr'
+        email_list = 'li.liu2@nio.com, hongzhen.bi@nio.com' //job失败后给谁发邮件
+    }
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '30'))
+        timeout(time: 1, unit: 'HOURS')
+        disableConcurrentBuilds()
+    }
+    triggers {
+        //pollSCM('H * * * 1-5')//周一到周五，每小时
+        cron('H H(5-6) * * *') //每天
+        //gitlab(triggerOnPush: false, triggerOnMergeRequest: false, branchFilterType: 'All')
+        //upstream(upstreamProjects: "${upstream_list}", threshold: hudson.model.Result.SUCCESS)
+    }
+    stages {
+        stage('拉取测试代码') {
+            steps {
+                git branch: "${git_branch}", credentialsId: "${git_key}", url: "${git_url}"
+            }
+        }
+        stage('安装测试依赖') {
+            steps {
+                //sh "pipenv --rm"
+                sh "pipenv install --skip-lock --ignore-pipfile"
+                sh "pipenv graph"
+            }
+        }
+        stage('执行测试用例') {
+            steps {
+                sh "rm -rf $env.WORKSPACE/allure-*"//执行前先清空报告
+                //sh "export PATH=$env.WORKSPACE:$PATH"
+                sh "echo $PATH"
+                sh "pipenv run py.test --env '${params.env}' -k '${params.keywords}'"
+            }
+        }
+    }
+    post {
+        always{
+            script {
+                try {
+                    allure includeProperties: false, jdk: '', report: 'jenkins-allure-report', results: [[path: 'allure-results']]
+                    sh "ls -al"
+
+                    def result = sh returnStdout: true ,script: """
+                    python -c 'from utils import parse_allure; print(parse_allure.find_data("$env.WORKSPACE"))'
+                    """
+                    result = result.trim()
+                    sh "echo $result"
+
+                    sh "ls -al $env.WORKSPACE/allure-report/"
+                    //找到测试报告文件地址
+                    def filename = sh returnStdout: true ,script: "echo \$(find $env.WORKSPACE/allure-report/ -name '*[0-9]'  -type d)"
+                    filename = filename.trim()
+                    sh """
+                        cd $filename
+                        zip -r ${project_name}.zip *
+                        ls -al  $filename
+                    """
+                    def version = sh returnStdout: true, script: "echo \$(curl -s http://venus.nioint.com/ext_api/version?env_name=${params.env}\\&project_name=${project_name} |jq '.data.version')"
+                    version = version.trim()
+                    sh """
+                    find $filename -name '*.zip' | echo \$(xargs -i curl -X POST https://kunlun-manager.nioint.com/reporter/uploadReport -H 'content-type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW' -F file=@{} -F 'data={"product":"TSP","system":"Data Collection","module":\"${project_name}\","version":${version},"testEnv":\"${params.env}\",${result}'})
+                    """
+                } catch (err) {
+                    echo 'post error'
+                    sh 'exit 0'
+                }
+            }
+        }
+        failure {
+            script {
+                if (gitpullerr == 'noerr') {
+                    mail to: "${email_list}",
+                            subject: "[Jenkins Build Notification] ${JOB_NAME} - Build # ${BUILD_NUMBER} -构建失败!",
+                            body: "'${env.JOB_NAME}' (${env.BUILD_NUMBER}) 执行失败了 \n请及时前往 ${env.BUILD_URL} 进行查看"
+                } else {
+                    echo 'scm pull error ignore send mail'
+                }
+            }
+        }
+
+    }
+
+}

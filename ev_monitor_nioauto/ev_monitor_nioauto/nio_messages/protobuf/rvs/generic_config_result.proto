@@ -1,0 +1,19 @@
+option java_package = "com.nextev.cvs_proto.protobuf.rvs";
+option java_outer_classname = "GenericConfigResultMsg";
+
+message ConfigResult {
+
+    optional int64 command_id = 1; // command id 
+    optional ResultStatus status = 2; //status of setting up configurations
+    repeated string fail_reason = 3; //fail reason
+
+    optional string type = 4; // type in returned Json which is from APP
+    optional string values = 5; // values in returned Json string from APP
+
+    enum ResultStatus {
+        SUCCESS = 0;
+        FAILURE = 1;
+        RUNNING = 2;
+    }
+
+}

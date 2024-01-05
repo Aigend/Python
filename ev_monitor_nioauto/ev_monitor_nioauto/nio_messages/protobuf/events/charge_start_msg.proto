@@ -1,0 +1,20 @@
+import "soc_status.proto";
+import "position_status.proto";
+import "vehicle_status.proto";
+
+option java_package = "com.nextev.cvs_proto.protobuf.events";
+option java_outer_classname = "ChargeStartMessage";
+
+message ChargeStartEvent {
+
+    optional string id = 1; // unique id, VIN for vehicle data
+    optional int32 version = 2; // message protocol version
+    optional string charge_id = 3; // ChargeID = YYMMDD####
+    optional string icc_id = 4; // ICCID of SIM card
+    optional uint64 sample_ts = 5; // time when charging starts
+    optional SOCStatus soc_status = 6; // soc status
+    optional SOCStatus.BatteryPackageInfo battery_package_info = 7; // battery package info
+    optional SOCStatus.ChargingInfo charging_info = 8; // charging info
+    optional PositionStatus position_status = 9;
+    optional VehicleStatus vehicle_status = 10;
+}

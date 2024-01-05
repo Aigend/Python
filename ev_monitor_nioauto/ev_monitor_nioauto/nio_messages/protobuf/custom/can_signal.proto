@@ -1,0 +1,19 @@
+syntax = "proto2";
+option java_package = "com.nextev.cvs_proto.protobuf.custom";
+option java_outer_classname = "CanSignalUnit";
+
+// CanSignal will replace CanMsg for NT2.0
+message CanSignal {
+    optional uint64 sample_ts = 1; // base time(unit:ms) for the signals to calculate exact time for each frame
+    repeated SignalInfo signal_info = 2;
+
+    message SignalInfo {
+        optional uint32 id = 1; // can message id
+        repeated DataInfo data_info = 2;
+    }
+
+    message DataInfo {
+        optional uint64 ts_offset = 1; // ts_offset + sample_ts will be the sample time of the frame
+        optional bytes data = 2;
+    }
+}

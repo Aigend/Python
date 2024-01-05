@@ -1,0 +1,164 @@
+def upstream_list = 'cvs-tsp-evm-server-all-deploy-env_test'
+def project_name = 'tsp-evm-server'
+pipeline {
+
+    agent { label 'jnlp-slave-python3.6-v4' }
+
+    parameters {
+        choice(name: 'env', choices: 'test\ndev\nstg', description: '测试环境，请选择dev？test？stg？')
+        string(name: 'keywords', defaultValue: 'tests/evm_server', description: '测试用例名的关键字，用于过滤测试用例')
+        string(name: 'dump_ip', defaultValue: '10.125.76.233', description: 'jacoco tcpserver ip')
+        string(name: 'dump_port', defaultValue: '8987', description: 'jacoco tcpserver port')
+    }
+
+    environment {
+        git_url = 'git@git.nevint.com:automation/ev_monitor_nioauto.git'
+        git_service_url = 'git@git.nevint.com:greatwall/evm_server.git'
+        git_key = 'c8615bc3-c995-40ed-92ba-d5b66943f116'
+        git_branch = 'master'
+        gitpullerr = 'noerr'
+        scannerHome = tool 'sonar-sanner-4.2'
+        email_list = 'li.liu2@nio.com, hongzhen.bi@nio.com'
+    }
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '30'))
+        timeout(time: 1, unit: 'HOURS')
+        disableConcurrentBuilds()
+    }
+    triggers {
+//        pollSCM('H * * * 1-5')//周一到周五，每小时
+//        cron('H H * * *') //每天
+//        githubPush()
+//        upstream(upstreamProjects: "${upstream_list}", threshold: hudson.model.Result.SUCCESS)
+//        gitlab(triggerOnPush: true, triggerOnMergeRequest: false, branchFilterType: 'NameBasedFilter',includeBranchesSpec: "master")
+//
+        cron('H H(5-6) * * *') //每天
+
+       }
+
+    stages {
+        stage('拉取测试代码') {
+            steps {
+                sh "rm -rf $env.WORKSPACE/*"
+                git branch: "${git_branch}", credentialsId: "${git_key}", url: "${git_url}"
+            }
+        }
+        stage('安装测试依赖') {
+            steps {
+                //sh "pipenv --rm"
+                sh "pipenv install --skip-lock --ignore-pipfile"
+                sh "pipenv graph"
+            }
+        }
+        stage('执行测试用例') {
+            steps {
+                script{
+                    try {
+                        sh "rm -rf $env.WORKSPACE/allure-*"//执行前先清空报告
+                        sh "echo $PATH"
+    
+                        sh """
+                             pipenv run py.test --env ${params.env} -k ${params.keywords}
+                           """
+                    }
+                    catch (err) {
+                        echo 'pytest case failed!'
+                        echo err.getMessage()
+                    }
+                }
+            }
+        }
+    }
+    post{
+        always{
+            script {
+                try{
+                    allure includeProperties: false, jdk: '', report: 'jenkins-allure-report', results: [[path: 'allure-results']]
+                    version = sh returnStdout: true ,script: "echo \$(curl -s http://venus.nioint.com/ext_api/version?env_name=${params.env}\\&project_name=${project_name} |jq '.data.version')"
+                    println(version);
+                    // 获取被测项目commitid
+                    def check_version = version[-9..-3]
+                    println(check_version);
+                    // 编译被测项目
+                    dir("${project_name}"){
+                        git branch: "${git_branch}", credentialsId: "${git_key}", url: "${git_service_url}"
+                        git checkout: "${git_branch}"
+                        sh 'mvn clean compile'
+                    }
+                    // 获取覆盖率数据
+                    sh """
+                        java -jar /usr/bin/jacococli.jar dump --address ${params.dump_ip} --port ${params.dump_port} --destfile jacoco-integration.exec
+                        java -jar /usr/bin/jacococli.jar report jacoco-integration.exec --classfiles   ${project_name}/target/classes   --xml  ${project_name}/jacoco-report.xml  --html  jacoco-report  --sourcefiles  ${project_name}/src/main/java --encoding utf-8
+                    """
+                } catch (err) {
+                    echo 'post error'
+                    sh 'exit 0'
+                }
+             }
+            // 在Jenkins上展示jacoco-report
+            jacoco(execPattern: 'jacoco-integration.exec',
+                classPattern: "${project_name}/target/classes",
+                sourcePattern: "${project_name}/src/main/java")
+             // 在sonarqube上展示jacoco-report
+            withSonarQubeEnv('sonar') {
+                sh """
+                     cd ${project_name}
+                     ${scannerHome}/bin/sonar-scanner \
+                     -Dsonar.projectKey="${project_name}-CI" \
+                     -Dsonar.projectName="${project_name}-CI" \
+                     -Dsonar.sources=src \
+                     -Dsonar.sourceEncoding=UTF-8 \
+                     -Dsonar.java.binaries=target/classes \
+                     -Dsonar.language=java \
+                     -Dsonar.dynamicAnalysis=reuseReports \
+                     -Dsonar.java.coveragePlugin=jacoco \
+                     -Dsonar.coverage.jacoco.xmlReportPaths=jacoco-report.xml \
+                     -Dsonar.projectVersion=${version}
+                 """
+            }
+            script {
+                 def props = readJSON file: "${env.WORKSPACE}"+"/.report.json"
+                    if (props.summary.passed  == null) {
+                        props.summary.passed = 0
+                    }
+                    if (props.summary.skipped == null) {
+                        props.summary.skipped = 0
+                    }
+                    if (props.summary.failed == null) {
+                        props.summary.failed = 0
+                    }
+                    def result = readJSON text: '{}'
+                    result.duration = props.duration
+                    result.success = props.exitcode
+                    result.caseCount = props.summary.total
+                    result.caseSuccessCount = props.summary.passed
+                    result.caseFailCount = props.summary.failed
+                    result.caseSkipConut = props.summary.skipped
+                    result = result.toString().trim()[1..-2]
+
+                //找到测试报告文件地址
+                def filename = sh returnStdout: true ,script: "echo \$(find $env.WORKSPACE/allure-report/ -name '*[0-9]'  -type d)"
+                filename = filename.trim()
+                sh """
+                    cp -a jacoco-report allure-report/${env.JOB_NAME}*/data/
+                    cd $filename
+                    zip -r ${project_name}.zip *
+                    find $filename -name '*.zip' | echo \$(xargs -i curl -X POST https://kunlun-manager.nioint.com/reporter/uploadReport -H 'content-type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW' -F file=@{} -F 'data={"product":"Tsp","system":"rvs","module":"${project_name}","version":${version},"testEnv":\"${params.environ}\",${result}'})
+                   """
+
+             }
+         }
+
+         failure {
+            script {
+                if (gitpullerr == 'noerr') {
+                    mail to: "${email_list}",
+                            subject: "[Jenkins Build Notification] ${JOB_NAME} - Build # ${BUILD_NUMBER} -构建失败!",
+                            body: "'${env.JOB_NAME}' (${env.BUILD_NUMBER}) 执行失败了 \n请及时前往 ${env.BUILD_URL} 进行查看"
+                } else {
+                    echo 'scm pull error ignore send mail'
+                }
+            }
+        }
+    }
+}
