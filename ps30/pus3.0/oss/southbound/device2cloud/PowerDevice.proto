@@ -1,0 +1,99 @@
+/***********************************************************
+ * Copyright (C) 2022, NIO POWER , LTD
+ * All rights reserved.
+ * Product        : PD1.0
+ * Component id   : PB
+ * File Name      : PowerDeviceMessage.pb
+ * Description    : Define Power Device data transfer type between oss and device
+ * History        :
+ * Version        date          author         context
+ * V1.0.0         2022-05-31    kangbiao.yu    created
+*************************************************************/
+syntax = "proto2";
+package oss.southbound;
+
+import "oss/OSSCustomOptions.proto";
+import "oss/southbound/device2cloud/common/UniversalDataModel.proto";
+
+option java_package = "com.nextev.pm.oss.common.protobuf.southbound.device2cloud";
+option java_outer_classname = "PowerDeviceMessageProto";
+
+/*设备通用数据结构定义*/
+message PowerDeviceMessage {
+    optional int64                  timestamp       = 1; // 消息时间戳
+    optional string                 device_id       = 2; // 设备ID
+    optional BasicMessage           basic           = 3; // 基础配置信息，重启/断网恢复后需要上报一次全量
+    optional RealtimeMessage        realtime        = 4; // 实时信息
+    optional ConfigurationMessage   configuration   = 5; // 配置信息
+    optional AlarmMessage           alarm           = 6; // 告警信息
+    optional DiagnosisMessage       diagnosis       = 7; // 诊断信息
+    optional EventMessage           event           = 8; // 事件信息
+    optional ResponseMessage        response        = 10; // 远程操作响应信息
+
+    // 基本信息
+    message BasicMessage {
+        optional int64              timestamp       = 1; // 时间戳
+        repeated UniversalDataModel data            = 2; // 数据
+    }
+
+    // 实时信息
+    message RealtimeMessage {
+        optional int64              timestamp       = 1; // 时间戳
+        repeated UniversalDataModel data            = 2; // 数据
+    }
+
+    // 配置信息
+    message ConfigurationMessage {
+        optional int64              timestamp       = 1; // 时间戳
+        repeated UniversalDataModel data            = 2; // 数据
+        optional bool               full            = 3; // 标识上传的是否是全量配置，若不提供，则认为是增量上传
+    }
+
+    // 告警信息
+    message AlarmMessage {
+        repeated UniversalAlarm     alarm           = 2; // 通用告警数据
+    }
+
+    // 诊断信息
+    message DiagnosisMessage {
+        optional string             request_id      = 1; // 请求ID
+        optional UniversalDataModel data            = 2; // 诊断命令输出数据
+    }
+
+    message EventMessage {
+        optional string             event_id        = 1; // 事件ID，必须，不存在于设备型号对应的事件元数据里的event_id会丢弃；同一设备型号下event_id必须唯一
+        optional int64              timestamp       = 2; // 时间戳
+        repeated UniversalDataModel data            = 3; // 事件上下文数据，数据类型为key,value格式数据；数量可增减，云端自适配；事件的业务ID、子设备，由产品在云端通过事件上下文元数据指定key进行维护
+    }
+
+    // 远程操作响应信息
+    message ResponseMessage {
+        optional int64              timestamp       = 1; // 时间戳
+        optional string             request_id      = 2; // 请求ID
+        optional string             operation_type  = 3; // 操作类型
+        optional RemoteResponseType response_type   = 4; // 远程操作响应类型
+        optional string             failure_reason  = 5; // 失败原因，response_type值为失败时的原因
+        repeated UniversalDataModel data            = 6; // 数据（上下文）
+    }
+
+    // 告警点数据
+    message UniversalAlarm {
+        optional string             alarm_type_id   = 1 [
+            (rule) = {not_null: {}, not_empty: {}, handler: {abandon_message: {}}}
+        ]; // 告警点ID
+        optional int64              alarm_timestamp = 2 [
+            (rule) = {not_null: {}, timestamp: {}, handler: {abandon_message: {}}}
+        ]; //消息发送的时间戳，采用UNIX时间，精确到毫秒
+        optional bool               alarm_state     = 3; // true: 告警触发； false:告警清除;
+        optional string             alarm_source    = 4; // 告警来源，默认：AS_DEVICE
+        repeated UniversalDataModel data            = 5; // 告警上下文数据，数据类型为key,value格式数据；数量可增减，云端自适配
+    }
+
+    enum RemoteResponseType{
+        RT_RECEIVED = 0; // 指令收到（ACK1）
+        RT_FINISHED_OK = 1; // 指令执行完成
+        RT_FINISHED_FAILED = 2; // 指令执行失败
+        RT_TIMEOUT = 3; // 指令执行超时
+        RT_INTERNAL_ERROR = 4; // 系统异常
+    }
+}

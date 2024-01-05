@@ -1,0 +1,284 @@
+
+////////////////////////////////////////////////////////////////////////
+// Copyright (C) 2022, NIOPower , LTD
+// All rights reserved.
+// Product        : PUS3.0 SCT
+// History        :  
+// Author         : weiwang.sun
+// Date           : 2022-3-17
+////////////////////////////////////////////////////////////////////////
+syntax = "proto3";
+package Generate.SCT;
+message SCT_MESSAGE
+
+{
+	int32                 proto_version = 1; // message protocol version 
+	int32                 device        = 2; // device
+	int32                 id            = 3; // device id
+	int64                 timestamp     = 4; // message publish time
+
+	SCT_BASIC_INFO_MESSAGE    basic_info    = 5; // 基本信息
+	SCT_STATUS_INFO_MESSAGE   status_info   = 6; // 状态信息
+	SCT_ALARM_INFO_MESSAGE    alarm_info    = 7; // 报警信息
+	SCT_REALTIME_INFO_MESSAGE realtime_info = 8; // 实时信息
+	SCT_EVENT_INFO_MESSAGE    event         = 9; // 事件信息
+	SCT_SETTINGS_INFO_MESSAGE settings_info = 10; // 配置信息
+	SCT_DTC_INFO_MESSAGE      dtc_info      = 11; // 诊断信息
+
+}
+
+message SCT_DTC_INFO_MESSAGE
+
+{
+	int32 type = 1;//诊断信息类型
+	string message = 2;//诊断 
+}
+
+message SCT_ALARM_POINT
+
+{
+	int32 id = 1;//告警ID
+	bool  state = 2;//告警状态,false=INACTIVE,true=ACTIVE
+}
+
+message SCT_ALARM_INFO_MESSAGE
+
+{	
+
+	repeated SCT_ALARM_POINT  alarm_points  = 7; // 报警信息
+
+}
+ 
+message SCT_BASIC_INFO_MESSAGE
+{
+    string software_version                         = 1;//软件版本号|充电终端|SCT|||
+    string bootloader_version                       = 2;//Bootloader版本号|充电终端|SCT|||
+    string hardware_version                         = 3;//硬件版本号|充电终端|SCT|||
+    string qr_code                                  = 4;//终端二维码|充电终端|SCT|||
+    float rated_power                              = 5;//额定功率|充电终端|SCT|||
+    float output_power_min                         = 6;//最小输出功率|充电终端|SCT|||
+    float output_current_max                       = 7;//最大可输出电流|充电终端|SCT|||
+    float output_voltage_max                       = 8;//最高输出电压|充电终端|SCT|||
+    float output_voltage_min                       = 9;//最低输出电压|充电终端|SCT|||
+    int32 cooling_type                             = 10;//冷却方式 0:风冷 1:液冷（水冷、油冷）|充电终端|SCT|||
+    int32 charge_protocol_type                     = 11;//充电标准 0:国标 1:欧标|充电终端|SCT|||
+    bool parking_lock                             = 12;//地锁联控 0:无地锁 1:有地锁|充电终端|SCT|||
+    string ip                                       = 13;//本地ip|充电终端|SCT|||
+    string bluetooth_name                           = 14;//地锁蓝牙名称|充电终端|SCT|||
+    string bluetooth_psword                         = 15;//地锁蓝牙匹配码|充电终端|SCT|||
+    string secc_version                             = 16;//SECC版本号|充电终端|SCT|||
+
+}
+
+message SCT_REALTIME_INFO_MESSAGE
+{
+    int32 ambient_temperature                      = 1;//终端环境温度|充电终端|SCT|-50|0|200
+    int32 control_panel_temperature                = 2;//终端控制板温度|充电终端|SCT|-50|0|200
+    int32 inlet_temperature                        = 3;//进液口温度|充电终端|SCT|-50|0|200
+    int32 outlet_temperature                       = 4;//出液口温度|充电终端|SCT|-50|0|200
+    int32 coolant_pressure                         = 5;//冷却液压力|充电终端|SCT|||
+    int32 coolant_flow_rate                        = 6;//冷却液流速|充电终端|SCT|||
+    int32 fan_speed                                = 7;//散热风扇转速|充电终端|SCT|||
+    float output_relay_front_voltage               = 8;//输出继电器前端电压|充电终端|SCT|0|0|1000
+    float output_relay_behind_voltage              = 9;//输出继电器后端电压|充电终端|SCT|0|0|1000
+    float output_current                           = 10;//输出电流|充电终端|SCT|0|0|1000
+    int32 positive_ground_resistence               = 11;//正极对地电阻|充电终端|SCT|0|0|
+    int32 negative_ground_resistence               = 12;//负极对地电阻|充电终端|SCT|0|0|
+    float add_up_energy                            = 13;//积分电量|充电终端|SCT|0|0|1000
+    float output_voltage                           = 14;//输出电压|充电终端|SCT|0|0|1000
+    float dcem_output_current                      = 15;//电表输出电流|充电终端|SCT|0|0|1000
+    float output_energy                            = 16;//输出电量|充电终端|SCT|0|0|1000
+    float charge_beginning_em_reading              = 17;//开始充电时电表读数|充电终端|SCT|0|0|1000
+    float charge_ending_em_reading                 = 18;//结束充电时电表读数|充电终端|SCT|0|0|1000
+    float current_em_reading                       = 19;//电表当前读数|充电终端|SCT|0|0|1000
+    float current_charge_energy                    = 20;//当前充电电量|充电终端|SCT|0|0|1000
+    float pile_highest_output_voltage              = 21;//充电机最高输出电压|充电终端|SCT|0|0|1000
+    float pile_lowest_output_voltage               = 22;//充电机最低输出电压|充电终端|SCT|0|0|1000
+    float pile_highest_output_current              = 23;//充电机最高输出电流|充电终端|SCT|0|0|1000
+    float pile_output_voltage                      = 24;//充电机输出电压|充电终端|SCT|0|0|1000
+    float pile_output_current                      = 25;//充电机输出电流|充电终端|SCT|0|0|1000
+    uint32 total_charge_time                        = 26;//累计充电时间|充电终端|SCT|0|0|
+    float pile_output_energy                       = 27;//充电桩输出能量|充电终端|SCT|0|0|1000
+    float bms_request_voltage                      = 28;//BMS请求电压|充电终端|SCT|0|0|1000
+    float bms_request_current                      = 29;//BMS请求电流|充电终端|SCT|0|0|1000
+    int32 bms_current_soc                          = 30;//BMS当前SOC|充电终端|SCT|0|0|100
+    int32 bms_last_charge_time                     = 31;//BMS剩余充电时间|充电终端|SCT|||
+    float bms_allow_highest_voltage                = 32;//BMS最高允许充电总电压|充电终端|SCT|0|0|1000
+    int32 bms_protocol_version                     = 33;//BMS协议版本号|充电终端|SCT|||
+    int32 battery_type                             = 34;//电池类型|充电终端|SCT|0|0|255
+    float battery_rated_capacity                   = 35;//电池额定容量|充电终端|SCT|0|0|1000
+    float battery_rated_voltage                    = 36;//电池额定总电压|充电终端|SCT|0|0|1000
+    string battery_factory_name                     = 37;//电池厂商名称|充电终端|SCT|||
+    string battery_produce_date                     = 38;//电池生产日期|充电终端|SCT|||
+    int32 battery_charge_number                    = 39;//电池已充电次数|充电终端|SCT|||
+    int32 battery_property_identification          = 40;//电池组产权标识|充电终端|SCT|0|0|1
+    string car_identification_code                  = 41;//车辆识别码|充电终端|SCT|||
+    string bms_software_version                     = 42;//bms软件版本号|充电终端|SCT|||
+    float cell_allow_highest_voltage               = 43;//单体最高允许电压|充电终端|SCT|0|0|1000
+    float allow_highest_current                    = 44;//最高允许充电电流|充电终端|SCT|0|0|1000
+    float battery_rated_energy                     = 45;//动力电池额定总能量|充电终端|SCT|0|0|1000
+    float highest_allow_charge_voltage             = 46;//最高允许充电总电压|充电终端|SCT|0|0|1000
+    int32 highest_allow_charge_temperature         = 47;//最高允许充电温度|充电终端|SCT|-50|0|200
+    float bms_detection_voltage                    = 48;//bms检测电压|充电终端|SCT|0|0|1000
+    float bms_detection_current                    = 49;//bms检测电流|充电终端|SCT|0|0|1000
+    int32 highest_voltage_cell_number              = 50;//最高单体电压编号|充电终端|SCT|||
+    int32 cell_highest_temperature                 = 51;//单体电池最高温度|充电终端|SCT|-50|0|200
+    int32 cell_lowest_temperature                  = 52;//单体电池最低温度|充电终端|SCT|-50|0|200
+    int32 lowest_temperature_cell_number           = 53;//最低单体温度所在编号|充电终端|SCT|||
+    int32 end_soc                                  = 54;//终止SOC|充电终端|SCT|0|0|100
+    float cell_lowest_voltage                      = 55;//最低单体电压|充电终端|SCT|0|0|100
+    float cell_highest_voltage                     = 56;//最高单体电压|充电终端|SCT|0|0|100
+    int32 battery_lowest_temperature               = 57;//动力电池最低温度|充电终端|SCT|-50|0|200
+    int32 battery_highest_temperature              = 58;//动力电池最高温度|充电终端|SCT|-50|0|200
+    int32 battery_number                           = 59;//电池组序号|充电终端|SCT|||
+    float car_battery_current_voltage              = 60;//整车动力蓄电池当前电压|充电终端|SCT|0|0|1000
+    string terminal_two_dimen_code                  = 61;//终端二维码|充电终端|SCT||0|
+    int32 gun_head_pos_temp                        = 62;//充电枪头正极温度|充电终端|SCT|-50|0|200
+    int32 gun_head_neg_temp                        = 63;//充电枪头负极温度|充电终端|SCT|-50|0|200
+    int32 gun_tail_pos_temp                        = 64;//充电枪尾正极温度|充电终端|SCT|-50|0|200
+    int32 gun_tail_neg_temp                        = 65;// 充电枪尾负极温度|充电终端|SCT|-50|0|200
+    int32 in_copper_bar_pos_temp                   = 66;//输入铜排正极温度|充电终端|SCT|-50|0|200
+    int32 in_copper_bar_neg_temp                   = 67;//输入铜排负极温度|充电终端|SCT|-50|0|200
+    string start_request_id                         = 68;//start_request_id|充电终端|SCT||0|
+    string stop_request_id                          = 69;//stop_request_id|充电终端|SCT||0|
+    string order_id                                 = 70;//order_id|充电终端|SCT||0|
+
+}
+
+message SCT_STATUS_INFO_MESSAGE
+{
+    int32 auxi_power_output_status                 = 1;//辅助电源输出状态|充电终端|SCT|0|0|1
+    int32 DC_relay_positive_state                  = 2;//直流继电器正极状态|充电终端|SCT|0|0|1
+    int32 DC_relay_negative_state                  = 3;//直流继电器负极状态|充电终端|SCT|0|0|1
+    int32 electromagnetic_lock_state               = 4;//电磁锁状态|充电终端|SCT|0|0|1
+    int32 reset_button_status                      = 5;//复位按钮状态|充电终端|SCT|0|0|1
+    int32 cc1_state                                = 6;//cc1状态|充电终端|SCT|0|0|4
+    int32 cc2_state                                = 7;//cc2状态|充电终端|SCT|0|0|1
+    int32 work_state                               = 8;//终端工作状态|充电终端|SCT|0|0|3
+    int32 output_relay_pstv_fb_state               = 9;//输出继电器正极反馈状态|充电终端|SCT|0|0|1
+    int32 output_relay_ngtv_fb_state               = 10;//输出继电器负极反馈状态|充电终端|SCT|0|0|1
+    int32 electronic_lock_fb_state                 = 11;//电子锁反馈|充电终端|SCT|0|0|1
+    int32 bluetooth_communication_state            = 12;//蓝牙模块通信状态|充电终端|SCT|0|0|1
+    int32 pump_work_state                          = 13;//泵工作状态|充电终端|SCT|0|0|2
+    int32 liquid_level_state                       = 14;//液位状态|充电终端|SCT|0|0|2
+    int32 charge_mode                              = 15;//充电模式|充电终端|SCT|0|0|2
+    int32 bms_identify_result                      = 16;//BMS辨识结果|充电终端|SCT|0|0|0xFF
+    int32 charge_pile_prepare_state                = 17;//充电机充电准备状态|充电终端|SCT|0|0|0xFF
+    int32 charge_allow_state                       = 18;//充电允许状态|充电终端|SCT|0|0|1
+    int32 pile_stop_charge_reason                  = 19;//充电机终止原因|充电终端|SCT|0|0|0xFF
+    int32 pile_fault_stop_charge_reason            = 20;//充电机终止充电故障原因|充电终端|SCT|0|0|0xFF
+    int32 pile_error_stop_charge_reason            = 21;//充电机终止充电错误原因|充电终端|SCT|0|0|0xFF
+    int32 server_stop_reason                       = 22;//服务结束原因|充电终端|SCT|0|0|5
+    int32 bms_charge_mode                          = 23;//BMS充电模式|充电终端|SCT|0|0|2
+    int32 bms_stop_charge_reason                   = 24;//BMS终止充电原因|充电终端|SCT|0|0|0xFF
+    int32 bms_fault_stop_charge_reason             = 25;//BMS终止充电故障原因|充电终端|SCT|0|0|0xFF
+    int32 bms_error_stop_charge_reason             = 26;//BMS终止充电错误原因|充电终端|SCT|0|0|0xFF
+    int32 battery_cell_over_voltage_state          = 27;//单体过压状态|充电终端|SCT|0|0|2
+    int32 soc_state                                = 28;//SOC状态|充电终端|SCT|0|0|2
+    int32 battery_over_current_state               = 29;//电池充电过流状态|充电终端|SCT|0|0|2
+    int32 battery_over_temperature_state           = 30;//电池过温状态|充电终端|SCT|0|0|2
+    int32 battery_insulation_state                 = 31;//电池绝缘状态|充电终端|SCT|0|0|2
+    int32 output_connector_state                   = 32;//输出连接器状态|充电终端|SCT|0|0|2
+    int32 battery_allow_charge_state               = 33;//电池允许充电|充电终端|SCT|0|0|1
+    int32 battery_ready_state                      = 34;//电池充电准备就绪状态|充电终端|SCT|0|0x00|1
+    int32 pos_communication_state                  = 35;//pos机通讯状态|充电终端|SCT|0|0x00|1
+    int32 meter_communication_state                = 36;//电表通讯状态|充电终端|SCT|0|0x00|1
+    int32 charging_state                           = 37;//充电状态|充电终端|SCT|0|0x00|1
+    int32 fault_state                              = 38;//故障状态|充电终端|SCT|0|0|4
+    int32 charging_icc_dis_state                   = 39;//icc显示充电状态|充电终端|SCT|0|0x00|1
+    int32 key1_state                               = 40;//按键1状态|充电终端|SCT|0|0|4
+    int32 key2_state                               = 41;//按键2状态|充电终端|SCT|0|0|4
+    int32 key3_state                               = 42;//按键3状态|充电终端|SCT|0|0|4
+    int32 gunHolder_state                          = 43;//还枪座状态|充电终端|SCT|0|0|4
+
+}
+
+message SCT_EVENT_INFO_MESSAGE
+{
+    string command_id                               = 1;//命令id|||||
+    string gun_id                                   = 2;//枪id|||||
+    string gun_session                              = 3;//插枪session|||||
+    int32 service_status                           = 4;//服务状态|||||
+    int32 start_power_meter                        = 5;//电表起始电量|||||
+    int32 charg_capacity                           = 6;//当前充电电量|||||
+    int32 charg_integral_quantity                  = 7;//当前充电积分电量|||||
+    int32 quantity_electricity_meter               = 8;//电表当前电量|||||
+    int32 initial_soc                              = 9;//起始SOC|||||
+    int32 current_soc                              = 10;//当前SOC|||||
+    string vin_code                                 = 11;//车辆VIN码|||||
+    string service_end_reason                       = 12;//服务结束原因|||||
+    string encrypt_meter_data                       = 13;//加密电表数据|||||
+    int32 get_vin_state                            = 14;//vin码获取状态|||||
+    string random                                   = 15;//random|||||
+    string brand_id                                 = 16;//brand_id|||||
+    string hmac                                     = 17;//hmac|||||
+    string sub_id                                   = 18;//sub_id|||||
+    int32 get_secret_state                         = 19;//加密获取状态|||||
+    string card_uid                                 = 20;//sub_id|||||
+    int32 stop_err_code                            = 21;//停机故障码|||||
+
+}
+
+message SCT_SETTINGS_INFO_MESSAGE
+{
+    int32  region                                   = 1;//使用地区|充电终端|SCT|0|0|1
+    int32  cool_type                                = 2;//冷却类型|充电终端|SCT|0|0|1
+    int32  resource_work_mode                       = 3;//设备鉴权模式|充电终端|SCT|0|0|1
+    int32  charge_stop_soc                          = 4;//充电截至SOC|充电终端|SCT|0|0|1
+    int32  stop_charging_disconnect                 = 5;//断网后是否结束充电|充电终端|SCT|0|0|1
+    int32  stop_charg_time_disconnect               = 6;//断网后停止充电的间隔时间 |充电终端|SCT|0|0|4
+    int32  gun_over_temp_alarm_val                  = 7;//枪温过温告警阈值 |充电终端|SCT|0|0|3
+    int32  gun_over_temp_fault_val                  = 8;//枪温过温故障阈值 |充电终端|SCT|0|0|1
+    int32  gun_low_temp_alarm_val                   = 9;//枪温低温告警阈值 |充电终端|SCT|0|0|1
+    int32  gun_low_temp_fault_val                   = 10;//枪温低温故障阈值 |充电终端|SCT|0|0|1
+    int32  liquid_inlet_over_temp_alarm_val         = 11;//进液口过温告警阈值 |充电终端|SCT|0|0|1
+    int32  liquid_inlet_over_temp_fault_val         = 12;//进液口过温故障阈值|充电终端|SCT|0|0|2
+    int32  liquid_inlet_low_temp_alarm_val          = 13;//进液口低温告警阈值|充电终端|SCT|0|0|2
+    int32  liquid_inlet_low_temp_fault_val          = 14;//进液口低温故障阈值|充电终端|SCT|0|0|2
+    int32  liquid_outlet_over_temp_alarm_val        = 15;//出液口过温告警阈值|充电终端|SCT|0|0|0xFF
+    int32  liquid_outlet_over_temp_fault_val        = 16;//出液口过温故障阈值 |充电终端|SCT|0|0|0xFF
+    int32  liquid_outlet_low_temp_alarm_val         = 17;//出液口低温告警阈值|充电终端|SCT|0|0|1
+    int32  liquid_outlet_low_temp_fault_val         = 18;//出液口低温故障阈值 |充电终端|SCT|0|0|0xFF
+    int32  positive_ground_insulation_alarm_val     = 19;//正极对地绝缘告警阈值 |充电终端|SCT|0|0|0xFF
+    int32  positive_ground_insulation_fault_val     = 20;//正极对地绝缘故障阈值 |充电终端|SCT|0|0|0xFF
+    int32  negative_ground_insulation_alarm_val     = 21;//负极对地绝缘告警阈值 |充电终端|SCT|0|0|5
+    int32  negative_ground_insulation_fault_val     = 22;//负极对地绝缘故障阈值|充电终端|SCT|0|0|2
+    int32  dc_over_current_alarm_val                = 23;//直流输出过流告警阈值 |充电终端|SCT|0|0|0xFF
+    int32  dc_over_current_fault_val                = 24;//直流输出过流故障阈值 |充电终端|SCT|0|0|2
+    int32  dc_over_voltage_alarm_val                = 25;//直流输出过压告警阈值 |充电终端|SCT|0|0|2
+    int32  dc_over_voltage_fault_val                = 26;//直流输出过压故障阈值 |充电终端|SCT|0|0|2
+    int32  dc_under_voltage_alarm_val               = 27;//直流输出欠压告警阈值|充电终端|SCT|0|0|2
+    int32  dc_under_voltage_fault_val               = 28;//直流输出欠压故障阈值|充电终端|SCT|0|0|2
+    int32  max_out_volt_val                         = 29;//最高输出电压 |充电终端|SCT|0|0|2
+    int32  min_out_volt_val                         = 30;//最低输出电压 |充电终端|SCT|0|0|1
+    int32  max_out_current_val                      = 31;//最大输出电流 |充电终端|SCT|0|0|0xFF
+    int32  energy_check_val                         = 32;//电量有效值校验阈值 |充电终端|SCT|0|0|0xFF
+    int32  dcem_voltage_collect_fault_val           = 33;//直流电表电压采集故障阈值|充电终端|SCT|0|0|0xFF
+    int32  dcem_current_collect_fault_val           = 34;//直流电表电流采集故障阈值|充电终端|SCT|0|0|0xFF
+    int32  outer_volt_insolate_val                  = 35;//绝缘阶段外测电压保护阈值 |充电终端|SCT|0|0|0xFF
+    int32  bhm_overtimer                            = 36;//BHM超时时间|充电终端|SCT|0|0|0xFF
+    int32  brm_overtimer                            = 37;//BRM超时时间|充电终端|SCT|0|0|0xFF
+    int32  bcp_overtimer                            = 38;//BCP超时时间 |充电终端|SCT|0|0|0xFF
+    int32  bro_overtimer                            = 39;//BRO超时时间 |充电终端|SCT|0|0|0xFF
+    int32  bcl_overtimer                            = 40;//BCL超时时间 |充电终端|SCT|0|0|0xFF
+    int32  bcs_overtimer                            = 41;//BCS超时时间|充电终端|SCT|0|0|0xFF
+    int32  bat_cell_volt_abnormal_protect           = 42;//单体电压异常保护使能|充电终端|SCT|0|0|0xFF
+    int32  bat_cell_soc_abnormal_protect            = 43;//SOC异常保护使能|充电终端|SCT|0|0|0xFF
+    int32  bat_over_current_protect                 = 44;//BMS电池过流保护使能|充电终端|SCT|0|0|0xFF
+    int32  bat_high_temp_protect                    = 45;//电池高温保护使能|充电终端|SCT|0|0|0xFF
+    int32  bat_insul_abnormal_protect               = 46;//电池绝缘异常保护使能|充电终端|SCT|0|0|0xFF
+    int32  bat_connect_abnormal_protect             = 47;//电池连接器异常保护使能|充电终端|SCT|0|0|0xFF
+    int32 in_pos_copper_bar_temp_alarm_val         = 48;//输入铜排正极温度告警|充电终端|SCT|0|0|0xFF
+    int32 in_pos_copper_bar_temp_fault_val         = 49;//输入铜排正极温度故障|充电终端|SCT|0|0|0xFF
+    int32 in_neg_copper_bar_temp_alarm_val         = 50;//输入铜排负极温度告警|充电终端|SCT|0|0|0xFF
+    int32 in_neg_copper_bar_temp_fault_val         = 51;//输入铜排负极温度故障|充电终端|SCT|0|0|0xFF
+    int32 in_air_temp_alarm_val                    = 52;//进风口环温告警阈值|充电终端|SCT|0|0|0xFF
+    int32 in_air_temp_fault_val                    = 53;//进风口环温故障阈值|充电终端|SCT|0|0|0xFF
+    int32 gun_tail_temp_alarm_val                  = 54;//枪尾温度告警阈值|充电终端|SCT|0|0|0xFF
+    int32 gun_tail_temp_fault_val                  = 55;//枪尾温度故障阈值|充电终端|SCT|0|0|0xFF
+    int32 hydraulic_fault_val                      = 56;//液压故障阈值|充电终端|SCT|0|0|0xFF
+    int32 hydraulic_alarm_val                      = 57;//液压告警阈值|充电终端|SCT|0|0|0xFF
+    string ground_lock_bluetooth_ssid               = 58;//地锁蓝牙ssid|充电终端|SCT|0|0|0xFF
+    string ground_lock_bluetooth_match_code         = 59;//地锁蓝牙匹配码|充电终端|SCT|0|0|0xFF
+
+}

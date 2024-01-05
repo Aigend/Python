@@ -1,0 +1,298 @@
+
+////////////////////////////////////////////////////////////////////////
+// Copyright (C) 2022, NIOPower , LTD
+// All rights reserved.
+// Product        : PUS3.0 PCU
+// History        :  
+// Author         : weiwang.sun
+// Date           : 2022-3-17
+////////////////////////////////////////////////////////////////////////
+syntax = "proto3";
+message PCU_MESSAGE
+
+{
+	int32                 proto_version = 1; // message protocol version 
+	int32                 device        = 2; // device
+	int32                 id            = 3; // device id
+	int64                 timestamp     = 4; // message publish time
+
+	PCU_BASIC_INFO_MESSAGE    basic_info    = 5; // 基本信息
+	PCU_STATUS_INFO_MESSAGE   status_info   = 6; // 状态信息
+	PCU_ALARM_INFO_MESSAGE    alarm_info    = 7; // 报警信息
+	PCU_REALTIME_INFO_MESSAGE realtime_info = 8; // 实时信息
+	PCU_EVENT_INFO_MESSAGE    event         = 9; // 事件信息
+	PCU_SETTINGS_INFO_MESSAGE settings_info = 10; // 配置信息
+	PCU_DTC_INFO_MESSAGE      dtc_info      = 11; // 诊断信息
+
+}
+
+message PCU_DTC_INFO_MESSAGE
+
+{
+	int32 type = 1;//诊断信息类型
+	string message = 2;//诊断 
+}
+
+message PCU_ALARM_POINT
+
+{
+	int32 id = 1;//告警ID
+	bool  state = 2;//告警状态,false=INACTIVE,true=ACTIVE
+}
+
+message PCU_ALARM_INFO_MESSAGE
+
+{	
+
+	repeated PCU_ALARM_POINT  alarm_points  = 7; // 报警信息
+
+}
+ 
+message PCU_BASIC_INFO_MESSAGE
+{
+    string pcu_sw_version                           = 1;//PCU软件版本号|PCU|PCU||023023.1.1.0|
+    string pcu_hw_version                           = 2;//PCU硬件版本号|PCU|PCU||023023.1.1.0|
+    repeated ACDC_BASIC acdc_basic                               = 3;//ACDC版本信息|PCU||||
+
+}
+
+message ACDC_BASIC
+{
+    string sw_version                               = 1;//软件版本号|PCU|||PCU|
+    string hw_version                               = 2;//硬件版本号|PCU|||PCU|
+    string serial_number                            = 3;//序列号|PCU|||PCU|
+
+}
+
+
+message PCU_REALTIME_INFO_MESSAGE
+{
+    repeated ACDC_REAL acdc_real                                = 1;//ACDC实时数据|PCU|PCU|||
+    PCU_REAL pcu_real                                 = 2;//PCU实时数据|PCU|PCU|||
+    PCU_SCT_REAL pcu_sct_real                             = 3;//PCU发送给SCT实时数据|PCU|PCU|||
+
+}
+
+message METER_REAL
+{
+    float ab_line_voltage                          = 1;//AB线电压|||0|0|1000
+    float bc_line_voltage                          = 2;//BC线电压|||0|0|1000
+    float ca_line_voltage                          = 3;//CA线电压|||0|0|1000
+    float a_phase_current                          = 4;//A相电流|||0|0|1000
+    float b_phase_current                          = 5;//B相电流|||0|0|1000
+    float c_phase_current                          = 6;//C相电流|||0|0|1000
+    float a_phase_voltage                          = 7;//A相电压|||0|0|1000
+    float b_phase_voltage                          = 8;//B相电压|||0|0|1000
+    float c_phase_voltage                          = 9;//C相电压|||0|0|1000
+    float total_power                              = 10;//总功率|||0|0|5000
+    float total_pf                                 = 11;//功率因数|||0|0|1
+    float total_secondary_energy                   = 12;//总电能|||0|0|100000
+    float total_sharp_secondary_energy             = 13;//总尖电能|||0|0|100000
+    float total_peak_secondary_energy              = 14;//总峰电能|||0|0|100000
+    float total_flat_secondary_energy              = 15;//总平电能|||0|0|100000
+    float total_valley_secondary_energy            = 16;//总谷电能|||0|0|100000
+
+}
+
+
+message PCU_CHANNEL_REAL
+{
+    int32 output_voltage                           = 1;//输出电压|PCU||0|0|1000
+    int32 output_current                           = 2;//输出电流|PCU||0|0|1000
+    int32 pcu_fault_state                          = 3;//PCU综合故障状态|PCU||0|0|1
+    int32 pcu_work_stage                           = 4;//PCU工作状态|PCU||0|0|
+    int32 start_isd_action_ret                     = 5;//启动绝缘执行结果|PCU||0|0|
+    int32 stop_isd_action_ret                      = 6;//停止绝缘执行结果|PCU||0|0|
+    int32 start_charge_action_ret                  = 7;//启动充电执行结果|PCU||0|0|
+    int32 stop_charge_action_ret                   = 8;//停止充电执行结果|PCU||0|0|
+    int32 adjust_power_action_ret                  = 9;//功率调节执行结果|PCU||0|0|
+
+}
+
+
+message ACDC_REAL
+{
+    float set_voltage                              = 1;//AC/DC模块设定电压|PCU|DCDC|0|0|1000
+    float set_current                              = 2;//AC/DC模块设定电流|PCU|DCDC|-300|0|300
+    float bus_voltage                              = 3;//AC/DC模块母线电压|PCU||0|0|1000
+    float output_voltage                           = 4;//AC/DC模块输出电压|PCU|DCDC|0|0|1000
+    float output_current                           = 5;//AC/DC模块输出电流|PCU|DCDC|-300|0|300
+    float a_phase_input_curr                       = 6;//AC/DC模块A相输入电流|PCU||-300|0|300
+    float b_phase_input_curr                       = 7;//AC/DC模块B相输入电流|PCU||-300|0|300
+    float c_phase_input_curr                       = 8;//AC/DC模块C相输入电流|PCU||-300|0|300
+    float ab_line_voltage                          = 9;//AC/DC模块AB线电压|PCU||0|0|500
+    float bc_line_voltage                          = 10;//AC/DC模块BC线电压|PCU||0|0|500
+    float grid_freq                                = 11;//AC/DC模块电网频率|PCU||0|0|70
+    float active_power                             = 12;//AC/DC模块有功功率|PCU||0|0|100
+    float reactive_power                           = 13;//AC/DC模块无功功率|PCU|DCDC|0|0|100
+    float power_factor                             = 14;//AC/DC模块功率因素|PCU|DCDC|0|0|1
+    float efficiency                               = 15;//AC/DC模块效率|PCU|DCDC|0|0|1
+    int32 air_temperature                          = 16;//AC/DC模块空气温度|PCU|DCDC|-55|0|200
+    int32 water_temperature                        = 17;//AC/DC模块水温度|PCU|DCDC|-55|0|200
+    int32 sic1_temperature                         = 18;//AC/DC模块sic1温度|PCU|DCDC|-55|0|200
+    int32 sic2_temperature                         = 19;//AC/DC模块sic2温度|PCU|DCDC|-55|0|200
+    int32 sic3_temperature                         = 20;//AC/DC模块sic3温度|PCU|DCDC|-55|0|200
+    int32 igbt_temperature                         = 21;//AC/DC模块igbt温度|PCU||-55|0|200
+    int32 inductance_temperature                   = 22;//AC/DC模块电感温度|PCU||-55|0|200
+    int32 group_number                             = 23;//AC/DC模块组号|PCU|DCDC|0|0|255
+
+}
+
+
+message PCU_SCT_REAL
+{
+    repeated PCU_CHANNEL_REAL pcu_channel_real                         = 1;//PCU发送给单个SCT数据|||||
+
+}
+
+
+message PCU_REAL
+{
+    repeated METER_REAL meter_info                               = 1;//电表信息|PCU||||
+    int32 a_phase_temp_of_grid_1                   = 2;//进线1路A相铜排温度（电网侧）|PCU||-40|0|125
+    int32 c_phase_temp_of_grid_1                   = 3;//进线1路C相铜排温度（电网侧）|PCU||-40|0|125
+    int32 a_phase_temp_of_load_1                   = 4;//进线1路A相铜排温度（负载侧）|PCU||-40|0|125
+    int32 c_phase_temp_of_load_1                   = 5;//进线1路C相铜排温度（负载侧）|PCU||-40|0|125
+    int32 a_phase_temp_of_grid_2                   = 6;//进线2路A相铜排温度（电网侧）|PCU||-40|0|125
+    int32 c_phase_temp_of_grid_2                   = 7;//进线2路C相铜排温度（电网侧）|PCU||-40|0|125
+    int32 a_phase_temp_of_load_2                   = 8;//进线2路A相铜排温度（负载侧）|PCU||-40|0|125
+    int32 c_phase_temp_of_load_2                   = 9;//进线2路C相铜排温度（负载侧）|PCU||-40|0|125
+    float thc_1_channel_1_temp                     = 10;//配电柜温湿度控制器通道1温度|PCU||-40|0|99.9
+    int32 thc_1_channel_1_humidy                   = 11;//配电柜温湿度控制器通道1湿度|PCU||0|0|99
+    float thc_1_channel_2_temp                     = 12;//配电柜温湿度控制器通道2温度|PCU||-40|0|99.9
+    int32 thc_1_channel_2_humidy                   = 13;//配电柜温湿度控制器通道2湿度|PCU||0|0|99
+    float thc_2_channel_1_temp                     = 14;//充电柜温湿度控制器通道1温度|PCU||-40|0|99.9
+    int32 thc_2_channel_1_humidy                   = 15;//充电柜温湿度控制器通道1湿度|PCU||0|0|99
+    float thc_2_channel_2_temp                     = 16;//充电柜温湿度控制器通道2温度|PCU||-40|0|99.9
+    int32 thc_2_channel_2_humidy                   = 17;//充电柜温湿度控制器通道2湿度|PCU||0|0|99
+
+}
+
+
+message PCU_STATUS_INFO_MESSAGE
+{
+    repeated SPDU_STATE spdu_state                               = 1;//SPDU状态|PCU|SPDU|0|1|
+    repeated ACDC_STATE acdc_state                               = 2;//ACDC模块状态|PCU|ACDC|0|1|
+    PCU_STATE pcu_state                                = 3;//PCU状态|PCU|DCDC|0|1|
+
+}
+
+message PCU_STATE
+{
+    bool pcu_mcs_com_state                        = 1;//PCU与MCS通信状态|PCU||||
+    bool pcu_pdu_com_state                        = 2;//PCU与PDU通信状态|PCU||||
+    bool pcu_cdc_1_com_state                      = 3;//PCU与CDC1通信状态|PCU||||
+    bool pcu_cdc_2_com_state                      = 4;//PCU与CDC2通信状态|PCU||||
+    bool pcu_cdc_3_com_state                      = 5;//PCU与CDC3通信状态|PCU||||
+    bool pcu_cdc_4_com_state                      = 6;//PCU与CDC4通信状态|PCU||||
+    bool pcu_cdc_5_com_state                      = 7;//PCU与CDC5通信状态|PCU||||
+    bool pcu_cdc_6_com_state                      = 8;//PCU与CDC6通信状态|PCU||||
+    bool pcu_cdc_7_com_state                      = 9;//PCU与CDC7通信状态|PCU||||
+    bool pcu_cdc_8_com_state                      = 10;//PCU与CDC8通信状态|PCU||||
+    bool pcu_cdc_9_com_state                      = 11;//PCU与CDC9通信状态|PCU||||
+    bool pcu_cdc_10_com_state                     = 12;//PCU与CDC10通信状态|PCU||||
+    bool pcu_sct_1_com_state                      = 13;//PCU与SCT1通信状态|PCU||||
+    bool pcu_sct_2_com_state                      = 14;//PCU与SCT2通信状态|PCU||||
+    bool pcu_sct_3_com_state                      = 15;//PCU与SCT3通信状态|PCU||||
+    bool pcu_sct_4_com_state                      = 16;//PCU与SCT4通信状态|PCU||||
+    bool pcu_sct_5_com_state                      = 17;//PCU与SCT5通信状态|PCU||||
+    bool pcu_sct_6_com_state                      = 18;//PCU与SCT6通信状态|PCU||||
+    bool pcu_meter_1_com_state                    = 19;//PCU与进线1电表通信状态|PCU||||
+    bool pcu_meter_2_com_state                    = 20;//PCU与进线2电表通信状态|PCU||||
+    bool pcu_meter_3_com_state                    = 21;//PCU与水冷进线电表通信状态|PCU||||
+    bool pcu_meter_4_com_state                    = 22;//PCU与换电站进线电表通信状态|PCU||||
+    bool pcu_thc_1_com_state                      = 23;//PCU与配电柜温湿度控制器通信状态|PCU||||
+    bool pcu_thc_2_com_state                      = 24;//PCU与充电柜温湿度控制器通信状态|PCU||||
+    bool spd_state                                = 25;//浪涌保护器状态|PCU||||
+    bool emergency_relay_state                    = 26;//急停开关状态|PCU||||
+    bool qf1_signal_relay_state                   = 27;//QF1信号触头状态|PCU||||
+    bool qf1_aux_relay_state                      = 28;//QF1辅助触头状态|PCU||||
+    bool qf2_signal_relay_state                   = 29;//QF2信号触头状态|PCU||||
+    bool qf2_aux_relay_state                      = 30;//QF2辅助触头状态|PCU||||
+    bool qf3_signal_relay_state                   = 31;//QF3信号触头状态|PCU||||
+    bool qf3_aux_relay_state                      = 32;//QF3辅助触头状态|PCU||||
+    bool pdu_mcu_fpga_com_state                   = 33;//PDU-MCU与PDU-FPGA通信状态|PCU||||
+    bool pdu_mcu_spdu_1_com_state                 = 34;//PDU-MCU与子PDU1通信状态|PCU||||
+    bool pdu_mcu_spdu_2_com_state                 = 35;//PDU-MCU与子PDU2通信状态|PCU||||
+    bool pdu_mcu_spdu_3_com_state                 = 36;//PDU-MCU与子PDU3通信状态|PCU||||
+    bool pdu_mcu_spdu_4_com_state                 = 37;//PDU-MCU与子PDU4通信状态|PCU||||
+    bool pdu_mcu_spdu_5_com_state                 = 38;//PDU-MCU与子PDU5通信状态|PCU||||
+    bool pcu_acdc_1_com_state                     = 39;// PCU与ACDC1通信状态|PCU||||
+    bool pcu_acdc_2_com_state                     = 40;// PCU与ACDC2通信状态|PCU||||
+    bool pcu_acdc_3_com_state                     = 41;// PCU与ACDC3通信状态|PCU||||
+    bool pcu_acdc_4_com_state                     = 42;// PCU与ACDC4通信状态|PCU||||
+    bool pcu_acdc_5_com_state                     = 43;// PCU与ACDC5通信状态|PCU||||
+    bool pcu_acdc_6_com_state                     = 44;// PCU与ACDC6通信状态|PCU||||
+    bool pcu_acdc_7_com_state                     = 45;// PCU与ACDC7通信状态|PCU||||
+    bool pcu_acdc_8_com_state                     = 46;// PCU与ACDC8通信状态|PCU||||
+    bool pcu_acdc_9_com_state                     = 47;// PCU与ACDC9通信状态|PCU||||
+    bool pcu_acdc_10_com_state                    = 48;// PCU与ACDC10通信状态|PCU||||
+    bool pcu_acdc_11_com_state                    = 49;// PCU与ACDC11通信状态|PCU||||
+    bool pcu_acdc_12_com_state                    = 50;// PCU与ACDC12通信状态|PCU||||
+    bool pcu_acdc_13_com_state                    = 51;// PCU与ACDC13通信状态|PCU||||
+    bool pcu_acdc_14_com_state                    = 52;// PCU与ACDC14通信状态|PCU||||
+    bool pcu_acdc_15_com_state                    = 53;// PCU与ACDC15通信状态|PCU||||
+    bool pcu_acdc_16_com_state                    = 54;// PCU与ACDC16通信状态|PCU||||
+    bool pcu_acdc_17_com_state                    = 55;// PCU与ACDC17通信状态|PCU||||
+    bool pcu_acdc_18_com_state                    = 56;// PCU与ACDC18通信状态|PCU||||
+    bool pcu_acdc_19_com_state                    = 57;// PCU与ACDC19通信状态|PCU||||
+    bool pcu_acdc_20_com_state                    = 58;// PCU与ACDC20通信状态|PCU||||
+    bool pcu_acdc_21_com_state                    = 59;// PCU与ACDC21通信状态|PCU||||
+    bool pcu_acdc_22_com_state                    = 60;// PCU与ACDC22通信状态|PCU||||
+    bool pcu_acdc_23_com_state                    = 61;// PCU与ACDC23通信状态|PCU||||
+    bool pcu_acdc_24_com_state                    = 62;// PCU与ACDC24通信状态|PCU||||
+    bool pcu_acdc_25_com_state                    = 63;// PCU与ACDC25通信状态|PCU||||
+    bool pcu_acdc_26_com_state                    = 64;// PCU与ACDC26通信状态|PCU||||
+    bool pcu_acdc_27_com_state                    = 65;// PCU与ACDC27通信状态|PCU||||
+    bool pcu_acdc_28_com_state                    = 66;// PCU与ACDC28通信状态|PCU||||
+    bool pcu_acdc_29_com_state                    = 67;// PCU与ACDC29通信状态|PCU||||
+    bool pcu_acdc_30_com_state                    = 68;// PCU与ACDC30通信状态|PCU||||
+
+}
+
+
+message ACDC_STATE
+{
+    int32 work_state                               = 1;//ACDC模块工作状态：1-待机，2-工作|PCU|ACDC|0|0|
+    int32 fault_state                              = 2;//ACDC模块故障状态：0-正常 1-故障|PCU|ACDC|0|0|
+    int32 group_mode                               = 3;//ACDC模块分组模式 0-固定；1-动态|PCU|ACDC|0|0|
+    int32 state_machine                            = 4;//ACDC模块状态机|PCU|ACDC|0|0|
+    int32 work_mode                                = 5;//ACDC模块工作模式 0-并网；1-离网|PCU||0|0|
+    int32 volt_mode                                = 6;//ACDC模块高低压模式 0-低压；1-高压|PCU||0|0|
+    int32 running_mode                             = 7;//ACDC模块运行模式 0-正常模式 1-调试模式|PCU|ACDC|0|0|
+
+}
+
+
+message SPDU_STATE
+{
+    bool relay_1_state_pos                        = 1;//子PDU继电器1正极状态|PCU|SPDU|0|0|
+    bool relay_1_state_neg                        = 2;//子PDU继电器1负极状态|PCU|SPDU|0|0|
+    bool relay_2_state_pos                        = 3;//子PDU继电器2正极状态|PCU|SPDU|0|0|
+    bool relay_2_state_neg                        = 4;//子PDU继电器2负极状态|PCU|SPDU|0|0|
+    bool relay_3_state_pos                        = 5;//子PDU继电器3正极状态|PCU|SPDU|0|0|
+    bool relay_3_state_neg                        = 6;//子PDU继电器3负极状态|PCU|SPDU|0|0|
+    bool relay_4_state_pos                        = 7;//子PDU继电器4正极状态|PCU|SPDU|0|0|
+    bool relay_4_state_neg                        = 8;//子PDU继电器4负极状态|PCU|SPDU|0|0|
+    bool relay_5_state_pos                        = 9;//子PDU继电器5正极状态|PCU|SPDU|0|0|
+    bool relay_5_state_neg                        = 10;//子PDU继电器5负极状态|PCU|SPDU|0|0|
+    bool relay_6_state_pos                        = 11;//子PDU继电器6正极状态|PCU|SPDU|0|0|
+    bool relay_6_state_neg                        = 12;//子PDU继电器6负极状态|PCU|SPDU|0|0|
+    bool relay_7_state_pos                        = 13;//子PDU继电器7正极状态|PCU|SPDU|0|0|
+    bool relay_7_state_neg                        = 14;//子PDU继电器7负极状态|PCU|SPDU|0|0|
+
+}
+
+
+message PCU_EVENT_INFO_MESSAGE
+{
+
+}
+
+//settings 
+message PCU_SETTINGS_INFO_MESSAGE
+
+{
+ 
+}
+	

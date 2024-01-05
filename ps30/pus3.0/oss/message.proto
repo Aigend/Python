@@ -1,0 +1,47 @@
+syntax = "proto2";
+
+message Message {
+    optional int32 version = 1; // message protocol version (required)
+    optional string id = 2; // message id (will be set by server)
+    optional int64 publish_ts = 3; // message publish time (will be set by server time)
+    optional int64 ttl = 4; // message expiration (required, in second)
+    optional MessageType type = 5; // 2-level message type (required)
+    optional string sub_type = 6; //(optional)
+    repeated ParamType params = 7; //generic key-value parameters (optional)
+
+    // 云端补充数据
+    optional string server_msg_id = 101; // message_id of message_server
+    optional int64 server_receive_ts = 102; // receive_ts of message_server
+    optional int64 server_publish_ts = 103; // publish_ts of message_server
+
+    enum MessageType {
+        NOTIFICATION = 0; // 未使用
+        CONTROL_COMMAND = 1; // 控制、配置指令下发 (cloud2device）
+        COMMAND_RESULT = 2; // 控制、配置指令结果（device2Clould）
+        DATA_REPORT = 3; // 设备上报数据（device2Clould）
+        CLIENT_STATUS = 4; // 设备状态（device2Clould）
+        DATA_REPORT_HIGH_FREQUENCY = 5; // 高频上报数据（device2Clould）
+    }
+
+    // 示例
+    // {"account_id": "NIO-PS-xxx", "PowerDevice": "${payload}", "device_type": "PowerSwap2"}
+    message ParamType {
+        // 固定值：<account_id，{device_id}>
+        // 设备上报数据：<{param_key}, {payload}>
+        // 不同种类的设备按照key来区分。可用值如下：
+        // PowerSwap 一代换电站
+        // PowerSwapMessage 二代换电站
+        // PowerMobile 移动充电车
+        // PowerMobileTBox 移动充电车的TBOX
+        // PowerMobileGB32960 移动充电车国标电池
+        // ACPowerCharger NIO交流桩
+        // DCPowerCharger 三方桩
+        // PowerCharger NIO直流桩
+        // RemoteOperation - cloud到device的控制指令
+        // RemoteOperationResponse - device回应cloud的答复
+        // ${PowerDevice} 通用设备
+        //  设备型号
+        optional string key = 1; 
+        optional bytes value = 2;
+    }
+}

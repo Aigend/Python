@@ -1,0 +1,120 @@
+before_script:
+  - echo "before every job execute script ..."
+#  - ifconfig
+#  - /usr/bin/python3 --version
+#  - /usr/bin/python3 -m pip install -r requirement.txt --index-url=http://10.10.208.121:8001/repository/pypi-proxy/simple --trusted-host=10.10.208.121
+
+after_script:
+  - echo "after every job execute script ..."
+
+stages:
+  - Pre-commit Hooks
+  - Static Analysis
+  - build
+  - test
+  - deploy
+
+variables:
+  LS_CMD: 'ls $FLAGS $TMP_DIR'
+  FLAGS: '-al'
+  TMP_DIR: '/home'
+  TEST_VAR: "All jobs can use this variable's value"
+
+cache: &global_cache
+   key: "$CI_COMMIT_REF_SLUG"
+   paths:
+     - cache_test.txt
+   policy: pull-push
+
+pre-commit-hooks-job:
+  stage: Pre-commit Hooks
+  script:
+    - echo "executing pre-commit-hooks-job ..."
+    - 'eval $LS_CMD'  # will execute 'ls -al $TMP_DIR'， 不通平台如windows batch, powershell和shell中有差异
+    - export # 列出所有的环境变量
+  only:
+    - master
+  cache: {}
+  tags:
+    - python
+  # 是否容错
+  allow_failure: true
+
+build-job:
+  variables:
+    CI_DEBUG_TRACE: "true"
+  stage: build
+  script:
+    - echo "executing build-job ..."
+    - rm -rf cache_test.txt
+    - echo "build-job" > cache_test.txt
+    - echo ${CI_COMMIT_REF_SLUG} >> cache_test.txt
+    - cat cache_test.txt
+  only:
+    # 只有master分支才会执行
+    - master
+
+test-job1:
+  stage: test
+  variables:
+    TEST_VAR_JOB: "Only job1 can use this variable's value"
+  script:
+    - echo "executing test-job1 ..."
+    - echo "test-job1" >> cache_test.txt
+    - cat cache_test.txt
+  cache:
+    # 继承全局配置
+    <<: *global_cache
+    # 覆盖 policy
+    policy: pull
+
+test-job2:
+  stage: test
+  script:
+    - echo "echo "executing test-job2 ...""
+    - sleep 2
+  # 如果某某个 job 并不使用到 cache，包括缓存文件的上传和下载，那么可以进行如下配置对整个 job 的 cache 禁用
+  #  cache: {}
+  except:
+    # 除了master分支以外的分支执行
+    - master
+
+deploy-prod:
+  stage: deploy
+  script:
+    - echo "executing deploy-prod ..."
+    - cat cache_test.txt
+  environment: ps30
+
+deploy_to_production:
+  stage: deploy
+  script:
+    - ls -al
+    - pwd
+  environment:
+    name: production
+    url: https://fizzz.blog.csdn.net/
+
+# 部署test环境，停止环境时运行clean_test_env作业
+deploy_test_env:
+  script: echo 'deploy test env'
+  environment:
+    name: test
+    url: https://fizzz.blog.csdn.net/
+    on_stop: clean_test_env
+
+# 部署dev环境，一周后自动停止
+deploy_dev_env:
+  script: echo 'deploy test env'
+  environment:
+    name: test
+    url: https://fizzz.blog.csdn.net/
+    auto_stop_in: 1 hours
+
+# 停止test环境，停止环境的脚本需自行编写
+clean_test_env:
+  script: echo 'stop deploy and clean test env'
+  when: manual
+  environment:
+    name: test
+    action: stop

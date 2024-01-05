@@ -1,0 +1,140 @@
+syntax = "proto3";
+package MCS;
+// 电池仓相关动作
+enum CompartmentDevice
+{
+    COMPARTMENTIO       = 0;  // 电池进出仓
+    WATERPLUG           = 1;  // 水插头
+    ELECTRICALPLUG      = 2;  // 电插头
+    STACKER             = 3;  // 堆垛机
+    CHARGE              = 4;  // 充电
+}
+
+enum CompartmentAction
+{
+    option allow_alias = true; // 允许重复定义
+    ACTION_OUT              = 0;     // 电池出仓，插头拔出
+    ACTION_IN               = 1;     // 电池进仓，插头插入
+    ACTION_STOP             = 0;     // 停止 
+}
+
+// 电池仓位编号
+enum CompartmentIndex
+{
+    NO1         = 0;
+    NO2         = 1;
+    NO3         = 2;
+    NO4         = 3;
+    NO5         = 4;
+    NO6         = 5;
+    NO7         = 6;
+    NO8         = 7;
+    NO9         = 8;
+    NO10        = 9;
+    NO11        = 10;
+    NO12        = 11;
+    NO13        = 12;
+    NO14        = 13;
+    NO15        = 14;
+    NO16        = 15;
+    NO17        = 16;
+    NO18        = 17;
+    NO19        = 18;
+    NO20        = 19;
+    NO21        = 20;
+    NO22        = 21;
+}
+
+message BatteryCompartment {
+    CompartmentDevice     device  = 1;    // 控制的设备
+    CompartmentIndex      index   = 2;    // 仓位编号
+    CompartmentAction     action  = 3;    // 动作
+}
+
+enum StationModeEnum
+{
+    UNKNOW                 = 0;   // 
+    STATION_MODE_AUTO      = 1;   // 自动模式
+    STATION_MODE_MANUAL    = 2;   // 手动模式
+    STATION_MODE_STOP      = 4;    // 停机
+}
+
+message SetStationMode 
+{
+    StationModeEnum mode   = 1;
+}
+
+
+
+message SystemConfigSingle
+{
+    string key = 1; 
+    string value = 2;
+}
+message SystemConfig
+{
+    repeated SystemConfigSingle config = 1;
+}
+
+message SingleStruct
+{
+    string key = 1; 
+    string value = 2;
+};
+message RepeatedStruct
+{
+    repeated SingleStruct single = 1;
+};
+
+// 更改站的灯光
+message ChangeStationLight
+{
+    int32 light_type = 1;
+    bool enable = 2;
+}
+
+// 仓位号设置
+message SetPlcSlotId
+{
+    int32 slot_id = 1;
+}
+
+// 水冷模式切换
+message WaterColdModelChange
+{
+    int32 set_cooling_system_in_remote_mode = 1; 
+    int32 set_cooling_system_in_manual_mode = 2;
+}
+
+// 设置开关
+// type ：PSGN_EVENT_MANUAL_MASK_LIQUID_LEVEL_DROP_FASTER 液位告警屏蔽开关
+// enable 启用/禁用
+message SetSwitch
+{
+    int32 type = 1;
+    bool enable = 2;
+}
+
+// 设置站的值守模式
+message StationDutyMode
+{
+    int32 mode = 1;    // 同类型： PS4A_STATION_DUTY_MODE_ENUM
+}
+
+message ControlResult
+{
+    int32 code = 1;
+    string msg = 2;
+}
+
+message StatusBusy
+{
+    int32 control_id = 1;
+}
+
+message LogInfo
+{
+    string msg = 1;
+    int32 level = 2;
+    string mode = 3;
+}

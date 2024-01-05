@@ -1,0 +1,9 @@
+
+[submodule "pp-battery-fe"]
+	path = pp-battery-fe
+	url = git@git.nevint.com:PERD/Cloud/frontend/pp-battery-fe.git
+	branch = dev_wen
+[submodule "py_swap"]
+	path = py_swap
+	url = git@git.nevint.com:PERD/pangu/simulator/py_swap.git
+	branch = dev_3.0

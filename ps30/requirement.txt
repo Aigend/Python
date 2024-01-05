@@ -1,0 +1,20 @@
+Django==3.2
+python-can==3.3.4
+colorlog==6.6.0
+requests==2.27.1
+modbus-tk==1.1.2
+paho-mqtt==1.6.1
+PyYAML==6.0
+psutil==5.9.2
+pymongo==4.1.1
+protobuf==3.19.6
+crcmod==1.7
+# concurrent_log_handler==0.9.19
+click==7.1.2
+django-redis==5.2.0
+pyzmq==25.0.2
+# scrapy==2.5
+pip
+# pre-commit==3.3.3
+django-redis==5.2.0
+terminaltables==3.1.10

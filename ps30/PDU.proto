@@ -1,0 +1,122 @@
+
+////////////////////////////////////////////////////////////////////////
+// Copyright (C) 2022, NIOPower , LTD
+// All rights reserved.
+// Product        : PUS3.0 PDU
+// History        :  
+// Author         : weiwang.sun
+// Date           : 2022-3-17
+////////////////////////////////////////////////////////////////////////
+syntax = "proto3";
+message PDU_MESSAGE
+
+{
+	int32                 proto_version = 1; // message protocol version 
+	int32                 device        = 2; // device
+	int32                 id            = 3; // device id
+	int64                 timestamp     = 4; // message publish time
+
+	PDU_BASIC_INFO_MESSAGE    basic_info    = 5; // 基本信息
+	PDU_STATUS_INFO_MESSAGE   status_info   = 6; // 状态信息
+	PDU_ALARM_INFO_MESSAGE    alarm_info    = 7; // 报警信息
+	PDU_REALTIME_INFO_MESSAGE realtime_info = 8; // 实时信息
+	PDU_EVENT_INFO_MESSAGE    event         = 9; // 事件信息
+	PDU_SETTINGS_INFO_MESSAGE settings_info = 10; // 配置信息
+	PDU_DTC_INFO_MESSAGE      dtc_info      = 11; // 诊断信息
+
+}
+
+message PDU_DTC_INFO_MESSAGE
+
+{
+	int32 type = 1;//诊断信息类型
+	string message = 2;//诊断 
+}
+
+message PDU_ALARM_POINT
+
+{
+	int32 id = 1;//告警ID
+	bool  state = 2;//告警状态,false=INACTIVE,true=ACTIVE
+}
+
+message PDU_ALARM_INFO_MESSAGE
+
+{	
+
+	repeated PDU_ALARM_POINT  alarm_points  = 7; // 报警信息
+
+}
+ 
+message PDU_BASIC_INFO_MESSAGE
+{
+    string mcu_software_version                     = 1;//mcu软件版本号|PDU|||PDU|
+    string fpga_software_version                    = 2;//fpga软件版本号|PDU|||PDU|
+    string spdu1_software_version                   = 3;//子pdu1软件版本号|PDU|||PDU|
+    string spdu2_software_version                   = 4;//子pdu2软件版本号|PDU|||PDU|
+    string spdu3_software_version                   = 5;//子pdu3软件版本号|PDU|||PDU|
+    string spdu4_software_version                   = 6;//子pdu4软件版本号|PDU|||PDU|
+    string spdu5_software_version                   = 7;//子pdu5软件版本号|PDU|||PDU|
+
+}
+
+message PDU_REALTIME_INFO_MESSAGE
+{
+    repeated SPDU_REAL spdu_real                                = 1;//子PDU实时数据|PDU|PDU|||
+    FPGA_REAL fpga_real                                = 2;//FPGA实时数据|PDU|PDU|||
+
+}
+
+message FPGA_REAL
+{
+    int32 fault_code                               = 1;//故障码|||||
+    int32 fault_description1                       = 2;//故障描述1|||||
+    int32 fault_description2                       = 3;//故障描述2|||||
+    repeated int32 fault_description3                       = 4;//故障描述3|||||
+    repeated int32 fault_description4                       = 5;//故障描述4|||||
+    repeated int32 fault_description5                       = 6;//故障描述5|||||
+    repeated int32 fault_description6                       = 7;//故障描述6|||||
+    int32 fault_description7                       = 8;//故障描述7|||||
+    int32 fault_description8                       = 9;//故障描述8|||||
+    repeated int32 relay_state                              = 10;//继电器状态|||||
+    repeated int32 fpga_version                             = 11;//FPGA版本|||||
+    int32 pdu_fault                                = 12;//PDU故障|||||
+
+}
+
+
+message SPDU_REAL
+{
+    int32 temperature_1                            = 1;//1#PDU温度1|PDU|SPDU|-40|0|125
+    int32 temperature_2                            = 2;//1#PDU温度2|PDU|SPDU|-40|0|125
+    int32 temperature_3                            = 3;//1#PDU温度3|PDU|SPDU|-40|0|125
+    int32 temperature_4                            = 4;//1#PDU温度4|PDU|SPDU|-40|0|125
+    float voltage_1                                = 5;//1#PDU继电器电压1|PDU|SPDU|0|0|1000
+    float voltage_2                                = 6;//1#PDU继电器电压2|PDU|SPDU|0|0|1000
+    float voltage_3                                = 7;//1#PDU继电器电压3|PDU|SPDU|0|0|1000
+    float voltage_4                                = 8;//1#PDU继电器电压4|PDU|SPDU|0|0|1000
+    float voltage_5                                = 9;//1#PDU继电器电压5|PDU|SPDU|0|0|1000
+    float voltage_6                                = 10;//1#PDU继电器电压6|PDU|SPDU|0|0|1000
+    float voltage_7                                = 11;//1#PDU继电器电压7|PDU|SPDU|0|0|1000
+    float voltage_8                                = 12;//1#PDU继电器电压8|PDU|SPDU|0|0|1000
+
+}
+
+
+message PDU_STATUS_INFO_MESSAGE
+{
+
+}
+
+message PDU_EVENT_INFO_MESSAGE
+{
+
+}
+
+//settings 
+message PDU_SETTINGS_INFO_MESSAGE
+
+{
+ 
+}
+	

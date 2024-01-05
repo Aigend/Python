@@ -1,0 +1,46 @@
+////////////////////////////////////////////////////////////////////////
+// Copyright (C) 2022, NIOPower , LTD
+// All rights reserved.
+// Product        : PUS3.0
+// History        :  
+////////////////////////////////////////////////////////////////////////
+syntax = "proto3";
+
+//控制消息
+message CTRL_MESSAGE 
+{
+	int32 		        device    = 1; // pub device type
+	int32       		id        = 2; // pub device id
+   	int64       		timestamp = 3; // message publish time
+	CTRL_TYPE   		ctrl_type = 4; // ctrl type
+	bytes 	    		cmd_id    = 5; // command id
+	repeated bytes 	req_args  = 6; // [option]req params
+	repeated bytes 	rep_args  = 7; // [option]rep params
+	bytes          	req_id    = 8; // [option]request id
+}
+
+//设备类型
+//enum DEVICE_TYPE
+//{
+//	PCU = 0;
+//	PDU = 1;
+//	MCS = 2;
+//	SCT = 3;
+//	CDC = 4;
+//	CMC = 5;
+//	MPC = 6;
+//	ICC = 7;
+//	PLC = 8;
+//	LC  = 9;
+//	ASC = 10;
+//	AEC = 11;
+//	BMS = 12;
+//	NVR = 13;
+//}
+
+//控制类型
+enum CTRL_TYPE
+{
+	REQ = 0;
+	REP = 1;
+}
