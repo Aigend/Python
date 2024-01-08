@@ -1,0 +1,9 @@
+2022-05-13 19:16:25,974 - __main__ - INFO - Start print log
+2022-05-13 19:16:25,974 - __main__ - WARNING - Something maybe fail.
+2022-05-13 19:16:25,974 - __main__ - ERROR - Faild to open sklearn.txt from logger.error
+Traceback (most recent call last):
+  File "F:/code/py/py_study/py_logging_add/py_traceback.py", line 26, in <module>
+    open("sklearn.txt", "rb")
+FileNotFoundError: [Errno 2] No such file or directory: 'sklearn.txt'
+2022-05-13 19:16:25,974 - __main__ - INFO - Whatever it will happen.
+2022-05-13 19:16:25,974 - __main__ - INFO - Finish

@@ -1,0 +1,34 @@
+/***********************************************************
+ * Copyright (C) 2022, NIO POWER , LTD
+ * All rights reserved.
+ * Product        : PD1.0
+ * Component id   : PB
+ * File Name      : PowerDeviceRemoteOperation.pb
+ * Description    : Define Power Device Operation transfer type between oss and device
+ * History        :
+ * Version        date          author         context
+ * V1.0.0         2022-05-31    kangbiao.yu    created
+*************************************************************/
+syntax = "proto2";
+
+package oss.southbound;
+
+import "oss/southbound/device2cloud/common/UniversalDataModel.proto";
+
+option java_package = "com.nextev.pm.oss.common.protobuf.southbound.cloud2device";
+option java_outer_classname = "PowerDeviceRemoteOperation proto";
+
+/*设备通用远程操作结构定义*/
+message PowerDeviceRemoteOperation {
+    optional int64              message_timestamp   = 1; // 消息发送的时间戳，采用UNIX时间，精确到毫秒
+    optional string             request_id          = 2; // 请求ID
+    // REMOTE_CONTROL     远程控制
+    // REMOTE_CONFIG      远程配置
+    // REMOTE_UPGRADE     远程升级
+    // REMOTE_CURRENT     实时数据请求
+    // REMOTE_DIAGNOSIS   诊断数据请求
+    // REMOTE_POLICY      策略配置请求
+    optional string             operation_type      = 3; // 远程操作类型
+    optional string             operation_command   = 4; // 远程操作指令，如远程控制的指令
+    repeated UniversalDataModel data                = 5; // 远程操作参数
+}

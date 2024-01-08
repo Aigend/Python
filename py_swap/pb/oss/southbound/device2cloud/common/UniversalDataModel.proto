@@ -1,0 +1,27 @@
+syntax = "proto2";
+package oss.southbound;
+
+option java_package = "com.nextev.pm.oss.common.protobuf.southbound.device2cloud.common";
+option java_outer_classname = "UniversalDataModelProto";
+
+message UniversalDataModel {
+    optional string key = 1;
+    /*  data_type:
+     *  UNDEFINE    = 0;
+     *  BOOL        = 1;
+     *  SINT32      = 2;
+     *  SINT64      = 3;
+     *  FLOAT       = 4;
+     *  DOUBLE      = 5;
+     *  STRING      = 6;
+     *  BYTES       = 7;
+     */
+    optional sint32 type            = 2;
+    optional bool   value_bool      = 3;
+    optional sint32 value_int       = 4;
+    optional sint64 value_long      = 5;
+    optional float  value_float     = 6;
+    optional double value_double    = 7;
+    optional string value_string    = 8;   // 只能处理 ASCII字符
+    optional bytes  value_bytes     = 9;    // string 用于处理多字节的语言字符、如中文
+}

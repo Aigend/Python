@@ -1,0 +1,10 @@
+1.快速配置:Ctrl+Alt+S
+2.在当前行的下一行，复制当前行：Ctrl+d
+3.快速删除一行，Ctrl+y
+4.Ctrl + F12 查看继承关系
+5.Ctrl +E 查看最近修改的文件
+6.Alt+1 展开折叠项目界面窗口
+7.Alt + 7 展示Structure
+8.Ctrl + N
+9. Ctrl + F
+10. 双击 shift
