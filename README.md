@@ -2,6 +2,7 @@
 
 ## 20240108
 
+- [ ] [Kafka 幂等和事务](https://blog.csdn.net/qq_45038038/article/details/134867775)
 - [ ] [bytes和bytearray,大小端模式](https://blog.csdn.net/u013008795/article/details/88945733)
 - [ ] [线程锁](https://z.itpub.net/article/detail/DE03B9C2CC0ECD3366C7ADCDE9550CE6)
 - [ ] [元类，__new__的执行顺序](https://blog.csdn.net/weixin_43988680/article/details/123903473)
