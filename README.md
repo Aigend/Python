@@ -1,15 +1,17 @@
-python:
-    bytes和bytearray,大小端模式：
-        https://blog.csdn.net/u013008795/article/details/88945733
-	线程锁:
-	    https://z.itpub.net/article/detail/DE03B9C2CC0ECD3366C7ADCDE9550CE6
-	元类，__new__的执行顺序：
-	    https://blog.csdn.net/weixin_43988680/article/details/123903473
-	python终端编码问题解决
-        https://www.zybuluo.com/wzhang1117/note/803061
-	pyenv 配置多版本的python环境:
-	    https://www.jianshu.com/p/8aaf2525fa80
-        https://blog.51cto.com/u_14320361/2488888
+# Python 学习记录
+
+## 20240108
+
+- [ ] [bytes和bytearray,大小端模式](https://blog.csdn.net/u013008795/article/details/88945733)
+- [ ] [线程锁](https://z.itpub.net/article/detail/DE03B9C2CC0ECD3366C7ADCDE9550CE6)
+- [ ] [元类，__new__的执行顺序](https://blog.csdn.net/weixin_43988680/article/details/123903473)
+- [ ] [python终端编码问题解决](https://www.zybuluo.com/wzhang1117/note/803061)
+- [ ] [pyenv配置多版本的python环境](https://blog.51cto.com/u_14320361/2488888)
+- [ ] [python虚拟环境配置](https://www.jianshu.com/p/8aaf2525fa80)
+- [ ] [命令行解析器库plumbum](https://www.jianshu.com/p/e13fd0c38acf)
+- [ ] 
+
+
 	ctypes库：
 	    https://docs.python.org/zh-cn/3.7/library/ctypes.html#arrays
 	一个强大的命令行解析器Plumbum:
@@ -26,9 +28,7 @@ python:
 	asyncio教程:https://www.liujiangblog.com/course/python/83
 		api:https://docs.python.org/zh-cn/3.9/library/asyncio-task.html#task-object
 		https://www.jianshu.com/p/6d582b07c65a
-	抽象基类，six模块的作用，直接继承和虚拟子类：
-		Python高级:了解Python ABC(抽象基类)及 应用场景_hurt--的博客-CSDN博客
-	requests post请求data和json数据格式深入：知乎 - 有问题，就会有答案
+
 
 
 redis:
